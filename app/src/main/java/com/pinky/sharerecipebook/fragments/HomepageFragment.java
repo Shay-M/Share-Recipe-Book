@@ -20,7 +20,7 @@ import com.pinky.sharerecipebook.models.Recipe;
 import java.util.ArrayList;
 
 
-public class homepageFragment extends Fragment implements RecipeAdapter.RecyclerViewListener {
+public class HomepageFragment extends Fragment implements RecipeAdapter.RecyclerViewListener {
 
     private ArrayList<Recipe> recipeArrayList;
     private RecipeAdapter recipeAdapter;

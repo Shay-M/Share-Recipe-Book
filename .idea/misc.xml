@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/shay/AndroidStudioProjects/ShareRecipeBook/app/src/main/res/layout/activity_main.xml" value="0.15761193581162822" />
+        <entry key="..\:/Users/shay/AndroidStudioProjects/ShareRecipeBook/app/src/main/res/layout/fragment_add_new_recipe.xml" value="0.35820894502642775" />
         <entry key="..\:/Users/shay/AndroidStudioProjects/ShareRecipeBook/app/src/main/res/layout/fragment_home_page.xml" value="0.20677083333333332" />
         <entry key="..\:/Users/shay/AndroidStudioProjects/ShareRecipeBook/app/src/main/res/layout/fragment_login_page.xml" value="0.1358695652173913" />
         <entry key="..\:/Users/shay/AndroidStudioProjects/ShareRecipeBook/app/src/main/res/layout/fragment_recipe_details_page.xml" value="0.1358695652173913" />
