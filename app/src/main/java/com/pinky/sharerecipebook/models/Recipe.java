@@ -22,6 +22,13 @@ public class Recipe implements Serializable {
         this.comment = comment;
     }
 
+    public Recipe(String title, String preparation, String ingredients, Float rank) {
+        this.title = title;
+        this.preparation = preparation;
+        this.ingredients = ingredients;
+        this.rank = rank;
+    }
+
     public String getTitle() {
         return title;
     }

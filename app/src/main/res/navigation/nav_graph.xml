@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homepageFragment">
+
+    <fragment
+        android:id="@+id/homepageFragment"
+        android:name="com.pinky.sharerecipebook.fragments.homepageFragment"
+        android:label="fragment_home_page"
+        tools:layout="@layout/fragment_home_page" >
+        <action
+            android:id="@+id/action_homepageFragment_to_recipeDetailsFragment"
+            app:destination="@id/recipeDetailsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_homepageFragment_to_loginPageFragment"
+            app:destination="@id/loginPageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recipeDetailsFragment"
+        android:name="com.pinky.sharerecipebook.fragments.RecipeDetailsFragment"
+        android:label="fragment_recipe_details_page"
+        tools:layout="@layout/fragment_recipe_details_page" >
+        <argument
+            android:name="expandRecipe"
+            app:argType="com.pinky.sharerecipebook.models.Recipe" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginPageFragment"
+        android:name="com.pinky.sharerecipebook.fragments.LoginPageFragment"
+        android:label="fragment_login_page"
+        tools:layout="@layout/fragment_login_page" />
+</navigation>
