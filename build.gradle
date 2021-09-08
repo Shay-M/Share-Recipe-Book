@@ -3,6 +3,9 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://jitpack.io' } // SSCustomBottomNavigation
+        maven { url 'https://jitpack.io' } // Boom
+
     }
     dependencies {
         classpath "com.android.tools.build:gradle:7.0.1"

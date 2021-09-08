@@ -10,14 +10,14 @@ import android.util.Log;
 
 import androidx.core.content.FileProvider;
 
-import com.example.mediaplayer.MainActivity;
+import com.pinky.sharerecipebook.MainActivity;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
 public class CameraManagerUrl {
-    static final String AUTHORITY_OF_A_FILEPROVIDER = "com.retro_player.android.fileprovider";
+    static final String AUTHORITY_OF_A_FILEPROVIDER = "com.pinky.sharerecipebook.android.fileprovider";
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private static CameraManagerUrl instead;
     String currentPhotoPath;
