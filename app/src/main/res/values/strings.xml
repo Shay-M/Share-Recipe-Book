@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Share Recipe Book</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">Home</string>
+    <string name="Favorites">Favorites</string>
+    <string name="my_recipes">My recipes</string>
 </resources>

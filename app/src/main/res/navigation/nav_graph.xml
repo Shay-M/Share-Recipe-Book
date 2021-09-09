@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_homepageFragment_to_loginPageFragment"
             app:destination="@id/loginPageFragment" />
+        <action
+            android:id="@+id/action_homepageFragment_to_addNewRecipeFragment"
+            app:destination="@id/addNewRecipeFragment" />
     </fragment>
     <fragment
         android:id="@+id/recipeDetailsFragment"
@@ -33,4 +36,9 @@
         android:name="com.pinky.sharerecipebook.fragments.LoginPageFragment"
         android:label="fragment_login_page"
         tools:layout="@layout/fragment_login_page" />
+    <fragment
+        android:id="@+id/addNewRecipeFragment"
+        android:name="com.pinky.sharerecipebook.fragments.AddNewRecipeFragment"
+        android:label="fragment_add_new_recipe"
+        tools:layout="@layout/fragment_add_new_recipe" />
 </navigation>

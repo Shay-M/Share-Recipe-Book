@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.astritveliu.boom.Boom;
 import com.bumptech.glide.Glide;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.models.Recipe;
@@ -38,6 +39,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     @Override
     public RecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_item_cell, parent, false);
+        new Boom(view);
 
         return new RecipeViewHolder(view); //@return Inflated the view xml
     }

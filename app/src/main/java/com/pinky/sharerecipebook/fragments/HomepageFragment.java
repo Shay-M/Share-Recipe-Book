@@ -13,6 +13,8 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.adapters.RecipeAdapter;
 import com.pinky.sharerecipebook.models.Recipe;
@@ -24,10 +26,15 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
 
     private ArrayList<Recipe> recipeArrayList;
     private RecipeAdapter recipeAdapter;
+    private FloatingActionButton floatingAddButton;
+
+    private ChipNavigationBar chipNavigationBar;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         recipeArrayList = new ArrayList<>();
 
@@ -37,9 +44,9 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
             recipeArrayList.add(temp);
         }
 
-
         recipeAdapter = new RecipeAdapter(recipeArrayList, getActivity());
         recipeAdapter.setClicksListener(this);
+
     }
 
     @Nullable
@@ -48,12 +55,30 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
 
         View rootView = inflater.inflate(R.layout.fragment_home_page, container, false);
 
+
         RecyclerView recyclerView = rootView.findViewById(R.id.recycler_view_of_recipe);
         //recyclerView.setHasFixedSize(true);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         recyclerView.setAdapter(recipeAdapter);
+
+        //
+        chipNavigationBar = rootView.findViewById(R.id.chipnavigation_bar);
+        chipNavigationBar.setItemSelected(R.id.home, true);
+
+        chipNavigationBar.setOnItemSelectedListener(v -> {
+
+            Log.d("TAG", "onCreateView: " + v);
+        });
+        //
+        floatingAddButton = rootView.findViewById(R.id.floatingAddButton);
+
+        floatingAddButton.setOnClickListener(view -> {
+            Navigation.findNavController(view).navigate(R.id.action_homepageFragment_to_addNewRecipeFragment);
+        });
+
+        //
 
         return rootView;
 
@@ -76,7 +101,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
 
     @Override
     public void onImgRatingClick(int position, View view) {
-
+        Log.d("TAG", "onImgRatingClick: ");
 
     }
 }
