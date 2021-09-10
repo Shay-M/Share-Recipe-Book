@@ -75,6 +75,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
         floatingAddButton = rootView.findViewById(R.id.floatingAddButton);
 
         floatingAddButton.setOnClickListener(view -> {
+//                    if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             Navigation.findNavController(view).navigate(R.id.action_homepageFragment_to_addNewRecipeFragment);
         });
 

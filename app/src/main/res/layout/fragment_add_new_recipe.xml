@@ -60,10 +60,3 @@
         app:layout_constraintTop_toBottomOf="@+id/add_recipe_ingredients" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <!--
-       private String preparation;
-
-       private String imagePath;
-       private Comment comment;-->

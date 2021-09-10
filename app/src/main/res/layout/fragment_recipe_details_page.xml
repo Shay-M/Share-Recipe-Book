@@ -1,14 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.RecipeDetailsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/add_recipe_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Recipe Title"
+        android:inputType="text"
+        android:padding="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_recipe_image" />
+
+    <ImageView
+        android:id="@+id/add_recipe_image"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/ic_launcher_background"
+        android:contentDescription="@+id/song_image"
+        android:gravity="center"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_launcher_foreground"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <TextView
+        android:id="@+id/add_recipe_ingredients"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ingredients"
+        android:inputType="text"
+        android:padding="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/add_recipe_title"
+        app:layout_constraintTop_toBottomOf="@+id/add_recipe_title" />
+
+    <TextView
+        android:id="@+id/add_recipe_preparation"
+        android:layout_width="406dp"
+        android:layout_height="162dp"
+        android:layout_marginTop="4dp"
+        android:hint="Preparation"
+        android:inputType="textMultiLine"
+        android:padding="15dp"
+        app:layout_constraintEnd_toEndOf="@+id/add_recipe_ingredients"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_recipe_ingredients" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
