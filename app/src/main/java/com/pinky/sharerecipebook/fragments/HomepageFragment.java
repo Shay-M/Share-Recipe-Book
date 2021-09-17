@@ -17,6 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.adapters.RecipeAdapter;
+import com.pinky.sharerecipebook.models.AuthAppRepository;
 import com.pinky.sharerecipebook.models.Recipe;
 
 import java.util.ArrayList;
@@ -75,8 +76,11 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
         floatingAddButton = rootView.findViewById(R.id.floatingAddButton);
 
         floatingAddButton.setOnClickListener(view -> {
-//                    if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            Navigation.findNavController(view).navigate(R.id.action_homepageFragment_to_addNewRecipeFragment);
+            if (AuthAppRepository.getInstance().getCurrentUser() != null) {
+                Log.d("onCreateView", "onCreateView: "+AuthAppRepository.getInstance().getCurrentUser());
+                Navigation.findNavController(view).navigate(R.id.action_homepageFragment_to_addNewRecipeFragment);
+            } else
+                Navigation.findNavController(view).navigate(R.id.action_homepageFragment_to_loginPageFragment);
         });
 
         //
@@ -87,7 +91,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
     }
 
     // https://www.geeksforgeeks.org/shared-element-transition-in-android-with-example/ //todo
-
+    // Click on a item
     @Override
     public void onItemClick(int position, View view) {
         Log.d("TAG", "onItemClick: ");

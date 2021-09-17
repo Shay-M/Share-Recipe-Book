@@ -35,7 +35,12 @@
         android:id="@+id/loginPageFragment"
         android:name="com.pinky.sharerecipebook.fragments.LoginPageFragment"
         android:label="fragment_login_page"
-        tools:layout="@layout/fragment_login_page" />
+        tools:layout="@layout/fragment_login_page" >
+        <action
+            android:id="@+id/action_loginPageFragment_to_addNewRecipeFragment"
+            app:destination="@id/addNewRecipeFragment"
+            app:popUpTo="@id/homepageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addNewRecipeFragment"
         android:name="com.pinky.sharerecipebook.fragments.AddNewRecipeFragment"
