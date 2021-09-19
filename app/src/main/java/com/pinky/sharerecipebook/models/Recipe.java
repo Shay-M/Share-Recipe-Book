@@ -3,7 +3,8 @@ package com.pinky.sharerecipebook.models;/* Created by Shay Mualem 31/08/2021 */
 import java.io.Serializable;
 
 public class Recipe implements Serializable {
-
+    //add userId
+    private String firebaseUserMadeId;
     private String title;
     private String preparation;
     private String ingredients; // convert to class
@@ -12,7 +13,8 @@ public class Recipe implements Serializable {
     private String imagePath;
     private Comment comment;
 
-    public Recipe(String title, String preparation, String ingredients, Float rank, User owner, String imagePath, Comment comment) {
+    public Recipe(String firebaseUserMadeId, String title, String preparation, String ingredients, Float rank, User owner, String imagePath, Comment comment) {
+        this.firebaseUserMadeId = firebaseUserMadeId;
         this.title = title;
         this.preparation = preparation;
         this.ingredients = ingredients;
@@ -27,6 +29,17 @@ public class Recipe implements Serializable {
         this.preparation = preparation;
         this.ingredients = ingredients;
         this.rank = rank;
+    }
+
+    public Recipe() {
+    }
+
+    public String getFirebaseRecipeMadeId() {
+        return firebaseUserMadeId;
+    }
+
+    public void setFirebaseRecipeMadeId(String firebaseUserMadeId) {
+        this.firebaseUserMadeId = firebaseUserMadeId;
     }
 
     public String getTitle() {

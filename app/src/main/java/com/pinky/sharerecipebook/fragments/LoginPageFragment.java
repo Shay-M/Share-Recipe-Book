@@ -37,7 +37,7 @@ public class LoginPageFragment extends Fragment {
         loginViewModel.getUserLiveData().observe(this, new Observer<FirebaseUser>() {
             @Override
             public void onChanged(FirebaseUser firebaseUser) {
-                if (firebaseUser != null) {
+                if (firebaseUser != null) { // if  login go to addNewRecipeFragment
                     Navigation.findNavController(getView()).navigate(R.id.action_loginPageFragment_to_addNewRecipeFragment);
                 }
             }

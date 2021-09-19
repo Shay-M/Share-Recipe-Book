@@ -1,17 +1,6 @@
 package com.pinky.sharerecipebook.models;
 
-/*
 // https://www.youtube.com/watch?v=FuAz-ahdk0E
-
-public class FirebaseModule {
-
-    public FirebaseAuth getFirebaseAuth() {
-
-        return FirebaseAuth.getInstance();
-    }
-}
-*/
-
 
 import android.app.Application;
 import android.widget.Toast;

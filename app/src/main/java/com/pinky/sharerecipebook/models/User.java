@@ -2,26 +2,28 @@ package com.pinky.sharerecipebook.models;/* Created by Shay Mualem 31/08/2021 */
 
 public class User extends Guest {
 
-    private Recipe myRecipe;
+    //private Recipe myRecipe;
+    private  String firebaseUserId;
     private String userImagePath;
     private String emailAddress;
-    private Recipe favoriteRecipe;
+    private Recipe favoriteRecipe;//todo id?
+
 
     public User(String name, Float ratingOfUser, Recipe myRecipe, String userImagePath, String emailAddress, Recipe favoriteRecipe) {
         super(name, ratingOfUser);
-        this.myRecipe = myRecipe;
+        //this.myRecipe = myRecipe;
         this.userImagePath = userImagePath;
         this.emailAddress = emailAddress;
         this.favoriteRecipe = favoriteRecipe;
     }
 
-    public Recipe getMyRecipe() {
+    /*public Recipe getMyRecipe() {
         return myRecipe;
-    }
+    }*/
 
-    public void setMyRecipe(Recipe myRecipe) {
+   /* public void setMyRecipe(Recipe myRecipe) {
         this.myRecipe = myRecipe;
-    }
+    }*/
 
     public String getUserImagePath() {
         return userImagePath;
