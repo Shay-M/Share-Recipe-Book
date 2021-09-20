@@ -82,7 +82,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
         loadRecipeViewModel.getRecipeLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Recipe>>() {
             @Override
             public void onChanged(ArrayList<Recipe> recipes) {
-               recipeAdapter.notifyDataSetChanged();
+               recipeAdapter.notifyDataSetChanged(); // see if can be changed
                 Log.d("loadRecipeViewModel", "onChanged: !!" + recipes);
                 //recipeArrayList = recipes;
             }

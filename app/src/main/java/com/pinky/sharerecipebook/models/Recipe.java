@@ -1,6 +1,7 @@
 package com.pinky.sharerecipebook.models;/* Created by Shay Mualem 31/08/2021 */
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Recipe implements Serializable {
     //add userId
@@ -11,9 +12,9 @@ public class Recipe implements Serializable {
     private Float rank;
     private User owner;
     private String imagePath;
-    private Comment comment;
+    private List<Comment> comments;
 
-    public Recipe(String firebaseUserMadeId, String title, String preparation, String ingredients, Float rank, User owner, String imagePath, Comment comment) {
+    public Recipe(String firebaseUserMadeId, String title, String preparation, String ingredients, Float rank, User owner, String imagePath, List<Comment> comments) {
         this.firebaseUserMadeId = firebaseUserMadeId;
         this.title = title;
         this.preparation = preparation;
@@ -21,7 +22,7 @@ public class Recipe implements Serializable {
         this.rank = rank;
         this.owner = owner;
         this.imagePath = imagePath;
-        this.comment = comment;
+        this.comments = comments;
     }
 
     public Recipe(String title, String preparation, String ingredients, Float rank) {
@@ -32,6 +33,23 @@ public class Recipe implements Serializable {
     }
 
     public Recipe() {
+    }
+
+    public String getFirebaseUserMadeId() {
+        return firebaseUserMadeId;
+    }
+    //private Comment comment;
+
+    public void setFirebaseUserMadeId(String firebaseUserMadeId) {
+        this.firebaseUserMadeId = firebaseUserMadeId;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     public String getFirebaseRecipeMadeId() {
@@ -88,14 +106,6 @@ public class Recipe implements Serializable {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
-    }
-
-    public Comment getComment() {
-        return comment;
-    }
-
-    public void setComment(Comment comment) {
-        this.comment = comment;
     }
 
 

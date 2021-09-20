@@ -2,12 +2,12 @@ package com.pinky.sharerecipebook.models;/* Created by Shay Mualem 31/08/2021 */
 
 public class Comment {
     private String txt;
-    private Float RatingGive;
+    private Float ratingGive;
     private User user;
 
     public Comment(String txt, Float ratingGive, User user) {
         this.txt = txt;
-        RatingGive = ratingGive;
+        this.ratingGive = ratingGive;
         this.user = user;
     }
 
@@ -20,11 +20,11 @@ public class Comment {
     }
 
     public Float getRatingGive() {
-        return RatingGive;
+        return ratingGive;
     }
 
     public void setRatingGive(Float ratingGive) {
-        RatingGive = ratingGive;
+        this.ratingGive = ratingGive;
     }
 
     public User getUser() {
