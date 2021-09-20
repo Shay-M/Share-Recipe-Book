@@ -26,6 +26,8 @@ public class loadRecipeModel extends ViewModel {
 }
 */
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -45,7 +47,7 @@ public class LoadRecipeViewModel extends ViewModel {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     final DatabaseReference myRef = database.getReference("recipe");
 
-    public void init(HomepageFragment context) {
+    public void init() {
         if (liveData != null) {
             return;
         }

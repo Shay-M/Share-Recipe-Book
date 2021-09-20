@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -40,11 +41,14 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //MainActivity main = (MainActivity) getContext();
 
         recipeArrayList = new ArrayList<>();
 
         loadRecipeViewModel = new ViewModelProvider(this).get(LoadRecipeViewModel.class);
-        loadRecipeViewModel.init(this);
+        loadRecipeViewModel.init();
+
+        recipeArrayList = loadRecipeViewModel.getRecipeLiveData().getValue();
 
         //add working
        /* Recipe tempRecipe = new Recipe("banana", "eat the banana", "1 banana", 4.3f);
@@ -58,22 +62,32 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_of_recipe);
         recyclerView.setHasFixedSize(true);
-        recipeArrayList = loadRecipeViewModel.getRecipeLiveData().getValue();
+
         recipeAdapter = new RecipeAdapter(recipeArrayList, getActivity());
 
         /*//demo
         Recipe temp = new Recipe("banana", "eat the banana", "1 banana", 4.3f);
         for (int i = 0; i < 10; i++) {
             recipeArrayList.add(temp);
-        }*/
+        }
+        recipeAdapter = new RecipeAdapter(recipeArrayList, getActivity());*/
 
-        //recipeAdapter = new RecipeAdapter(recipeArrayList, getActivity());
         recipeAdapter.setClicksListener(this);
 
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
         recyclerView.setAdapter(recipeAdapter);
+
+//
+        loadRecipeViewModel.getRecipeLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Recipe>>() {
+            @Override
+            public void onChanged(ArrayList<Recipe> recipes) {
+               recipeAdapter.notifyDataSetChanged();
+                Log.d("loadRecipeViewModel", "onChanged: !!" + recipes);
+                //recipeArrayList = recipes;
+            }
+        });
+//
 
         //chipNavigationBar
         chipNavigationBar = view.findViewById(R.id.chipnavigation_bar);
@@ -126,4 +140,5 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
         Log.d("TAG", "onImgRatingClick: ");
 
     }
+
 }

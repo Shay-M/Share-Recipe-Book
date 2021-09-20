@@ -140,7 +140,7 @@ public class FirebaseAuthenticationViewModel {
 */
 
 
-package com.pinky.sharerecipebook.viewmodels;
+package com.pinky.sharerecipebook.old;
 
 import android.util.Log;
 

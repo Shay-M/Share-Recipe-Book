@@ -68,22 +68,26 @@ public abstract class FirebaseDatabaseRepository<Model> {
 
     static FirebaseDatabaseRepository INSTANCE;
     private ArrayList<Recipe> recipeList = new ArrayList<>();
+    private MutableLiveData<ArrayList<Recipe>> arrayListMutableLiveData;
 
     public static FirebaseDatabaseRepository getInstance() {
-        if (INSTANCE == null) {
+        if (INSTANCE == null)
             INSTANCE = new FirebaseDatabaseRepository();
-        }
+
         return INSTANCE;
     }
 
+    // new FirebaseDatabaseRepository.FirebaseDatabaseRepositoryCallback<Recipe>()
     public MutableLiveData<ArrayList<Recipe>> getRecipe() {
         LoadRecipeData();
-        MutableLiveData<ArrayList<Recipe>> arrayListMutableLiveData = new MutableLiveData<>();
+        arrayListMutableLiveData = new MutableLiveData<>();
         arrayListMutableLiveData.setValue(recipeList);
         return arrayListMutableLiveData;
     }
 
-    public void LoadRecipeData() {
+
+    //    private void LoadRecipeData(FirebaseDatabaseRepositoryCallback<Recipe> firebaseCallback) {
+    private void LoadRecipeData() {
         recipeList.clear();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("recipe");
@@ -94,18 +98,30 @@ public abstract class FirebaseDatabaseRepository<Model> {
                     Recipe obj = snapshot.getValue(Recipe.class);
                     obj.setFirebaseRecipeMadeId(snapshot.getKey());
                     recipeList.add(obj);
-                    Log.d("Impl", obj.getFirebaseRecipeMadeId());
-
+                    Log.d("show", obj.getFirebaseRecipeMadeId());
                 }
+                arrayListMutableLiveData.postValue(recipeList);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.d("LoadRecipeData", databaseError.toString());
             }
         });
     }
 
+    /*public void removeListener() {
+        myRef.removeEventListener(listener); // not work ,see if need
+    }*/
+
+/*    public interface FirebaseDatabaseRepositoryCallback<T> {
+        void onSuccess(List<T> AllRecipes);
+
+        void onError(Exception e);
+    }*/
+
+
 }
 // https://www.youtube.com/watch?v=0W1QoPxfcS8
+//https://www.youtube.com/watch?v=PAi9m69KYWs
 // https://medium.com/globallogic-latinoamerica-mobile/viewmodel-firebase-database-3cc708044b5d
