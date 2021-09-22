@@ -46,6 +46,8 @@ public class AuthAppRepository {
                             userLiveData.postValue(firebaseAuth.getCurrentUser());
                         } else {
                             Toast.makeText(application.getApplicationContext(), "Login Failure: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            // Snackbar.make(getWindow().getDecorView(), "fdf", Snackbar.LENGTH_SHORT).show();
+
                         }
                     }
                 });

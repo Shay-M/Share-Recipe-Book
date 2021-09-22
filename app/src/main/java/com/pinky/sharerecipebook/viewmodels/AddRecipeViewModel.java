@@ -1,16 +1,22 @@
 package com.pinky.sharerecipebook.viewmodels;/* Created by Shay Mualem 19/09/2021 */
 
-import android.util.Log;
+import android.app.Application;
+import android.net.Uri;
+import android.widget.EditText;
+import android.widget.ImageView;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.ViewModel;
 
-import com.google.firebase.database.FirebaseDatabase;
+public class AddRecipeViewModel extends AndroidViewModel {
 
-import java.util.List;
 
-public class AddRecipeViewModel extends ViewModel {
+
+    public AddRecipeViewModel(@NonNull Application application) {
+        super(application);
+    }
+
 
 
     /*public void sendDataFirebase(UserDate currentUserObj, String shiftGet_shiftWants) {

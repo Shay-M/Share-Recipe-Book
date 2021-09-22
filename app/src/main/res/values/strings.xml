@@ -5,4 +5,6 @@
     <string name="home">Home</string>
     <string name="Favorites">Favorites</string>
     <string name="my_recipes">My recipes</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
 </resources>

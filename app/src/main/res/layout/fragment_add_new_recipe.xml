@@ -19,19 +19,49 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <ImageView
-        android:id="@+id/add_recipe_image"
+    <FrameLayout
+        android:id="@+id/FrameLayout"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/ic_launcher_background"
-        android:contentDescription="@+id/song_image"
-        android:gravity="center"
-        android:scaleType="centerInside"
-        android:src="@drawable/ic_launcher_foreground"
-        app:layout_constraintTop_toBottomOf="@+id/add_recipe_title"
-        tools:layout_editor_absoluteX="130dp" />
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/add_recipe_title">
+
+        <ImageView
+            android:id="@+id/add_recipe_image"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/ic_launcher_background"
+            android:contentDescription="@+id/add_recipe_image"
+            android:gravity="center"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_launcher_foreground"
+            tools:layout_editor_absoluteX="130dp" />
+
+        <ImageView
+            android:id="@+id/take_a_pic"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="bottom|right"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="44dp"
+            android:contentDescription="@+id/take_a_pic"
+            android:gravity="center"
+            android:src="@drawable/photograph" />
+
+        <ImageView
+            android:id="@+id/add_a_pic"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="bottom|right"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="4dp"
+            android:contentDescription="@+id/add_a_pic"
+            android:gravity="center"
+            android:src="@drawable/gallery" />
+
+    </FrameLayout>
+
 
     <EditText
         android:id="@+id/add_recipe_ingredients"
@@ -44,7 +74,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/add_recipe_title"
-        app:layout_constraintTop_toBottomOf="@+id/add_recipe_image" />
+        app:layout_constraintTop_toBottomOf="@+id/FrameLayout" />
 
     <EditText
         android:id="@+id/add_recipe_preparation"
