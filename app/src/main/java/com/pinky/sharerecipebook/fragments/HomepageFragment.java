@@ -50,10 +50,6 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
 
         recipeArrayList = loadRecipeViewModel.getRecipeLiveData().getValue();
 
-        //add working
-       /* Recipe tempRecipe = new Recipe("banana", "eat the banana", "1 banana", 4.3f);
-        loadRecipeViewModel.Add_Recipe(tempRecipe);*/
-
     }
 
     @Override
@@ -100,7 +96,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
         });
 
         // floatingAddButton
-        floatingAddButton = view.findViewById(R.id.floatingAddButton);
+        floatingAddButton = view.findViewById(R.id.floating_add_fragment);
         new Boom(floatingAddButton);
 
         floatingAddButton.setOnClickListener(v -> {

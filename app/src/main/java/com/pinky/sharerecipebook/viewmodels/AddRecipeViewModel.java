@@ -1,22 +1,96 @@
 package com.pinky.sharerecipebook.viewmodels;/* Created by Shay Mualem 19/09/2021 */
 
-import android.app.Application;
 import android.net.Uri;
-import android.widget.EditText;
-import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class AddRecipeViewModel extends AndroidViewModel {
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.pinky.sharerecipebook.models.Recipe;
+import com.pinky.sharerecipebook.repositories.FirebaseDatabaseRepository;
+import com.pinky.sharerecipebook.utils.CameraManagerUrl;
 
+import java.util.ArrayList;
 
+public class AddRecipeViewModel extends ViewModel {
+   /* final int GALLERY_REQUEST_CODE = 3;
+    public MutableLiveData<ArrayList<Recipe>> liveData;
+    ActivityResultLauncher<Uri> cameraFullSizeResultLauncher;
+    //ImageView resultIv;
+    //    private MutableLiveData<Uri> imgUri;
+    ActivityResultLauncher<String> pickContentResultLauncher;*/
+   private CameraManagerUrl cameraManagerUrl;
+    private Uri imgUri = null;
+    public MutableLiveData<ArrayList<Recipe>> liveData;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-    public AddRecipeViewModel(@NonNull Application application) {
+  /*  public AddRecipeViewModel(@NonNull Application application) {
         super(application);
+        cameraManagerUrl = CameraManagerUrl.getInstance();
+        //initLaunchers();
+
+    }*/
+
+    final DatabaseReference myRef = database.getReference("recipe");
+
+
+    public void init() {
+        if (liveData != null) {
+            return;
+        }
+        liveData = FirebaseDatabaseRepository.getInstance().getRecipe();
     }
 
+    public LiveData<ArrayList<Recipe>> getRecipeLiveData() {
+        return liveData;
+    }
+
+    public void AttachNewRecipe(Recipe newRecipe) {
+        String key = myRef.push().getKey();
+        myRef.child(key).setValue(newRecipe);
+    }
+
+}
+
+    /*private void initLaunchers() {
+
+        cameraFullSizeResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.TakePicture(),
+                new ActivityResultCallback<Boolean>() {
+                    @Override
+                    public void onActivityResult(Boolean result) {
+                        //true if the image saved to the uri given in the launch function
+
+                    }
+                });
+        pickContentResultLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri result) {
+                resultIv.setImageURI(result);
+            }
+        });
+    }
+
+    public void cameraFun() {
+
+        cameraFullSizeResultLauncher.launch(Uri.parse(""));
+    }
+
+    public void fileFun() {
+
+        pickContentResultLauncher.launch("image/*");
+    }
+
+    private void picFromGalleria() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_REQUEST_CODE);
+    }
+
+*/
 
 
     /*public void sendDataFirebase(UserDate currentUserObj, String shiftGet_shiftWants) {
@@ -37,7 +111,10 @@ public class AddRecipeViewModel extends AndroidViewModel {
 
     }*/
 //////
-    /*MutableLiveData<List<Cart>> mutableLiveData = new MutableLiveData<>();
+
+
+    /*
+    MutableLiveData<List<Cart>> mutableLiveData = new MutableLiveData<>();
     CartRepo rep = new CartRepo(this);
 
     public CartViewModel() {
@@ -54,4 +131,4 @@ public class AddRecipeViewModel extends AndroidViewModel {
         mutableLiveData.setValue(carts);
     }*/
 
-}
+

@@ -13,11 +13,16 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.astritveliu.boom.Boom;
 import com.bumptech.glide.Glide;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.pinky.sharerecipebook.R;
+import com.pinky.sharerecipebook.models.AuthAppRepository;
+import com.pinky.sharerecipebook.models.Recipe;
 import com.pinky.sharerecipebook.utils.CameraManagerUrl;
+import com.pinky.sharerecipebook.viewmodels.AddRecipeViewModel;
 
 
 public class AddNewRecipeFragment extends Fragment {
@@ -31,21 +36,39 @@ public class AddNewRecipeFragment extends Fragment {
     private EditText linkText;
     private EditText nameText;
 
+    private FloatingActionButton floating_attach_recipe;
 
     private CameraManagerUrl cameraManagerUrl;
 
-    //private AddSongDialogListener listener;
+    private AddRecipeViewModel addRecipeViewModel;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        //addRecipeViewModel = new ViewModelProvider(this).get(AddRecipeViewModel.class);
+        //addRecipeViewModel.init();
+
+        //recipeArrayList = loadRecipeViewModel.getRecipeLiveData().getValue();
+
+    }
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_add_new_recipe, container, false);
-    }
+        View view = inflater.inflate(R.layout.fragment_add_new_recipe, container, false);
 
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        cameraManagerUrl = CameraManagerUrl.getInstance();
 
-        picContentView = view.findViewById(R.id.add_recipe_image);
+        TitleText = view.findViewById(R.id.fragment_add_recipe_title);
+        IngredientsText = view.findViewById(R.id.fragment_add_recipe_ingredients);
+        preparationText = view.findViewById(R.id.fragment_add_recipe_preparation);
+        picContentView = view.findViewById(R.id.fragment_show_recipe_image);
+        floating_attach_recipe = view.findViewById(R.id.fragment_add_floating_attach_new_recipe);
+
+        new Boom(floating_attach_recipe);
+
 
         ImageView takeApicBtn = view.findViewById(R.id.take_a_pic);
         ImageView galleriaPicBtn = view.findViewById(R.id.add_a_pic);
@@ -59,11 +82,30 @@ public class AddNewRecipeFragment extends Fragment {
         galleriaPicBtn.setOnClickListener(v -> picFromGalleria());
 
 
-        cameraManagerUrl = CameraManagerUrl.getInstance();
+        return view;
+    }
 
-        //initializationViews(view);
-        //initializationListeners();
-        //populateViews();
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+
+
+
+       /* floating_attach_recipe.setOnClickListener(v -> {
+            Log.d("onViewCreated", "floating_attach_recipe: " + AuthAppRepository.getInstance().getCurrentUser());
+            Recipe tempRecipe = new Recipe(
+                    "123",
+                    TitleText.getText().toString(),
+                    IngredientsText.getText().toString(),
+                    preparationText.getText().toString(),
+                    AuthAppRepository.getInstance().getCurrentUser(),
+                    imgUri.toString()
+
+                    );
+            addRecipeViewModel.AttachNewRecipe(tempRecipe);
+        });*/
+
+
     }
 
     private void picFromGalleria() {
@@ -97,7 +139,7 @@ public class AddNewRecipeFragment extends Fragment {
         imgUri = cameraManagerUrl.dispatchTakePictureIntent();
         Log.d("takeApicFromCamera", "imgUri: " + imgUri);
 
-        Glide.with(this).load(imgUri).centerCrop().thumbnail(0.10f).into(picContentView);
+        Glide.with(this).load(imgUri).centerCrop().thumbnail(0.15f).into(picContentView);
     }
 
 }

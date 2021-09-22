@@ -25,7 +25,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/recycler_view_of_recipe" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingAddButton"
+        android:id="@+id/floating_add_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="36dp"

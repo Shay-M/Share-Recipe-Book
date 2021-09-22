@@ -1,5 +1,7 @@
 package com.pinky.sharerecipebook.models;/* Created by Shay Mualem 31/08/2021 */
 
+import com.google.firebase.auth.FirebaseUser;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -9,30 +11,26 @@ public class Recipe implements Serializable {
     private String title;
     private String preparation;
     private String ingredients; // convert to class
-    private Float rank;
+    private int rank;
     private User owner;
     private String imagePath;
     private List<Comment> comments;
 
-    public Recipe(String firebaseUserMadeId, String title, String preparation, String ingredients, Float rank, User owner, String imagePath, List<Comment> comments) {
+    public Recipe(String firebaseUserMadeId, String title, String preparation, String ingredients, User owner, String imagePath) {
         this.firebaseUserMadeId = firebaseUserMadeId;
         this.title = title;
-        this.preparation = preparation;
         this.ingredients = ingredients;
-        this.rank = rank;
+        this.preparation = preparation;
+        this.rank = 0;
         this.owner = owner;
         this.imagePath = imagePath;
-        this.comments = comments;
-    }
-
-    public Recipe(String title, String preparation, String ingredients, Float rank) {
-        this.title = title;
-        this.preparation = preparation;
-        this.ingredients = ingredients;
-        this.rank = rank;
+        this.comments = null;
     }
 
     public Recipe() {
+    } // mast
+
+    public Recipe(String firebaseUserMadeId, String title, String preparation, String ingredients, FirebaseUser currentUser, String imagePath) {
     }
 
     public String getFirebaseUserMadeId() {
@@ -84,11 +82,11 @@ public class Recipe implements Serializable {
         this.ingredients = ingredients;
     }
 
-    public Float getRank() {
+    public int getRank() {
         return rank;
     }
 
-    public void setRank(Float rank) {
+    public void setRank(int rank) {
         this.rank = rank;
     }
 

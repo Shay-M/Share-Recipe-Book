@@ -58,6 +58,14 @@ public class LoginPageFragment extends Fragment {
         loginButton = view.findViewById(R.id.fragment_loginregister_login);
         registerButton = view.findViewById(R.id.fragment_loginregister_register);
 
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         //try to login
         loginButton.setOnClickListener(view1 -> {
             email = emailEditText.getEditText().getText().toString();
@@ -89,7 +97,7 @@ public class LoginPageFragment extends Fragment {
                 Toast.makeText(getContext(), "Email Address and Password Must Be Entered", Toast.LENGTH_SHORT).show();
             }
         });
-
-        return view;
     }
 }
+
+// https://material.io/components/text-fields/android#filled-text-field
