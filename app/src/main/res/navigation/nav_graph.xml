@@ -45,5 +45,9 @@
         android:id="@+id/addNewRecipeFragment"
         android:name="com.pinky.sharerecipebook.fragments.AddNewRecipeFragment"
         android:label="fragment_add_new_recipe"
-        tools:layout="@layout/fragment_add_new_recipe" />
+        tools:layout="@layout/fragment_add_new_recipe" >
+        <action
+            android:id="@+id/action_addNewRecipeFragment_to_homepageFragment"
+            app:destination="@id/homepageFragment" />
+    </fragment>
 </navigation>

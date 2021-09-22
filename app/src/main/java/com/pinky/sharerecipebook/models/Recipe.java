@@ -16,7 +16,7 @@ public class Recipe implements Serializable {
     private String imagePath;
     private List<Comment> comments;
 
-    public Recipe(String firebaseUserMadeId, String title, String preparation, String ingredients, User owner, String imagePath) {
+    public Recipe(String firebaseUserMadeId, String title, String preparation, String ingredients, String imagePath) {
         this.firebaseUserMadeId = firebaseUserMadeId;
         this.title = title;
         this.ingredients = ingredients;
@@ -30,7 +30,7 @@ public class Recipe implements Serializable {
     public Recipe() {
     } // mast
 
-    public Recipe(String firebaseUserMadeId, String title, String preparation, String ingredients, FirebaseUser currentUser, String imagePath) {
+    public Recipe(String title, String preparation, String ingredients, FirebaseUser currentUser, String imagePath) {
     }
 
     public String getFirebaseUserMadeId() {

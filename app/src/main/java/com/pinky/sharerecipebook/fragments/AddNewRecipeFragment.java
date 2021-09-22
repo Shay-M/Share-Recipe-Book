@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.astritveliu.boom.Boom;
 import com.bumptech.glide.Glide;
@@ -46,7 +47,7 @@ public class AddNewRecipeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //addRecipeViewModel = new ViewModelProvider(this).get(AddRecipeViewModel.class);
+        addRecipeViewModel = new ViewModelProvider(this).get(AddRecipeViewModel.class);
         //addRecipeViewModel.init();
 
         //recipeArrayList = loadRecipeViewModel.getRecipeLiveData().getValue();
@@ -64,11 +65,17 @@ public class AddNewRecipeFragment extends Fragment {
         TitleText = view.findViewById(R.id.fragment_add_recipe_title);
         IngredientsText = view.findViewById(R.id.fragment_add_recipe_ingredients);
         preparationText = view.findViewById(R.id.fragment_add_recipe_preparation);
-        picContentView = view.findViewById(R.id.fragment_show_recipe_image);
+        picContentView = view.findViewById(R.id.fragment_add_recipe_image);
         floating_attach_recipe = view.findViewById(R.id.fragment_add_floating_attach_new_recipe);
 
         new Boom(floating_attach_recipe);
 
+
+        return view;
+    }
+
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         ImageView takeApicBtn = view.findViewById(R.id.take_a_pic);
         ImageView galleriaPicBtn = view.findViewById(R.id.add_a_pic);
@@ -81,29 +88,23 @@ public class AddNewRecipeFragment extends Fragment {
         new Boom(galleriaPicBtn);
         galleriaPicBtn.setOnClickListener(v -> picFromGalleria());
 
-
-        return view;
-    }
-
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-
-
-
-       /* floating_attach_recipe.setOnClickListener(v -> {
+        floating_attach_recipe.setOnClickListener(v -> {
             Log.d("onViewCreated", "floating_attach_recipe: " + AuthAppRepository.getInstance().getCurrentUser());
+            //    public Recipe(String firebaseUserMadeId, String title, String preparation, String ingredients, User owner, String imagePath) {
             Recipe tempRecipe = new Recipe(
-                    "123",
+                    AuthAppRepository.getInstance().getCurrentUser().getUid(),
                     TitleText.getText().toString(),
-                    IngredientsText.getText().toString(),
                     preparationText.getText().toString(),
-                    AuthAppRepository.getInstance().getCurrentUser(),
+                    IngredientsText.getText().toString(),
                     imgUri.toString()
 
-                    );
+            );
+            Log.d("tempRecipe", "onViewCreated: "+tempRecipe);
             addRecipeViewModel.AttachNewRecipe(tempRecipe);
-        });*/
+
+            Navigation.findNavController(v).navigate(R.id.action_addNewRecipeFragment_to_homepageFragment);
+
+        });
 
 
     }
@@ -139,7 +140,7 @@ public class AddNewRecipeFragment extends Fragment {
         imgUri = cameraManagerUrl.dispatchTakePictureIntent();
         Log.d("takeApicFromCamera", "imgUri: " + imgUri);
 
-        Glide.with(this).load(imgUri).centerCrop().thumbnail(0.15f).into(picContentView);
+        Glide.with(this).load(imgUri).centerCrop().thumbnail(0.10f).into(picContentView);
     }
 
 }
