@@ -1,5 +1,7 @@
 package com.pinky.sharerecipebook.fragments;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,9 +21,11 @@ import androidx.navigation.Navigation;
 import com.astritveliu.boom.Boom;
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.storage.StorageReference;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.models.AuthAppRepository;
 import com.pinky.sharerecipebook.models.Recipe;
+import com.pinky.sharerecipebook.repositories.FirebaseStorgeRepository;
 import com.pinky.sharerecipebook.utils.CameraManagerUrl;
 import com.pinky.sharerecipebook.viewmodels.AddRecipeViewModel;
 
@@ -91,6 +95,12 @@ public class AddNewRecipeFragment extends Fragment {
         floating_attach_recipe.setOnClickListener(v -> {
             Log.d("onViewCreated", "floating_attach_recipe: " + AuthAppRepository.getInstance().getCurrentUser());
             //    public Recipe(String firebaseUserMadeId, String title, String preparation, String ingredients, User owner, String imagePath) {
+
+            if (TitleText.toString().isEmpty()) {
+                TitleText.requestFocus();
+                TitleText.setError("hii");
+            }
+
             Recipe tempRecipe = new Recipe(
                     AuthAppRepository.getInstance().getCurrentUser().getUid(),
                     TitleText.getText().toString(),
@@ -99,7 +109,7 @@ public class AddNewRecipeFragment extends Fragment {
                     imgUri.toString()
 
             );
-            Log.d("tempRecipe", "onViewCreated: "+tempRecipe);
+            Log.d("tempRecipe", "onViewCreated: " + tempRecipe);
             addRecipeViewModel.AttachNewRecipe(tempRecipe);
 
             Navigation.findNavController(v).navigate(R.id.action_addNewRecipeFragment_to_homepageFragment);
@@ -119,15 +129,15 @@ public class AddNewRecipeFragment extends Fragment {
     //Galleria Result
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == GALLERY_REQUEST_CODE) {
-            Log.d("onActivityResult", "Intent: " + data);
-            /*if (data != null) {
-                imgUri = data.getData();
-                Glide.with(this).load(imgUri).centerCrop().thumbnail(0.10f).into(picContentView);
-            }*/
+        if (requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
             try {
                 imgUri = data.getData();
+                Log.d("onActivityResult", "imgUri: " + imgUri);
+
                 Glide.with(this).load(imgUri).centerCrop().thumbnail(0.10f).into(picContentView);
+                //
+                FirebaseStorgeRepository.getInstance().UploadFile(imgUri);
             } catch (Exception e) {
                 Log.d("picFromGalleria", "onActivityResult: " + e.getMessage());
             }
@@ -141,6 +151,9 @@ public class AddNewRecipeFragment extends Fragment {
         Log.d("takeApicFromCamera", "imgUri: " + imgUri);
 
         Glide.with(this).load(imgUri).centerCrop().thumbnail(0.10f).into(picContentView);
+        FirebaseStorgeRepository.getInstance().UploadFile(imgUri);
     }
+
+
 
 }

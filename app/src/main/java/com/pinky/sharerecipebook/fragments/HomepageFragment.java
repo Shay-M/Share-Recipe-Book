@@ -104,7 +104,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
                 Log.d("onCreateView", "onCreateView: " + AuthAppRepository.getInstance().getCurrentUser());
                 Navigation.findNavController(v).navigate(R.id.action_homepageFragment_to_addNewRecipeFragment);
             } else
-                Navigation.findNavController(v).navigate(R.id.action_addNewRecipeFragment_to_homepageFragment);
+                Navigation.findNavController(v).navigate(R.id.action_homepageFragment_to_loginPageFragment);
         });
 
     }

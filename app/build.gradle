@@ -70,7 +70,11 @@ dependencies {
     implementation 'com.github.felixsoares:AnimatedBottomBar:1.1'
     //
     // OutlineSpan
-    implementation 'com.github.santaevpavel:OutlineSpan:0.1.1'
+    //implementation 'com.github.santaevpavel:OutlineSpan:0.1.1'
+    //
+    //GifLoading
+    implementation 'com.github.Mohammed-Alaa:GifLoading:1.0.3'
+
 
 
 }

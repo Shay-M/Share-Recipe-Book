@@ -39,6 +39,7 @@ public class RecipeDetailsFragment extends Fragment {
         recipe_preparation = view.findViewById(R.id.fragment_show_recipe_preparation);
         recipe_img_string = view.findViewById(R.id.fragment_show_recipe_image);
 
+
         return view;
     }
 

@@ -70,6 +70,7 @@ public abstract class FirebaseDatabaseRepository<Model> {
     private ArrayList<Recipe> recipeList = new ArrayList<>();
     private MutableLiveData<ArrayList<Recipe>> arrayListMutableLiveData;
 
+
     public static FirebaseDatabaseRepository getInstance() {
         if (INSTANCE == null)
             INSTANCE = new FirebaseDatabaseRepository();
