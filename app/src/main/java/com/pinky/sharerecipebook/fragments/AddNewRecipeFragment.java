@@ -21,7 +21,6 @@ import androidx.navigation.Navigation;
 import com.astritveliu.boom.Boom;
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.storage.StorageReference;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.models.AuthAppRepository;
 import com.pinky.sharerecipebook.models.Recipe;
@@ -151,9 +150,8 @@ public class AddNewRecipeFragment extends Fragment {
         Log.d("takeApicFromCamera", "imgUri: " + imgUri);
 
         Glide.with(this).load(imgUri).centerCrop().thumbnail(0.10f).into(picContentView);
-        FirebaseStorgeRepository.getInstance().UploadFile(imgUri);
+        //FirebaseStorgeRepository.getInstance().UploadFile(imgUri);
     }
-
 
 
 }
