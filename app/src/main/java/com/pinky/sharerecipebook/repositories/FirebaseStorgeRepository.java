@@ -1,5 +1,6 @@
 package com.pinky.sharerecipebook.repositories;/* Created by Shay Mualem 22/09/2021 */
 
+import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.util.Log;
 
@@ -8,14 +9,14 @@ import com.google.firebase.storage.StorageReference;
 import com.pinky.sharerecipebook.models.AuthAppRepository;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.util.Date;
+import java.util.UUID;
 
 // https://www.youtube.com/watch?v=MfCiiTEwt3g
 //https://firebase.google.com/docs/storage/android/create-reference?authuser=0#java
 
 
 public class FirebaseStorgeRepository {
-    //private  FirebaseStorge
 
     static FirebaseStorgeRepository INSTANCE;
     // Create a Cloud Storage reference from the app
@@ -41,7 +42,12 @@ public class FirebaseStorgeRepository {
         Log.d("UploadFile", "imageUri:" + imageUri);
 
         String userID = AuthAppRepository.getInstance().getCurrentUser().getUid();
-        String fileName = (new File(String.valueOf(imageUri))).getName();
+        //        String fileName = (new File(String.valueOf(imageUri))).getName();
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String uniqueString = UUID.randomUUID().toString();
+
+        String fileName = "" + timeStamp + "_" + uniqueString + ".jpg ";
 
         // Create a reference
         StorageReference storageReference = mStorageRef.child("images/recipe/" + userID + "/" + fileName);

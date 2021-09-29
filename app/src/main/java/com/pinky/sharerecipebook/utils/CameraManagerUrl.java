@@ -18,7 +18,6 @@ import java.util.Date;
 
 public class CameraManagerUrl {
     static final String AUTHORITY_OF_A_FILEPROVIDER = "com.pinky.sharerecipebook.android.fileprovider";
-    static final int REQUEST_IMAGE_CAPTURE = 1;
     private static CameraManagerUrl instead;
     String currentPhotoPath;
     Uri photoURI;
@@ -48,12 +47,11 @@ public class CameraManagerUrl {
     }
 
     public Uri dispatchTakePictureIntent() {
-        Log.d("dispatchTakePictureIntent", "hii");
-
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(context.getPackageManager()) != null) {
             // Create the File where the photo should go
+            photoURI = null;
             File photoFile = null;
             try {
                 photoFile = createImageFile();
@@ -63,9 +61,9 @@ public class CameraManagerUrl {
             // Continue only if the File was successfully created
             if (photoFile != null) {
                 photoURI = FileProvider.getUriForFile(context, AUTHORITY_OF_A_FILEPROVIDER, photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                context.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-            }
+            } else
+                Log.d("dispatchTakePictureIntent", "" + "Error, photoFile = null");
+
         }
 
         return photoURI;
@@ -88,4 +86,6 @@ public class CameraManagerUrl {
         Log.d("currentPhotoPath", "createImageFile: " + currentPhotoPath);
         return image;
     }
+
+
 }

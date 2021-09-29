@@ -74,7 +74,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(recipeAdapter);
 
-//
+        // update
         loadRecipeViewModel.getRecipeLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Recipe>>() {
             @Override
             public void onChanged(ArrayList<Recipe> recipes) {
