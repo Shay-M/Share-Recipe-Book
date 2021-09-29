@@ -159,7 +159,6 @@ public class AddNewRecipeFragment extends Fragment {
 
 package com.pinky.sharerecipebook.fragments;
 
-import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -186,9 +185,6 @@ import com.pinky.sharerecipebook.models.Recipe;
 import com.pinky.sharerecipebook.repositories.FirebaseStorgeRepository;
 import com.pinky.sharerecipebook.utils.CameraManagerUrl;
 import com.pinky.sharerecipebook.viewmodels.AddRecipeViewModel;
-
-import java.util.Date;
-import java.util.UUID;
 
 
 public class AddNewRecipeFragment extends Fragment {
@@ -258,29 +254,36 @@ public class AddNewRecipeFragment extends Fragment {
 
         floating_attach_recipe.setOnClickListener(v -> {
             Log.d("onViewCreated", "floating_attach_recipe: " + AuthAppRepository.getInstance().getCurrentUser());
-            //    public Recipe(String firebaseUserMadeId, String title, String preparation, String ingredients, User owner, String imagePath) {
 
-            if (TitleText.toString().isEmpty()) {
+            if (photoURI == null) {
+                Log.d("floating_attach_recipe", "photoURI is Empty!");
+                picContentView.requestFocus();
+            } else if (TitleText.getText().toString().isEmpty()) {
+                TitleText.setError("Give a name");
                 TitleText.requestFocus();
-                TitleText.setError("hii");
+            } else if (IngredientsText.getText().toString().isEmpty()) {
+                IngredientsText.requestFocus();
+                IngredientsText.setError("what the Ingredients");
+            } else if (preparationText.getText().toString().isEmpty()) {
+                preparationText.requestFocus();
+                preparationText.setError("preparation is Empty");
+            } else {
+                FirebaseStorgeRepository.getInstance().UploadFile(photoURI);
+
+                Recipe tempRecipe = new Recipe(
+                        AuthAppRepository.getInstance().getCurrentUser().getUid(),
+                        TitleText.getText().toString(),
+                        preparationText.getText().toString(),
+                        IngredientsText.getText().toString(),
+//                    (FirebaseStorgeRepository.getInstance().downloadUri).toString()
+                        "photoURI.toString()"//
+                );
+                Log.d("tempRecipe", "onViewCreated: " + tempRecipe);
+                addRecipeViewModel.AttachNewRecipe(tempRecipe); // add to db
+
+                Navigation.findNavController(v).navigate(R.id.action_addNewRecipeFragment_to_homepageFragment);
+
             }
-
-            Recipe tempRecipe = new Recipe(
-                    AuthAppRepository.getInstance().getCurrentUser().getUid(),
-                    TitleText.getText().toString(),
-                    preparationText.getText().toString(),
-                    IngredientsText.getText().toString(),
-                    photoURI.toString()//
-
-           /* if (name.trim().equals("")) {
-                name = "No Name";
-            }*/
-
-            );
-            Log.d("tempRecipe", "onViewCreated: " + tempRecipe);
-            addRecipeViewModel.AttachNewRecipe(tempRecipe); // add to db
-
-            Navigation.findNavController(v).navigate(R.id.action_addNewRecipeFragment_to_homepageFragment);
 
         });
 
@@ -294,8 +297,7 @@ public class AddNewRecipeFragment extends Fragment {
             Log.d("initLaunchers", "result: " + result);
             if (result) {
                 Glide.with(this).load(photoURI).centerCrop().thumbnail(0.10f).into(picContentView); // todo add try?
-                //todo change glide
-                FirebaseStorgeRepository.getInstance().UploadFile(photoURI);
+                //todo change the glide
             }
 
         });
@@ -304,9 +306,8 @@ public class AddNewRecipeFragment extends Fragment {
         pickContentResultLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), result -> {
             Log.d("pickContentResultLauncher", "result: " + result);
             if (result != null) {
-                Glide.with(this).load(result).centerCrop().thumbnail(0.10f).into(picContentView); // todo add try?
-
-                FirebaseStorgeRepository.getInstance().UploadFile(result);
+                photoURI = result;
+                Glide.with(this).load(photoURI).centerCrop().thumbnail(0.10f).into(picContentView); // todo add try?
 
             }
         });
