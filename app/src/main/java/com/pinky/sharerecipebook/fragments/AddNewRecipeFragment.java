@@ -159,6 +159,7 @@ public class AddNewRecipeFragment extends Fragment {
 
 package com.pinky.sharerecipebook.fragments;
 
+import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -185,6 +186,9 @@ import com.pinky.sharerecipebook.models.Recipe;
 import com.pinky.sharerecipebook.repositories.FirebaseStorgeRepository;
 import com.pinky.sharerecipebook.utils.CameraManagerUrl;
 import com.pinky.sharerecipebook.viewmodels.AddRecipeViewModel;
+
+import java.util.Date;
+import java.util.UUID;
 
 
 public class AddNewRecipeFragment extends Fragment {
@@ -266,11 +270,15 @@ public class AddNewRecipeFragment extends Fragment {
                     TitleText.getText().toString(),
                     preparationText.getText().toString(),
                     IngredientsText.getText().toString(),
-                    photoURI.toString()
+                    photoURI.toString()//
+
+           /* if (name.trim().equals("")) {
+                name = "No Name";
+            }*/
 
             );
             Log.d("tempRecipe", "onViewCreated: " + tempRecipe);
-            addRecipeViewModel.AttachNewRecipe(tempRecipe);
+            addRecipeViewModel.AttachNewRecipe(tempRecipe); // add to db
 
             Navigation.findNavController(v).navigate(R.id.action_addNewRecipeFragment_to_homepageFragment);
 
@@ -286,7 +294,7 @@ public class AddNewRecipeFragment extends Fragment {
             Log.d("initLaunchers", "result: " + result);
             if (result) {
                 Glide.with(this).load(photoURI).centerCrop().thumbnail(0.10f).into(picContentView); // todo add try?
-
+                //todo change glide
                 FirebaseStorgeRepository.getInstance().UploadFile(photoURI);
             }
 
@@ -296,13 +304,21 @@ public class AddNewRecipeFragment extends Fragment {
         pickContentResultLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), result -> {
             Log.d("pickContentResultLauncher", "result: " + result);
             if (result != null) {
-                Glide.with(this).load(photoURI).centerCrop().thumbnail(0.10f).into(picContentView); // todo add try?
+                Glide.with(this).load(result).centerCrop().thumbnail(0.10f).into(picContentView); // todo add try?
 
                 FirebaseStorgeRepository.getInstance().UploadFile(result);
 
             }
         });
     }
+
+    /*private  String genratedFileName(){
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String uniqueString = UUID.randomUUID().toString();
+
+        String fileName = "" + timeStamp + "_" + uniqueString + ".jpg ";
+    }*/
 
     private void picFromGalleria() {
         pickContentResultLauncher.launch("image/*");

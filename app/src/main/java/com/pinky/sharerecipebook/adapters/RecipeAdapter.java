@@ -55,11 +55,17 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         //set recipe rating
         holder.recipeRatingTv.setText(String.valueOf(RecipeItem.getRank()));
         //set img
+        ImageView imageView = holder.recipeImageIv;///////
 
-        ImageView imageView = holder.recipeImageIv;
 
         if (RecipeItem.getImagePath() != null)
-            Glide.with(context).load(RecipeItem.getImagePath()).thumbnail(0.10f).centerCrop().into(imageView);
+            Glide.with(holder.recipeImageIv.getContext())
+                    .load(RecipeItem.getImagePath())
+                    .thumbnail(0.10f)
+                    .centerCrop()
+                    .placeholder(R.drawable.common_google_signin_btn_icon_dark) // todo change img or not need?
+                    .error(android.R.drawable.ic_dialog_info)
+                    .into(imageView);
         else {
             // make sure Glide doesn't load anything into this view until told otherwise
             Glide.with(context).clear(holder.recipeImageIv);
