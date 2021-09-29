@@ -179,6 +179,7 @@ import androidx.navigation.Navigation;
 import com.astritveliu.boom.Boom;
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.pinky.sharerecipebook.LoadingDialog;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.models.AuthAppRepository;
 import com.pinky.sharerecipebook.models.Recipe;
@@ -203,6 +204,8 @@ public class AddNewRecipeFragment extends Fragment {
     private CameraManagerUrl cameraManagerUrl;
     private AddRecipeViewModel addRecipeViewModel;
 
+    private LoadingDialog loadingDialog;
+
     //
 
     @Override
@@ -213,6 +216,8 @@ public class AddNewRecipeFragment extends Fragment {
         //addRecipeViewModel.init();
 
         //recipeArrayList = loadRecipeViewModel.getRecipeLiveData().getValue();
+        loadingDialog = new LoadingDialog(this);
+
 
     }
 
@@ -257,7 +262,7 @@ public class AddNewRecipeFragment extends Fragment {
 
             if (photoURI == null) {
                 Log.d("floating_attach_recipe", "photoURI is Empty!");
-                picContentView.requestFocus();
+                takeApicFromCamera();
             } else if (TitleText.getText().toString().isEmpty()) {
                 TitleText.setError("Give a name");
                 TitleText.requestFocus();
@@ -268,20 +273,41 @@ public class AddNewRecipeFragment extends Fragment {
                 preparationText.requestFocus();
                 preparationText.setError("preparation is Empty");
             } else {
-                FirebaseStorgeRepository.getInstance().UploadFile(photoURI);
+                loadingDialog.startLoadingDialog();
 
-                Recipe tempRecipe = new Recipe(
-                        AuthAppRepository.getInstance().getCurrentUser().getUid(),
-                        TitleText.getText().toString(),
-                        preparationText.getText().toString(),
-                        IngredientsText.getText().toString(),
-//                    (FirebaseStorgeRepository.getInstance().downloadUri).toString()
-                        "photoURI.toString()"//
-                );
-                Log.d("tempRecipe", "onViewCreated: " + tempRecipe);
-                addRecipeViewModel.AttachNewRecipe(tempRecipe); // add to db
+                FirebaseStorgeRepository.getInstance().UploadFile(photoURI, new FirebaseStorgeRepository.OnTaskDownloadUri() {
+                    @Override
+                    public void onSuccess(Uri downloadUri) {
 
-                Navigation.findNavController(v).navigate(R.id.action_addNewRecipeFragment_to_homepageFragment);
+                        Recipe tempRecipe = new Recipe(
+                                AuthAppRepository.getInstance().getCurrentUser().getUid(),
+                                TitleText.getText().toString(),
+                                preparationText.getText().toString(),
+                                IngredientsText.getText().toString(),
+                                downloadUri.toString()
+                        );
+                        Log.d("tempRecipe", "onViewCreated: " + tempRecipe);
+                        addRecipeViewModel.AttachNewRecipe(tempRecipe); // add to db
+                        loadingDialog.dismissLoadingDialog();
+
+                        Navigation.findNavController(v).navigate(R.id.action_addNewRecipeFragment_to_homepageFragment);
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        photoURI = null;
+                        loadingDialog.dismissLoadingDialog();
+                        Log.d("onFailure", "onFailure");
+
+                    }
+
+                    @Override
+                    public void onProgress(double progressNum) { // todo remove?
+                        Log.d("onProgress", "progressNum: " + progressNum);
+                        //loadingDialog.startLoadingDialog();
+                    }
+                });
+
 
             }
 
@@ -296,8 +322,13 @@ public class AddNewRecipeFragment extends Fragment {
             //true if the image saved to the uri given in the launch function
             Log.d("initLaunchers", "result: " + result);
             if (result) {
-                Glide.with(this).load(photoURI).centerCrop().thumbnail(0.10f).into(picContentView); // todo add try?
-                //todo change the glide
+                Glide.with(this)
+                        .load(photoURI)
+                        .centerCrop()
+                        .thumbnail(0.10f)
+                        .placeholder(R.drawable.common_google_signin_btn_icon_dark) // todo change img or not need?
+                        .error(android.R.drawable.ic_dialog_info)
+                        .into(picContentView); // todo add try?
             }
 
         });
@@ -307,19 +338,18 @@ public class AddNewRecipeFragment extends Fragment {
             Log.d("pickContentResultLauncher", "result: " + result);
             if (result != null) {
                 photoURI = result;
-                Glide.with(this).load(photoURI).centerCrop().thumbnail(0.10f).into(picContentView); // todo add try?
+
+                Glide.with(this)
+                        .load(photoURI)
+                        .centerCrop()
+                        .thumbnail(0.10f)
+                        .placeholder(R.drawable.common_google_signin_btn_icon_dark) // todo change img or not need?
+                        .error(android.R.drawable.ic_dialog_info)
+                        .into(picContentView); // todo add try?
 
             }
         });
     }
-
-    /*private  String genratedFileName(){
-
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String uniqueString = UUID.randomUUID().toString();
-
-        String fileName = "" + timeStamp + "_" + uniqueString + ".jpg ";
-    }*/
 
     private void picFromGalleria() {
         pickContentResultLauncher.launch("image/*");

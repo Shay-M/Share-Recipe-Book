@@ -49,17 +49,16 @@ public class FirebaseStorgeRepository {
         return INSTANCE;
     }
 
-    public void UploadFile(Uri imageUri) {
+    public void UploadFile(Uri imageUri, OnTaskDownloadUri onTaskDownloadUri) {
         Log.d("UploadFile", "imageUri:" + imageUri);
 
-
-        String userID = AuthAppRepository.getInstance().getCurrentUser().getUid();
-        // String fileName = (new File(String.valueOf(imageUri))).getName();
-
+        String userID = AuthAppRepository.getInstance().getCurrentUser().getUid(); // userID for name folder in db
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmssSS").format(new Date());
-        // String uniqueString = UUID.randomUUID().toString();
 
-//        String fileName = "" + timeStamp + "_" + uniqueString + ".jpg ";
+        // String fileName = (new File(String.valueOf(imageUri))).getName();
+        // String uniqueString = UUID.randomUUID().toString();
+        // String fileName = "" + timeStamp + "_" + uniqueString + ".jpg ";
+
         String fileName = "" + timeStamp + "" + ".jpg ";
 
         // Create a reference
@@ -86,7 +85,8 @@ public class FirebaseStorgeRepository {
                     @Override
                     public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
                         double progress = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-                        Log.d("UploadFile", "progress: " + progress + "% done");
+                        //Log.d("UploadFile", "progress: " + progress + "% done");
+                        onTaskDownloadUri.onProgress(progress);
                     }
                 }) // for get file url upload
                 .continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
@@ -105,10 +105,11 @@ public class FirebaseStorgeRepository {
                         if (task.isSuccessful()) {
                             Uri downloadUri = task.getResult();
                             Log.d("@onComplete", "downloadUri: " + downloadUri);
-
+                            onTaskDownloadUri.onSuccess(downloadUri);
                         } else {
                             // Handle failures
                             Log.d("onComplete", "uploadTask: Failure");
+                            onTaskDownloadUri.onFailure();
                         }
                     }
                 });
@@ -163,5 +164,12 @@ public class FirebaseStorgeRepository {
 
                 }*/
 
+    public interface OnTaskDownloadUri {
+        void onSuccess(Uri downloadUri);
 
+        void onFailure();
+
+        void onProgress(double progressNum);
+
+    }
 }

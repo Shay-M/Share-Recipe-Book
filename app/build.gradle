@@ -73,7 +73,7 @@ dependencies {
     //implementation 'com.github.santaevpavel:OutlineSpan:0.1.1'
     //
     //GifLoading
-    implementation 'com.github.Mohammed-Alaa:GifLoading:1.0.3'
+    //implementation 'com.github.Mohammed-Alaa:GifLoading:1.0.3'
 
 
 

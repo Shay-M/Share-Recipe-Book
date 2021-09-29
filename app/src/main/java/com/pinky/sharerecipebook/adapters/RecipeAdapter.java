@@ -61,7 +61,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         if (RecipeItem.getImagePath() != null)
             Glide.with(holder.recipeImageIv.getContext())
                     .load(RecipeItem.getImagePath())
-                    .thumbnail(0.10f)
+                    .thumbnail(0.08f)
                     .centerCrop()
                     .placeholder(R.drawable.common_google_signin_btn_icon_dark) // todo change img or not need?
                     .error(android.R.drawable.ic_dialog_info)
