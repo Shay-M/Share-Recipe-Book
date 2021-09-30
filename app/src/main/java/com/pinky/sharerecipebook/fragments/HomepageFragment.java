@@ -20,7 +20,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.adapters.RecipeAdapter;
-import com.pinky.sharerecipebook.models.AuthAppRepository;
+import com.pinky.sharerecipebook.repositories.AuthRepository;
 import com.pinky.sharerecipebook.models.Recipe;
 import com.pinky.sharerecipebook.viewmodels.LoadRecipeViewModel;
 
@@ -100,8 +100,8 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
         new Boom(floatingAddButton);
 
         floatingAddButton.setOnClickListener(v -> {
-            if (AuthAppRepository.getInstance().getCurrentUser() != null) {
-                Log.d("onCreateView", "onCreateView: " + AuthAppRepository.getInstance().getCurrentUser());
+            if (AuthRepository.getInstance().getCurrentUser() != null) {
+                Log.d("onCreateView", "onCreateView: " + AuthRepository.getInstance().getCurrentUser());
                 Navigation.findNavController(v).navigate(R.id.action_homepageFragment_to_addNewRecipeFragment);
             } else
                 Navigation.findNavController(v).navigate(R.id.action_homepageFragment_to_loginPageFragment);

@@ -3,21 +3,44 @@ package com.pinky.sharerecipebook.models;/* Created by Shay Mualem 31/08/2021 */
 public class User extends Guest {
 
     //private Recipe myRecipe;
-    private  String firebaseUserId;
+    private String firebaseUserId;
     private String userImagePath;
     private String emailAddress;
-    private Recipe favoriteRecipe;//todo id?
+    private String[] favoriteRecipe;//todo id?
 
-
-    public User(String name, Float ratingOfUser, Recipe myRecipe, String userImagePath, String emailAddress, Recipe favoriteRecipe) {
-        super(name, ratingOfUser);
-        //this.myRecipe = myRecipe;
+    // new user
+    public User(String name, String userImagePath, String emailAddress, String firebaseUserId) {
+        super(name, 0);
         this.userImagePath = userImagePath;
         this.emailAddress = emailAddress;
+        this.firebaseUserId = firebaseUserId;
+        this.favoriteRecipe = null;
+    }
+
+    public String getFirebaseUserId() {
+        return firebaseUserId;
+    }
+
+    public void setFirebaseUserId(String firebaseUserId) {
+        this.firebaseUserId = firebaseUserId;
+    }
+
+    public String[] getFavoriteRecipe() {
+        return favoriteRecipe;
+    }
+    /*    public User(String name, int ratingOfUser, Recipe myRecipe, String userImagePath, String emailAddress, Recipe favoriteRecipe) {
+            super(name, ratingOfUser);
+            //this.myRecipe = myRecipe;
+            this.userImagePath = userImagePath;
+            this.emailAddress = emailAddress;
+            this.favoriteRecipe = favoriteRecipe;
+        }*/
+
+    public void setFavoriteRecipe(String[] favoriteRecipe) {
         this.favoriteRecipe = favoriteRecipe;
     }
 
-    /*public Recipe getMyRecipe() {
+    /*public Recipe getMyRecipe() { //todo
         return myRecipe;
     }*/
 
@@ -41,11 +64,4 @@ public class User extends Guest {
         this.emailAddress = emailAddress;
     }
 
-    public Recipe getFavoriteRecipe() {
-        return favoriteRecipe;
-    }
-
-    public void setFavoriteRecipe(Recipe favoriteRecipe) {
-        this.favoriteRecipe = favoriteRecipe;
-    }
 }

@@ -7,24 +7,28 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.auth.FirebaseUser;
-import com.pinky.sharerecipebook.models.AuthAppRepository;
+import com.pinky.sharerecipebook.repositories.AuthRepository;
 
 public class LoginViewModel extends AndroidViewModel {
-    private AuthAppRepository authAppRepository;
+    private AuthRepository authRepository;
     private MutableLiveData<FirebaseUser> userLiveData;
+
 
     public LoginViewModel(@NonNull Application application) {
         super(application);
-        authAppRepository = new AuthAppRepository(application);
-        userLiveData = authAppRepository.getUserLiveData();
+        authRepository = new AuthRepository(application);
+        userLiveData = authRepository.getUserLiveData();
     }
 
     public void login(String email, String password) {
-        authAppRepository.login(email, password);
+
+        authRepository.login(email, password);
     }
 
     public void register(String email, String password) {
-        authAppRepository.register(email, password);
+        authRepository.register(email, password);
+
+
     }
 
     public MutableLiveData<FirebaseUser> getUserLiveData() {

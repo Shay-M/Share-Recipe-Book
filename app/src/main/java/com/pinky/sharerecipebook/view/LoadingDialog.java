@@ -1,4 +1,4 @@
-package com.pinky.sharerecipebook;/* Created by Shay Mualem 29/09/2021 */
+package com.pinky.sharerecipebook.view;/* Created by Shay Mualem 29/09/2021 */
 
 import android.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.pinky.sharerecipebook.R;
 
 public class LoadingDialog {
     private Fragment fragment;

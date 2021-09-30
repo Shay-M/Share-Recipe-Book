@@ -179,12 +179,12 @@ import androidx.navigation.Navigation;
 import com.astritveliu.boom.Boom;
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.pinky.sharerecipebook.LoadingDialog;
 import com.pinky.sharerecipebook.R;
-import com.pinky.sharerecipebook.models.AuthAppRepository;
 import com.pinky.sharerecipebook.models.Recipe;
+import com.pinky.sharerecipebook.repositories.AuthRepository;
 import com.pinky.sharerecipebook.repositories.FirebaseStorgeRepository;
 import com.pinky.sharerecipebook.utils.CameraManagerUrl;
+import com.pinky.sharerecipebook.view.LoadingDialog;
 import com.pinky.sharerecipebook.viewmodels.AddRecipeViewModel;
 
 
@@ -258,7 +258,7 @@ public class AddNewRecipeFragment extends Fragment {
 
 
         floating_attach_recipe.setOnClickListener(v -> {
-            Log.d("onViewCreated", "floating_attach_recipe: " + AuthAppRepository.getInstance().getCurrentUser());
+            Log.d("onViewCreated", "floating_attach_recipe: " + AuthRepository.getInstance().getCurrentUser());
 
             if (photoURI == null) {
                 Log.d("floating_attach_recipe", "photoURI is Empty!");
@@ -280,7 +280,7 @@ public class AddNewRecipeFragment extends Fragment {
                     public void onSuccess(Uri downloadUri) {
 
                         Recipe tempRecipe = new Recipe(
-                                AuthAppRepository.getInstance().getCurrentUser().getUid(),
+                                AuthRepository.getInstance().getCurrentUser().getUid(),
                                 TitleText.getText().toString(),
                                 preparationText.getText().toString(),
                                 IngredientsText.getText().toString(),
@@ -303,8 +303,8 @@ public class AddNewRecipeFragment extends Fragment {
 
                     @Override
                     public void onProgress(double progressNum) { // todo remove?
-                        Log.d("onProgress", "progressNum: " + progressNum);
-                        //loadingDialog.startLoadingDialog();
+                        Log.d("onProgress", "progressNum: " + progressNum + " %");
+                        //loadingDialog./////();
                     }
                 });
 

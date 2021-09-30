@@ -2,11 +2,26 @@ package com.pinky.sharerecipebook.models;/* Created by Shay Mualem 31/08/2021 */
 
 public class Guest {
     protected String name = "Guest";
-    protected Float RatingOfUser = 0f;
+    protected int ratingOfUser = 0;
 
-    public Guest(String name, Float ratingOfUser) {
+    public Guest(String name, int ratingOfUser) {
         this.name = name;
-        RatingOfUser = ratingOfUser;
+        this.ratingOfUser = ratingOfUser;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getRatingOfUser() {
+        return ratingOfUser;
+    }
+
+    public void setRatingOfUser(int ratingOfUser) {
+        this.ratingOfUser = ratingOfUser;
+    }
 }

@@ -41,7 +41,7 @@ import com.pinky.sharerecipebook.repositories.FirebaseDatabaseRepository;
 import java.util.ArrayList;
 
 
-public class LoadRecipeViewModel extends ViewModel {
+public class LoadRecipeViewModel extends ViewModel { // todo need?
 
     public MutableLiveData<ArrayList<Recipe>> liveData;
     FirebaseDatabase database = FirebaseDatabase.getInstance();

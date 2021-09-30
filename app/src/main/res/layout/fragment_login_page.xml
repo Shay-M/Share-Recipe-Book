@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:padding="20dp"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/fragment_loginregister_email"
@@ -11,7 +20,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:hint="@string/email"
-        android:padding="20dp"
         app:errorEnabled="true"
         app:startIconDrawable="@drawable/ic_twotone_email_24">
 
@@ -27,7 +35,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:hint="@string/password"
-        android:padding="20dp"
         app:endIconMode="clear_text"
         app:errorEnabled="true"
         app:startIconDrawable="@drawable/ic_twotone_vpn_key_24">

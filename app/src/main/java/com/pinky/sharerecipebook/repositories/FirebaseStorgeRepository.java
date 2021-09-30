@@ -15,7 +15,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.pinky.sharerecipebook.models.AuthAppRepository;
 
 import java.util.Date;
 
@@ -52,7 +51,7 @@ public class FirebaseStorgeRepository {
     public void UploadFile(Uri imageUri, OnTaskDownloadUri onTaskDownloadUri) {
         Log.d("UploadFile", "imageUri:" + imageUri);
 
-        String userID = AuthAppRepository.getInstance().getCurrentUser().getUid(); // userID for name folder in db
+        String userID = AuthRepository.getInstance().getCurrentUser().getUid(); // userID for name folder in db
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmssSS").format(new Date());
 
         // String fileName = (new File(String.valueOf(imageUri))).getName();

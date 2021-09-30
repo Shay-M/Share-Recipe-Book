@@ -57,19 +57,19 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         //set img
         ImageView imageView = holder.recipeImageIv;///////
 
-
+        //todo Shimmer ? https://stackoverflow.com/questions/61076174/how-to-use-a-view-shimmer-as-a-placeholder-for-an-imageview-glide
         if (RecipeItem.getImagePath() != null)
             Glide.with(holder.recipeImageIv.getContext())
                     .load(RecipeItem.getImagePath())
-                    .thumbnail(0.08f)
+                    .thumbnail(0.10f)
                     .centerCrop()
-                    .placeholder(R.drawable.common_google_signin_btn_icon_dark) // todo change img or not need?
+//                    .placeholder(R.drawable.common_google_signin_btn_icon_dark) // todo change img or not need?
                     .error(android.R.drawable.ic_dialog_info)
                     .into(imageView);
         else {
             // make sure Glide doesn't load anything into this view until told otherwise
             Glide.with(context).clear(holder.recipeImageIv);
-            // remove the placeholder (optional); read comments below
+            // remove the placeholder (optional)
             holder.recipeImageIv.setImageDrawable(null);
             Log.d("Glide", "onBindViewHolder: is null");
         }
