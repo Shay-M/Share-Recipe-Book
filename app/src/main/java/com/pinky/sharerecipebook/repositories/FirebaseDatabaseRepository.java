@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.pinky.sharerecipebook.models.Recipe;
+import com.pinky.sharerecipebook.models.User;
 
 import java.util.ArrayList;
 
@@ -67,8 +68,12 @@ public abstract class FirebaseDatabaseRepository<Model> {
 */
 
     static FirebaseDatabaseRepository INSTANCE;
+
     private ArrayList<Recipe> recipeList = new ArrayList<>();
+    private User user;
+
     private MutableLiveData<ArrayList<Recipe>> arrayListMutableLiveData;
+    private MutableLiveData<User> userMutableLiveData;
 
 
     public static FirebaseDatabaseRepository getInstance() {
@@ -79,7 +84,8 @@ public abstract class FirebaseDatabaseRepository<Model> {
     }
 
     // new FirebaseDatabaseRepository.FirebaseDatabaseRepositoryCallback<Recipe>()
-    public MutableLiveData<ArrayList<Recipe>> getRecipe() {
+
+    public MutableLiveData<ArrayList<Recipe>> getRecipes() {
         LoadRecipeData();
         arrayListMutableLiveData = new MutableLiveData<>();
         arrayListMutableLiveData.setValue(recipeList);
@@ -97,9 +103,9 @@ public abstract class FirebaseDatabaseRepository<Model> {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Recipe obj = snapshot.getValue(Recipe.class);
-                    obj.setFirebaseRecipeMadeId(snapshot.getKey());
+//                    obj.setFirebaseUserIdMade(snapshot.getKey()); // todo need?
                     recipeList.add(obj);
-                    Log.d("show", obj.getFirebaseRecipeMadeId());
+                    Log.d("show", obj.getFirebaseUserIdMade());
                 }
                 arrayListMutableLiveData.postValue(recipeList);
             }
@@ -110,6 +116,75 @@ public abstract class FirebaseDatabaseRepository<Model> {
             }
         });
     }
+
+    public MutableLiveData<User> getUserByIdFromFirebase(String userIdTofind) {
+        user = new User();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("users");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                    if (!Objects.requireNonNull(ds.child("is_Manger").getValue(Boolean.class))) {
+                    if (snapshot.getKey().equals(userIdTofind)) {
+                        user = snapshot.getValue(User.class);
+//                        User obj = snapshot.getValue(User.class);
+                        // userMutableLiveData.setValue(obj);
+                        Log.d("getUserByIdFromFirebase", "obj.getName() : " + user.getName());
+                    } else {
+                        //userMutableLiveData.setValue(null);
+                        //user = null;
+                        Log.d("getUserByIdFromFirebase", "not found user by this id: " + userIdTofind);
+                    }
+                }
+                userMutableLiveData.postValue(user);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d("getUserByIdFromFirebase", databaseError.toString());
+            }
+        });
+
+        userMutableLiveData = new MutableLiveData<>();
+        userMutableLiveData.setValue(user);
+        return userMutableLiveData;
+    }
+
+
+    //
+/*    private void LoadUserData(String userIdTofind) {
+        recipeList.clear();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("users");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (snapshot.getKey().equals(userIdTofind)) {
+                        User obj = snapshot.getValue(User.class);
+                        userMutableLiveData.setValue(null);
+//                        recipeList.add(obj);
+                       // articles.setValue(obj);
+                        Log.d("getUserByIdFromFirebase", "obj.getName() : " + obj.getName());
+                    } else {
+                        //userMutableLiveData.setValue(null);
+                        Log.d("getUserByIdFromFirebase", "not found user by this id: " + userIdTofind);
+
+                    }
+                }
+                arrayListMutableLiveData.postValue(recipeList);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d("LoadRecipeData", databaseError.toString());
+            }
+        });
+    }*/
+
+    //
+
 
     /*public void removeListener() {
         myRef.removeEventListener(listener); // not work ,see if need

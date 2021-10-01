@@ -3,10 +3,16 @@ package com.pinky.sharerecipebook.models;/* Created by Shay Mualem 31/08/2021 */
 public class Guest {
     protected String name = "Guest";
     protected int ratingOfUser = 0;
+    private String userImagePath = "app/src/main/res/drawable/ic_twotone_person_outline_24.xml";
 
-    public Guest(String name, int ratingOfUser) {
+    public Guest(String name, int ratingOfUser, String userImagePath) {
         this.name = name;
         this.ratingOfUser = ratingOfUser;
+        this.userImagePath = userImagePath;
+    }
+
+    public Guest() {
+        //need for fire base
     }
 
     public String getName() {
@@ -24,4 +30,13 @@ public class Guest {
     public void setRatingOfUser(int ratingOfUser) {
         this.ratingOfUser = ratingOfUser;
     }
+
+    public String getUserImagePath() {
+        return userImagePath;
+    }
+
+    public void setUserImagePath(String userImagePath) {
+        this.userImagePath = userImagePath;
+    }
+
 }

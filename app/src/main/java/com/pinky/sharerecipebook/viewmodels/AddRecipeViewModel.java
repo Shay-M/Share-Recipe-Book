@@ -17,13 +17,8 @@ import java.util.ArrayList;
 public class AddRecipeViewModel extends ViewModel {
     public MutableLiveData<ArrayList<Recipe>> liveData;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    final DatabaseReference myRef = database.getReference("recipe");
-    /* final int GALLERY_REQUEST_CODE = 3;
-     public MutableLiveData<ArrayList<Recipe>> liveData;
-     ActivityResultLauncher<Uri> cameraFullSizeResultLauncher;
-     //ImageView resultIv;
-     //    private MutableLiveData<Uri> imgUri;
-     ActivityResultLauncher<String> pickContentResultLauncher;*/
+    final DatabaseReference myRecipeDBRef = database.getReference("recipe");
+
     private CameraManagerUrl cameraManagerUrl;
 
   /*  public AddRecipeViewModel(@NonNull Application application) {
@@ -38,7 +33,7 @@ public class AddRecipeViewModel extends ViewModel {
         if (liveData != null) {
             return;
         }
-        liveData = FirebaseDatabaseRepository.getInstance().getRecipe();
+        liveData = FirebaseDatabaseRepository.getInstance().getRecipes();
     }
 
     public LiveData<ArrayList<Recipe>> getRecipeLiveData() {
@@ -46,8 +41,8 @@ public class AddRecipeViewModel extends ViewModel {
     }
 
     public void AttachNewRecipe(Recipe newRecipe) {
-        String key = myRef.push().getKey();
-        myRef.child(key).setValue(newRecipe);
+        String key = myRecipeDBRef.push().getKey();
+        myRecipeDBRef.child(key).setValue(newRecipe);
     }
 
 }

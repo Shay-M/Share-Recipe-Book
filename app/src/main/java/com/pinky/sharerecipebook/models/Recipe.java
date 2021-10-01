@@ -1,61 +1,46 @@
 package com.pinky.sharerecipebook.models;/* Created by Shay Mualem 31/08/2021 */
 
-import com.google.firebase.auth.FirebaseUser;
-
 import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
+
+// https://stackoverflow.com/questions/3323074/android-difference-between-parcelable-and-serializable
 
 public class Recipe implements Serializable {
-    //add userId
-    private String firebaseUserMadeId;
+    private String firebaseUserIdMade;    //add userId
     private String title;
     private String preparation;
     private String ingredients; // convert to class
     private int rank;
-    private User owner;
     private String imagePath;
-    private List<Comment> comments;
+    private ArrayList<Comment> comments;// todo change??
 
-    public Recipe(String firebaseUserMadeId, String title, String preparation, String ingredients, String imagePath) {
-        this.firebaseUserMadeId = firebaseUserMadeId;
+    public Recipe(String firebaseUserIdMade, String title, String preparation, String ingredients, String imagePath) {
+        this.firebaseUserIdMade = firebaseUserIdMade;
         this.title = title;
         this.ingredients = ingredients;
         this.preparation = preparation;
         this.rank = 0;
-        this.owner = owner;
         this.imagePath = imagePath;
         this.comments = null;
     }
 
     public Recipe() {
-    } // mast
+    } // needed
 
-    public Recipe(String title, String preparation, String ingredients, FirebaseUser currentUser, String imagePath) {
-    }
-
-    public String getFirebaseUserMadeId() {
-        return firebaseUserMadeId;
-    }
-    //private Comment comment;
-
-    public void setFirebaseUserMadeId(String firebaseUserMadeId) {
-        this.firebaseUserMadeId = firebaseUserMadeId;
-    }
-
-    public List<Comment> getComments() {
+    public ArrayList<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
+    public void addComments(Comment comments) {
+        this.comments.add(comments);
     }
 
-    public String getFirebaseRecipeMadeId() {
-        return firebaseUserMadeId;
+    public String getFirebaseUserIdMade() {
+        return firebaseUserIdMade;
     }
 
-    public void setFirebaseRecipeMadeId(String firebaseUserMadeId) {
-        this.firebaseUserMadeId = firebaseUserMadeId;
+    public void setFirebaseUserIdMade(String firebaseUserIdMade) {
+        this.firebaseUserIdMade = firebaseUserIdMade;
     }
 
     public String getTitle() {
@@ -88,14 +73,6 @@ public class Recipe implements Serializable {
 
     public void setRank(int rank) {
         this.rank = rank;
-    }
-
-    public User getOwner() {
-        return owner;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
     }
 
     public String getImagePath() {

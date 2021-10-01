@@ -3,6 +3,7 @@ package com.pinky.sharerecipebook.fragments;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,10 +39,11 @@ public class LoginPageFragment extends Fragment {
 
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
+        // if  login go to addNewRecipeFragment
         loginViewModel.getUserLiveData().observe(this, new Observer<FirebaseUser>() {
             @Override
             public void onChanged(FirebaseUser firebaseUser) {
-                if (firebaseUser != null) { // if  login go to addNewRecipeFragment
+                if (firebaseUser != null) {
                     Navigation.findNavController(getView()).navigate(R.id.action_loginPageFragment_to_addNewRecipeFragment);
                 }
             }
@@ -53,10 +55,10 @@ public class LoginPageFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login_page, container, false);
 
-        emailEditText = view.findViewById(R.id.fragment_loginregister_email);
-        passwordEditText = view.findViewById(R.id.fragment_loginregister_password);
-        loginButton = view.findViewById(R.id.fragment_loginregister_login);
-        registerButton = view.findViewById(R.id.fragment_loginregister_register);
+        emailEditText = view.findViewById(R.id.fragment_login_email_textinput);
+        passwordEditText = view.findViewById(R.id.fragment_login_password_textinput);
+        loginButton = view.findViewById(R.id.fragment_login_login_button);
+        registerButton = view.findViewById(R.id.fragment_login_register_button);
 
 
         return view;
@@ -66,12 +68,13 @@ public class LoginPageFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //try to login
+        //user click button login
         loginButton.setOnClickListener(view1 -> {
+            //String email ??need like that?
             email = emailEditText.getEditText().getText().toString();
             String password = passwordEditText.getEditText().getText().toString();
 
-            if (email.isEmpty()) {
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 emailEditText.setError("Enter Email");
                 emailEditText.requestFocus();
                 Log.d("onClick", "email.isEmpty()");
@@ -89,13 +92,8 @@ public class LoginPageFragment extends Fragment {
 
 
         registerButton.setOnClickListener(view12 -> {
-            email = emailEditText.getEditText().getText().toString();
-            String password = passwordEditText.getEditText().getText().toString();
-            if (email.length() > 0 && password.length() > 5) {
-                loginViewModel.register(email, password);
-            } else {
-                Toast.makeText(getContext(), "Email Address and Password Must Be Entered", Toast.LENGTH_SHORT).show();
-            }
+
+            Navigation.findNavController(getView()).navigate(R.id.action_loginPageFragment_to_registerFragment);
         });
     }
 }

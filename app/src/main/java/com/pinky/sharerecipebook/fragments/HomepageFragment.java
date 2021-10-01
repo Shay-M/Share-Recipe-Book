@@ -20,9 +20,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.adapters.RecipeAdapter;
-import com.pinky.sharerecipebook.repositories.AuthRepository;
 import com.pinky.sharerecipebook.models.Recipe;
-import com.pinky.sharerecipebook.viewmodels.LoadRecipeViewModel;
+import com.pinky.sharerecipebook.repositories.AuthRepository;
+import com.pinky.sharerecipebook.viewmodels.HomeViewModel;
 
 import java.util.ArrayList;
 
@@ -35,7 +35,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
 
     private ChipNavigationBar chipNavigationBar;
 
-    private LoadRecipeViewModel loadRecipeViewModel;
+    private HomeViewModel homeViewModel;
 
 
     @Override
@@ -45,10 +45,10 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
 
         recipeArrayList = new ArrayList<>();
 
-        loadRecipeViewModel = new ViewModelProvider(this).get(LoadRecipeViewModel.class);
-        loadRecipeViewModel.init();
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        homeViewModel.init();
 
-        recipeArrayList = loadRecipeViewModel.getRecipeLiveData().getValue();
+        recipeArrayList = homeViewModel.getRecipeLiveData().getValue();
 
     }
 
@@ -75,16 +75,17 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
         recyclerView.setAdapter(recipeAdapter);
 
         // update
-        loadRecipeViewModel.getRecipeLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Recipe>>() {
-            @Override
-            public void onChanged(ArrayList<Recipe> recipes) {
-               recipeAdapter.notifyDataSetChanged(); // see if can be changed
-                Log.d("loadRecipeViewModel", "onChanged: !!" + recipes);
-                //recipeArrayList = recipes;
-            }
-        });
-//
+        homeViewModel.getRecipeLiveData().observe(getViewLifecycleOwner(),
+                new Observer<ArrayList<Recipe>>() {
+                    @Override
+                    public void onChanged(ArrayList<Recipe> recipes) {
+                        recipeAdapter.notifyDataSetChanged(); // see if can be changed
+                        Log.d("loadRecipeViewModel", "onChanged: !!" + recipes);
+                        //recipeArrayList = recipes;
+                    }
+                });
 
+////////////////////////////////////
         //chipNavigationBar
         chipNavigationBar = view.findViewById(R.id.chipnavigation_bar);
         chipNavigationBar.setItemSelected(R.id.home, true);
@@ -94,6 +95,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
 
             Log.d("TAG", "onCreateView: " + v);
         });
+/////////////////////////////////////
 
         // floatingAddButton
         floatingAddButton = view.findViewById(R.id.floating_add_fragment);
@@ -116,11 +118,11 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
         return rootView;
     }
 
-    // https://www.geeksforgeeks.org/shared-element-transition-in-android-with-example/ //todo
+    // https://www.geeksforgeeks.org/shared-element-transition-in-android-with-example/ // todo
+
     // Click on a item
     @Override
     public void onItemClick(int position, View view) {
-        Log.d("TAG", "onItemClick: ");
 
         Recipe recipe = recipeArrayList.get(position);
 

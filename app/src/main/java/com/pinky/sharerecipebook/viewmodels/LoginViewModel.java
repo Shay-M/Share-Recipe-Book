@@ -23,11 +23,12 @@ public class LoginViewModel extends AndroidViewModel {
     public void login(String email, String password) {
 
         authRepository.login(email, password);
+
     }
 
-    public void register(String email, String password) {
-        authRepository.register(email, password);
+    public void register(String email, String password, String name) {
 
+        authRepository.register(email, password, name);// todo need live?
 
     }
 

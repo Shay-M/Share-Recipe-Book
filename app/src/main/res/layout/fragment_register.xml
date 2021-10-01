@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/teal_200"
+    android:background="@color/purple_700"
     android:orientation="vertical">
 
     <ImageView
@@ -15,8 +15,24 @@
         android:padding="20dp"
         tools:srcCompat="@tools:sample/avatars" />
 
+
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/fragment_login_email_textinput"
+        android:id="@+id/fragment_register_name_textinput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:hint="@string/name"
+        app:errorEnabled="true"
+        app:startIconDrawable="@drawable/ic_twotone_person_outline_24">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/fragment_register_email_textinput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -31,7 +47,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/fragment_login_password_textinput"
+        android:id="@+id/fragment_register_password_textinput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -48,13 +64,7 @@
 
 
     <Button
-        android:id="@+id/fragment_login_login_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Login" />
-
-    <Button
-        android:id="@+id/fragment_login_register_button"
+        android:id="@+id/fragment_register_register_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Register" />

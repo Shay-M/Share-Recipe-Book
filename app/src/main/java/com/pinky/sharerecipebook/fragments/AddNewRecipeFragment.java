@@ -197,14 +197,12 @@ public class AddNewRecipeFragment extends Fragment {
     private EditText IngredientsText;
     private EditText preparationText;
     private ImageView picContentView;
-    //    private Uri imgUri = null;
-    private EditText linkText;
-    private EditText nameText;
     private FloatingActionButton floating_attach_recipe;
     private CameraManagerUrl cameraManagerUrl;
-    private AddRecipeViewModel addRecipeViewModel;
 
     private LoadingDialog loadingDialog;
+
+    private AddRecipeViewModel addRecipeViewModel;
 
     //
 
@@ -218,9 +216,7 @@ public class AddNewRecipeFragment extends Fragment {
         //recipeArrayList = loadRecipeViewModel.getRecipeLiveData().getValue();
         loadingDialog = new LoadingDialog(this);
 
-
     }
-
 
     @Nullable
     @Override
@@ -275,6 +271,7 @@ public class AddNewRecipeFragment extends Fragment {
             } else {
                 loadingDialog.startLoadingDialog();
 
+                // upload img to Firebase Storge
                 FirebaseStorgeRepository.getInstance().UploadFile(photoURI, new FirebaseStorgeRepository.OnTaskDownloadUri() {
                     @Override
                     public void onSuccess(Uri downloadUri) {
@@ -286,8 +283,9 @@ public class AddNewRecipeFragment extends Fragment {
                                 IngredientsText.getText().toString(),
                                 downloadUri.toString()
                         );
-                        Log.d("tempRecipe", "onViewCreated: " + tempRecipe);
+
                         addRecipeViewModel.AttachNewRecipe(tempRecipe); // add to db
+
                         loadingDialog.dismissLoadingDialog();
 
                         Navigation.findNavController(v).navigate(R.id.action_addNewRecipeFragment_to_homepageFragment);
@@ -307,48 +305,44 @@ public class AddNewRecipeFragment extends Fragment {
                         //loadingDialog./////();
                     }
                 });
-
-
             }
-
         });
-
-
     }
 
     private void initLaunchers() {
         // camera
-        cameraFullSizeResultLauncher = registerForActivityResult(new ActivityResultContracts.TakePicture(), result -> {
-            //true if the image saved to the uri given in the launch function
-            Log.d("initLaunchers", "result: " + result);
-            if (result) {
-                Glide.with(this)
-                        .load(photoURI)
-                        .centerCrop()
-                        .thumbnail(0.10f)
-                        .placeholder(R.drawable.common_google_signin_btn_icon_dark) // todo change img or not need?
-                        .error(android.R.drawable.ic_dialog_info)
-                        .into(picContentView); // todo add try?
-            }
+        cameraFullSizeResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.TakePicture(),
+                result -> {
+                    Log.d("initLaunchers", "result: " + result);
+                    if (result) { //true if the image saved to the uri given in the launch function
+                        Glide.with(this)
+                                .load(photoURI)
+                                .centerCrop()
+                                .thumbnail(0.10f)
+                                //.placeholder(R.drawable.common_google_signin_btn_icon_dark) // todo change img or not need?
+                                .error(android.R.drawable.ic_dialog_info)
+                                .into(picContentView);
+                    }
 
-        });
+                });
 
         // gallery
-        pickContentResultLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), result -> {
-            Log.d("pickContentResultLauncher", "result: " + result);
-            if (result != null) {
-                photoURI = result;
+        pickContentResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.GetContent(),
+                result -> {
+                    if (result != null) {
+                        photoURI = result;
+                        Glide.with(this)
+                                .load(photoURI)
+                                .centerCrop()
+                                .thumbnail(0.10f)
+                                //.placeholder(R.drawable.common_google_signin_btn_icon_dark) // todo change img or not need?
+                                .error(android.R.drawable.ic_dialog_info)
+                                .into(picContentView); // todo add try?
 
-                Glide.with(this)
-                        .load(photoURI)
-                        .centerCrop()
-                        .thumbnail(0.10f)
-                        .placeholder(R.drawable.common_google_signin_btn_icon_dark) // todo change img or not need?
-                        .error(android.R.drawable.ic_dialog_info)
-                        .into(picContentView); // todo add try?
-
-            }
-        });
+                    }
+                });
     }
 
     private void picFromGalleria() {
