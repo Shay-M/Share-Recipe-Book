@@ -277,11 +277,12 @@ public class AddNewRecipeFragment extends Fragment {
                     public void onSuccess(Uri downloadUri) {
 
                         Recipe tempRecipe = new Recipe(
-                                AuthRepository.getInstance().getCurrentUser().getUid(),
+                                AuthRepository.getInstance().getCurrentUser().getUid(), // same? AuthRepository.getInstance().getUid()
                                 TitleText.getText().toString(),
                                 preparationText.getText().toString(),
                                 IngredientsText.getText().toString(),
-                                downloadUri.toString()
+                                downloadUri.toString(),
+                                ""
                         );
 
                         addRecipeViewModel.AttachNewRecipe(tempRecipe); // add to db

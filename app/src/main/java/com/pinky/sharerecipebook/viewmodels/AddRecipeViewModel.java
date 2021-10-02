@@ -42,6 +42,7 @@ public class AddRecipeViewModel extends ViewModel {
 
     public void AttachNewRecipe(Recipe newRecipe) {
         String key = myRecipeDBRef.push().getKey();
+        newRecipe.setRecipeId(key);
         myRecipeDBRef.child(key).setValue(newRecipe);
     }
 

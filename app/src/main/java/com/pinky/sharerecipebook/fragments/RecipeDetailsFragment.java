@@ -85,7 +85,7 @@ public class RecipeDetailsFragment extends Fragment {
                                 Glide.with(mthis)
                                         .load(user.getUserImagePath())
                                         .circleCrop()
-                                        .error(android.R.drawable.ic_dialog_info)
+                                        .error(R.drawable.ic_twotone_person_outline_24)
                                         .into(recipe_details_image_user);
 
                             }
@@ -102,10 +102,18 @@ public class RecipeDetailsFragment extends Fragment {
         Glide.with(this)
                 .load(recipeGet.getImagePath())
                 //.thumbnail(1f)
-                .placeholder(R.drawable.gallery)
+//                .placeholder(R.drawable.gallery)
                 .centerCrop()
                 .error(android.R.drawable.ic_dialog_info)
                 .into(recipe_img_string);
+
+
+        recipe_details_image_like.setOnClickListener(v -> {
+            int numOfFavorites = Integer.parseInt(recipe_details_likes_text.getText().toString());
+            numOfFavorites = numOfFavorites + 1;
+            recipe_details_likes_text.setText(String.valueOf(numOfFavorites));
+
+        });
 
 
     }
