@@ -1,5 +1,5 @@
 /*
-package com.pinky.sharerecipebook.fragments;
+package com.pinky.sharerecipebook.view.fragments;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -157,7 +157,7 @@ public class AddNewRecipeFragment extends Fragment {
 
 }*/
 
-package com.pinky.sharerecipebook.fragments;
+package com.pinky.sharerecipebook.view.fragments;
 
 import android.net.Uri;
 import android.os.Bundle;

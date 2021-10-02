@@ -1,4 +1,4 @@
-package com.pinky.sharerecipebook.fragments.ui;
+package com.pinky.sharerecipebook.view.fragments.ui;
 
 import android.os.Bundle;
 

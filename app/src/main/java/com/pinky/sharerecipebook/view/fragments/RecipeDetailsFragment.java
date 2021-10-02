@@ -1,4 +1,4 @@
-package com.pinky.sharerecipebook.fragments;
+package com.pinky.sharerecipebook.view.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

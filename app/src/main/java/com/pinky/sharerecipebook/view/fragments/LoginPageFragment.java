@@ -1,4 +1,4 @@
-package com.pinky.sharerecipebook.fragments;
+package com.pinky.sharerecipebook.view.fragments;
 // https://android-arsenal.com/details/1/7136
 
 import android.os.Bundle;

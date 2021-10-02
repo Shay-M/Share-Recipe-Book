@@ -1,9 +1,10 @@
-package com.pinky.sharerecipebook;
+package com.pinky.sharerecipebook.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.utils.CameraManagerUrl;
 
 public class MainActivity extends AppCompatActivity {
