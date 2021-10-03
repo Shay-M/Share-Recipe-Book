@@ -54,6 +54,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         holder.recipeTitleTv.setText(RecipeItem.getTitle());
         //set recipe rating
         holder.recipeRatingTv.setText(String.valueOf(RecipeItem.getRank()));
+//        holder.recipeRatingTv.setText(RecipeItem.getRank());
         //set img
         ImageView imageView = holder.recipeImageIv;///////
 

@@ -32,14 +32,14 @@ public class RecipeDetailsFragment extends Fragment {
     private ImageView recipe_details_image_like;
     private ImageView recipe_details_image_user;
     private RecipeDetailsViewModel recipeDetailsViewModel;
-
+    private Boolean likeRecipe;
     private User userLogin;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        likeRecipe = false;
         recipeDetailsViewModel = new ViewModelProvider(this).get(RecipeDetailsViewModel.class);
         recipeDetailsViewModel.init();
 
@@ -75,7 +75,9 @@ public class RecipeDetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         Recipe recipeGet = (Recipe) requireArguments().getSerializable("expandRecipe");
-        recipeDetailsViewModel.setRecipe(recipeGet);
+        User LoginUserGet = (User) requireArguments().getSerializable("expandLoginUser");
+//        Log.d("UserGet", "onViewCreated: " + UserGet.getName());
+//        recipeDetailsViewModel.setRecipe(recipeGet); todo?
 
         recipeDetailsViewModel.getUserLiveData(recipeGet.getFirebaseUserIdMade()).getValue();
 
@@ -102,7 +104,11 @@ public class RecipeDetailsFragment extends Fragment {
         recipe_preparation.setText(recipeGet.getPreparation());
 
         recipe_details_likes_text.setText(String.valueOf(recipeGet.getRank()));
-
+        if (!LoginUserGet.getName().equals("Guest"))
+            if (LoginUserGet.getFavoriteRecipe().contains(recipeGet.getRecipeId())) {
+                likeRecipe = true;
+                recipe_details_image_like.setImageResource(R.drawable.ic_baseline_favorite_48);
+            }
 
         // load recipe img
         Glide.with(this)
@@ -112,6 +118,35 @@ public class RecipeDetailsFragment extends Fragment {
                 .centerCrop()
                 .error(android.R.drawable.ic_dialog_info)
                 .into(recipe_img_string);
+
+        // like recipe
+        recipe_details_image_like.setOnClickListener(v -> {
+            if (!LoginUserGet.getName().equals("Guest")) {
+                int numOfFavorites = Integer.parseInt(recipe_details_likes_text.getText().toString());
+                int tempLike = 0;
+
+                if (!likeRecipe) {
+                    recipe_details_image_like.setImageResource(R.drawable.ic_baseline_favorite_48);
+                    likeRecipe = true;
+                    tempLike = 1;
+                } else {
+                    recipe_details_image_like.setImageResource(R.drawable.ic_twotone_favorite_48);
+                    likeRecipe = false;
+                    if (numOfFavorites != 0)
+                        tempLike = -1;
+
+                }
+                numOfFavorites = numOfFavorites + tempLike;
+                recipe_details_likes_text.setText(Integer.toString(numOfFavorites));
+
+                recipeDetailsViewModel.changeLikeToRecipe(recipeGet.getRecipeId(), numOfFavorites);
+            } else {
+                // go to login?
+            }
+        });
+
+
+
 
        /* recipeDetailsViewModel
                 .getCurrentUserLiveData()

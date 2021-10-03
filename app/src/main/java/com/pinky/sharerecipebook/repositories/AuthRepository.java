@@ -19,15 +19,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.pinky.sharerecipebook.models.User;
 
 public class AuthRepository {
+    // Database
+    private final FirebaseDatabase firebaseDatabase;
+    private final DatabaseReference databaseReferenceUsers;
     private Application application;
     // auth
     private FirebaseAuth firebaseAuth;
     private MutableLiveData<FirebaseUser> userLiveData;
     private MutableLiveData<Boolean> loggedOutLiveData;
-
-    // Database
-    private final FirebaseDatabase firebaseDatabase;
-    private final  DatabaseReference databaseReferenceUsers;
 
     public AuthRepository(Application application) {
         this.application = application;
@@ -52,17 +51,18 @@ public class AuthRepository {
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(application.getMainExecutor(),
                         new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            userLiveData.postValue(firebaseAuth.getCurrentUser());
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    userLiveData.postValue(firebaseAuth.getCurrentUser());
+                                    //UserLoginHelper.getInstance().setUser(email);
 
-                        } else {
-                            Toast.makeText(application.getApplicationContext(), "Login Failure: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            // Snackbar.make(getWindow().getDecorView(), "fdf", Snackbar.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                                } else {
+                                    Toast.makeText(application.getApplicationContext(), "Login Failure: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    // Snackbar.make(getWindow().getDecorView(), "fdf", Snackbar.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
     }
 
     public void register(String email, String password, String name) { // create New User

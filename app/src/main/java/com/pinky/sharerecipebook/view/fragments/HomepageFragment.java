@@ -21,6 +21,7 @@ import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.adapters.RecipeAdapter;
 import com.pinky.sharerecipebook.models.Recipe;
+import com.pinky.sharerecipebook.models.User;
 import com.pinky.sharerecipebook.repositories.AuthRepository;
 import com.pinky.sharerecipebook.viewmodels.HomeViewModel;
 
@@ -29,14 +30,12 @@ import java.util.ArrayList;
 
 public class HomepageFragment extends Fragment implements RecipeAdapter.RecyclerViewListener {
 
+    User loginUser = new User();
     private ArrayList<Recipe> recipeArrayList;
     private RecipeAdapter recipeAdapter;
     private FloatingActionButton floatingAddButton;
-
     private ChipNavigationBar chipNavigationBar;
-
     private HomeViewModel homeViewModel;
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,9 +45,13 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
         recipeArrayList = new ArrayList<>();
 
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-        homeViewModel.init();
 
+        homeViewModel.init();
         recipeArrayList = homeViewModel.getRecipeLiveData().getValue();
+
+        homeViewModel.inituserLogin();
+        loginUser = homeViewModel.getUserLiveData().getValue();
+
 
     }
 
@@ -60,16 +63,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
         recyclerView.setHasFixedSize(true);
 
         recipeAdapter = new RecipeAdapter(recipeArrayList, getActivity());
-
-        /*//demo
-        Recipe temp = new Recipe("banana", "eat the banana", "1 banana", 4.3f);
-        for (int i = 0; i < 10; i++) {
-            recipeArrayList.add(temp);
-        }
-        recipeAdapter = new RecipeAdapter(recipeArrayList, getActivity());*/
-
         recipeAdapter.setClicksListener(this);
-
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(recipeAdapter);
@@ -81,9 +75,22 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
                     public void onChanged(ArrayList<Recipe> recipes) {
                         recipeAdapter.notifyDataSetChanged(); // see if can be changed
                         Log.d("loadRecipeViewModel", "onChanged: !!" + recipes);
+                        Log.d("loadRecipeViewModel", "recipeArrayList:" + recipeArrayList);
                         //recipeArrayList = recipes;
                     }
                 });
+        // get login user
+        if (AuthRepository.getInstance().getCurrentUser() != null) {
+            homeViewModel.userLoginliveData.observe(getViewLifecycleOwner(),
+                    new Observer<User>() {
+                        @Override
+                        public void onChanged(User user) {
+                            Log.d("if-loginUser", "onChanged: " + user.getName());
+                            loginUser = user;
+                        }
+                    });
+        }
+
 
 ////////////////////////////////////
         //chipNavigationBar
@@ -103,7 +110,6 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
 
         floatingAddButton.setOnClickListener(v -> {
             if (AuthRepository.getInstance().getCurrentUser() != null) {
-                Log.d("onCreateView", "onCreateView: " + AuthRepository.getInstance().getCurrentUser());
                 Navigation.findNavController(v).navigate(R.id.action_homepageFragment_to_addNewRecipeFragment);
             } else
                 Navigation.findNavController(v).navigate(R.id.action_homepageFragment_to_loginPageFragment);
@@ -128,6 +134,8 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("expandRecipe", recipe);
+        bundle.putSerializable("expandLoginUser", loginUser);
+
 
         Navigation.findNavController(view).navigate(R.id.action_homepageFragment_to_recipeDetailsFragment, bundle);
     }

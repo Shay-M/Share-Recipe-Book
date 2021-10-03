@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.pinky.sharerecipebook.models.Recipe;
 import com.pinky.sharerecipebook.models.User;
 import com.pinky.sharerecipebook.repositories.FirebaseDatabaseRepository;
@@ -13,9 +12,8 @@ import com.pinky.sharerecipebook.repositories.FirebaseDatabaseRepository;
 public class RecipeDetailsViewModel extends ViewModel {
 
     public MutableLiveData<User> liveDataUserRecipeCreated;
-    private String userMakeId;
-
     public MutableLiveData<User> liveDataCurrentUser;
+    private String userMakeId;
     //FirebaseDatabase database = FirebaseDatabase.getInstance();
     //final DatabaseReference myUsersDBRef = database.getReference("users");
 //
@@ -40,13 +38,19 @@ public class RecipeDetailsViewModel extends ViewModel {
 
     }
 
+    public void changeLikeToRecipe(String IdTofind, int newValue) {
+        String folder = "recipe";
+        String fildeToChange = "rank";
+
+        FirebaseDatabaseRepository.getInstance()
+                .changeDataFirebase(folder, IdTofind, fildeToChange, Integer.toString(newValue),0);
+    }
 
 /*    public LiveData<User> getCurrentUserLiveData() {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         liveDataCurrentUser = FirebaseDatabaseRepository.getInstance().getUserByIdFromFirebase(userId);
         return liveDataCurrentUser;
     }*/
-
 
 
 }

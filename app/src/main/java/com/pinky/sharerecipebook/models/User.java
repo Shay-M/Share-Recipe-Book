@@ -7,16 +7,16 @@ public class User extends Guest {
     //private Recipe myRecipe;
     private String firebaseUserId;
     private String emailAddress;
-    private ArrayList<String> favoriteRecipe; //todo id? List<Comment>
+    private ArrayList<String> favoriteRecipe;
 
     // new user
     public User(String name, String userImagePath, String emailAddress, String firebaseUserId) {
         super(name, 0, userImagePath);
         this.emailAddress = emailAddress;
         this.firebaseUserId = firebaseUserId;
-        this.favoriteRecipe = null;
+        this.favoriteRecipe = new ArrayList<>();
+        this.favoriteRecipe.add("null");
     }
-
 
     public User() {
         //need for fire base
@@ -40,6 +40,10 @@ public class User extends Guest {
 
     public ArrayList<String> getFavoriteRecipe() {
         return favoriteRecipe;
+    }
+
+    public void setFavoriteRecipe(ArrayList<String> favoriteRecipe) {
+        this.favoriteRecipe = favoriteRecipe;
     }
 
     public void addFavoriteRecipe(String favoriteRecipe) {

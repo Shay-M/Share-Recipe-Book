@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="5dp"
     android:layout_marginTop="5dp"
-    android:orientation="vertical"
-    android:layout_marginEnd="5dp">
+    android:layout_marginEnd="5dp"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,7 +18,6 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@color/teal_200"
-            android:cropToPadding="true"
             android:src="@null" />
 
         <ImageView
@@ -32,8 +31,8 @@
             android:layout_marginTop="25dp"
             android:layout_marginEnd="9dp"
             android:layout_marginBottom="20dp"
-            android:background="@color/teal_700"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_baseline_favorite_48" />
 
         <TextView
             android:id="@+id/recipe_item_rating_text"
@@ -44,13 +43,13 @@
             android:layout_alignEnd="@+id/recipe_item_rating_img"
             android:layout_alignBottom="@+id/recipe_item_rating_img"
             android:layout_marginStart="0dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="0dp"
-            android:layout_marginBottom="5dp"
-            android:text="0.0"
+            android:layout_marginBottom="16dp"
+            android:text="00"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="30sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/recipe_item_title_text"

@@ -3,6 +3,7 @@ package com.pinky.sharerecipebook.repositories;/* Created by Shay Mualem 17/09/2
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.database.DataSnapshot;
@@ -74,6 +75,7 @@ public abstract class FirebaseDatabaseRepository<Model> {
 
     private MutableLiveData<ArrayList<Recipe>> arrayListMutableLiveData;
     private MutableLiveData<User> userMutableLiveData;
+    private LiveData<User> userLiveData;
 
 
     public static FirebaseDatabaseRepository getInstance() {
@@ -95,19 +97,22 @@ public abstract class FirebaseDatabaseRepository<Model> {
 
     //    private void LoadRecipeData(FirebaseDatabaseRepositoryCallback<Recipe> firebaseCallback) {
     private void LoadRecipeData() {
-        recipeList.clear();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("recipe");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                recipeList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Recipe obj = snapshot.getValue(Recipe.class);
 //                    obj.setFirebaseUserIdMade(snapshot.getKey()); // todo need?
                     recipeList.add(obj);
+                    arrayListMutableLiveData.setValue(recipeList);
+
                     Log.d("show", obj.getFirebaseUserIdMade());
                 }
-                arrayListMutableLiveData.postValue(recipeList);
+//                arrayListMutableLiveData.setValue(recipeList);
+//                arrayListMutableLiveData.postValue(recipeList);
             }
 
             @Override
@@ -150,10 +155,65 @@ public abstract class FirebaseDatabaseRepository<Model> {
         return userMutableLiveData;
     }
 
+    public void changeDataFirebase(String folder, String IdTofind, String fildeToChange, String newValue, int kindOfValue) {
+
+        try {
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+            DatabaseReference myRef = database
+                    .getReference(folder)
+                    .child(IdTofind)
+                    .child(fildeToChange);
+            if (kindOfValue == 0)  // int
+                myRef.setValue(Integer.parseInt(newValue));
+            else myRef.setValue(newValue);
+
+        } catch (Exception e) {
+            Log.d("send Data Exception", "sendDataFirebase : " + e);
+        }
+
+
+    }
+
+
+
+
+
+
 /*    public MutableLiveData<Boolean> userLikedThisRecipe(String recipeId) {
     getUserByIdFromFirebase(FirebaseAuth.getInstance().getCurrentUser().getUid());
         MutableLiveData<User>
 
+    }*/
+
+
+   /* public LiveData<User> getUserByIdFromFirebaseLiveData(String userIdTofind) {
+        user = new User();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("users");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (snapshot.getKey().equals(userIdTofind)) {
+                        user = snapshot.getValue(User.class);
+                    } else {
+                        //user = null;
+                        Log.d("getUserByIdFromFirebase", "not found user by this id: " + userIdTofind);
+                    }
+                }
+                //userMutableLiveData.postValue(user);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d("getUserByIdFromFirebase", databaseError.toString());
+            }
+        });
+        // }
+       *//* userMutableLiveData = new MutableLiveData<>();
+        userMutableLiveData.setValue(user);*//*
+        return userLiveData;
     }*/
 
 

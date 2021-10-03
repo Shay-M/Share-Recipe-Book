@@ -20,6 +20,7 @@ import androidx.navigation.Navigation;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseUser;
 import com.pinky.sharerecipebook.R;
+import com.pinky.sharerecipebook.utils.UserLoginHelper;
 import com.pinky.sharerecipebook.viewmodels.LoginViewModel;
 
 public class LoginPageFragment extends Fragment {
@@ -43,8 +44,8 @@ public class LoginPageFragment extends Fragment {
         loginViewModel.getUserLiveData().observe(this, new Observer<FirebaseUser>() {
             @Override
             public void onChanged(FirebaseUser firebaseUser) {
-                if (firebaseUser != null) {
-
+                if (firebaseUser != null) { //skype login fragment
+                    UserLoginHelper.getInstance().setUser(firebaseUser.getEmail());
                     Navigation.findNavController(getView()).navigate(R.id.action_loginPageFragment_to_addNewRecipeFragment);
                 }
             }
@@ -92,7 +93,7 @@ public class LoginPageFragment extends Fragment {
         });
 
 
-        registerButton.setOnClickListener(view12 -> {
+        registerButton.setOnClickListener(view2 -> {
 
             Navigation.findNavController(getView()).navigate(R.id.action_loginPageFragment_to_registerFragment);
         });

@@ -18,11 +18,14 @@ public class LoginViewModel extends AndroidViewModel {
         super(application);
         authRepository = new AuthRepository(application);
         userLiveData = authRepository.getUserLiveData();
+
     }
 
     public void login(String email, String password) {
 
         authRepository.login(email, password);
+
+
 
     }
 
