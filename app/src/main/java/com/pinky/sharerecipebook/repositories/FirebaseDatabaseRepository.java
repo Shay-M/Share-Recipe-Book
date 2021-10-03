@@ -118,6 +118,7 @@ public abstract class FirebaseDatabaseRepository<Model> {
     }
 
     public MutableLiveData<User> getUserByIdFromFirebase(String userIdTofind) {
+        //if (userIdTofind != null) {
         user = new User();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("users");
@@ -128,11 +129,9 @@ public abstract class FirebaseDatabaseRepository<Model> {
 //                    if (!Objects.requireNonNull(ds.child("is_Manger").getValue(Boolean.class))) {
                     if (snapshot.getKey().equals(userIdTofind)) {
                         user = snapshot.getValue(User.class);
-//                        User obj = snapshot.getValue(User.class);
                         // userMutableLiveData.setValue(obj);
-                        Log.d("getUserByIdFromFirebase", "obj.getName() : " + user.getName());
+//                        Log.d("getUserByIdFromFirebase", "obj.getName() : " + user.getName());
                     } else {
-                        //userMutableLiveData.setValue(null);
                         //user = null;
                         Log.d("getUserByIdFromFirebase", "not found user by this id: " + userIdTofind);
                     }
@@ -145,11 +144,17 @@ public abstract class FirebaseDatabaseRepository<Model> {
                 Log.d("getUserByIdFromFirebase", databaseError.toString());
             }
         });
-
+        // }
         userMutableLiveData = new MutableLiveData<>();
         userMutableLiveData.setValue(user);
         return userMutableLiveData;
     }
+
+/*    public MutableLiveData<Boolean> userLikedThisRecipe(String recipeId) {
+    getUserByIdFromFirebase(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        MutableLiveData<User>
+
+    }*/
 
 
     //

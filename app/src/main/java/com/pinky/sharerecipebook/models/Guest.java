@@ -1,6 +1,8 @@
 package com.pinky.sharerecipebook.models;/* Created by Shay Mualem 31/08/2021 */
 
-public class Guest {
+import java.io.Serializable;
+
+public class Guest implements Serializable {
     protected String name = "Guest";
     protected int ratingOfUser = 0;
     private String userImagePath = "";

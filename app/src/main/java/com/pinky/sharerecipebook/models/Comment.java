@@ -1,14 +1,20 @@
 package com.pinky.sharerecipebook.models;/* Created by Shay Mualem 31/08/2021 */
 
-public class Comment {
+import android.icu.text.SimpleDateFormat;
+
+import java.io.Serializable;
+import java.util.Date;
+
+public class Comment implements Serializable {
     private String txt;
     private String userId;
     private String postDate;
 
-    public Comment(String txt, String userId, String postDate)  {
+    public Comment(String txt, String userId) {
         this.txt = txt;
         this.userId = userId;
-        this.postDate = postDate;
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
+        this.postDate = timeStamp;
     }
 
     public Comment() {

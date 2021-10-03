@@ -50,11 +50,13 @@ public class AuthRepository {
 
     public void login(String email, String password) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(application.getMainExecutor(), new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(application.getMainExecutor(),
+                        new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             userLiveData.postValue(firebaseAuth.getCurrentUser());
+
                         } else {
                             Toast.makeText(application.getApplicationContext(), "Login Failure: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             // Snackbar.make(getWindow().getDecorView(), "fdf", Snackbar.LENGTH_SHORT).show();
@@ -73,7 +75,7 @@ public class AuthRepository {
                         // better to send user
                         User newUser = new User(
                                 name,
-                                "app/src/main/res/drawable/ic_twotone_person_outline_24.xml", // todo
+                                "", // todo
                                 email,
                                 firebaseAuth.getCurrentUser().getUid()
                         );

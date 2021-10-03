@@ -17,6 +17,7 @@ public class User extends Guest {
         this.favoriteRecipe = null;
     }
 
+
     public User() {
         //need for fire base
     }

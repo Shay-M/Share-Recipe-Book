@@ -33,6 +33,8 @@ public class RecipeDetailsFragment extends Fragment {
     private ImageView recipe_details_image_user;
     private RecipeDetailsViewModel recipeDetailsViewModel;
 
+    private User userLogin;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,6 +42,9 @@ public class RecipeDetailsFragment extends Fragment {
 
         recipeDetailsViewModel = new ViewModelProvider(this).get(RecipeDetailsViewModel.class);
         recipeDetailsViewModel.init();
+
+        //add all live? todo
+
 
     }
 
@@ -70,6 +75,7 @@ public class RecipeDetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         Recipe recipeGet = (Recipe) requireArguments().getSerializable("expandRecipe");
+        recipeDetailsViewModel.setRecipe(recipeGet);
 
         recipeDetailsViewModel.getUserLiveData(recipeGet.getFirebaseUserIdMade()).getValue();
 
@@ -107,13 +113,25 @@ public class RecipeDetailsFragment extends Fragment {
                 .error(android.R.drawable.ic_dialog_info)
                 .into(recipe_img_string);
 
+       /* recipeDetailsViewModel
+                .getCurrentUserLiveData()
+                .observe(getViewLifecycleOwner(),
+                        new Observer<User>() {
+                            @Override
+                            public void onChanged(User user) {
 
-        recipe_details_image_like.setOnClickListener(v -> {
-            int numOfFavorites = Integer.parseInt(recipe_details_likes_text.getText().toString());
-            numOfFavorites = numOfFavorites + 1;
-            recipe_details_likes_text.setText(String.valueOf(numOfFavorites));
+                                recipe_details_image_like.setOnClickListener(v -> {
+                                 *//*int numOfFavorites = Integer.parseInt(recipe_details_likes_text.getText().toString());
+                                    numOfFavorites = numOfFavorites + 1;
+                                    recipe_details_likes_text.setText(String.valueOf(numOfFavorites));*//*
+                                    Log.d("userGet", "onChanged: "+user);
 
-        });
+                                    //recipeDetailsViewModel.userLikedThisRecipe(recipeGet.getRecipeId());
+
+                                });
+
+                            }
+                        });*/
 
 
     }

@@ -44,6 +44,7 @@ public class LoginPageFragment extends Fragment {
             @Override
             public void onChanged(FirebaseUser firebaseUser) {
                 if (firebaseUser != null) {
+
                     Navigation.findNavController(getView()).navigate(R.id.action_loginPageFragment_to_addNewRecipeFragment);
                 }
             }

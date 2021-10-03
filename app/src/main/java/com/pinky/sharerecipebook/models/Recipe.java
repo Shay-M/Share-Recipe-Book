@@ -1,10 +1,7 @@
 package com.pinky.sharerecipebook.models;/* Created by Shay Mualem 31/08/2021 */
 
-import android.icu.text.SimpleDateFormat;
-
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 
 // https://stackoverflow.com/questions/3323074/android-difference-between-parcelable-and-serializable
 
@@ -27,12 +24,18 @@ public class Recipe implements Serializable {
         this.rank = 0;
         this.imagePath = imagePath;
         this.commentArrayList = new ArrayList<>();
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
-        this.commentArrayList.add(new Comment("hii", "123", timeStamp));
     }
 
     public Recipe() {
     } // needed
+
+    public ArrayList<Comment> getCommentArrayList() {
+        return commentArrayList;
+    }
+
+    public void setCommentArrayList(ArrayList<Comment> commentArrayList) {
+        this.commentArrayList = commentArrayList;
+    }
 
     public String getRecipeId() {
         return recipeId;
@@ -42,11 +45,9 @@ public class Recipe implements Serializable {
         this.recipeId = recipeId;
     }
 
-    public ArrayList<Comment> getCommentArrayList() {
-        return commentArrayList;
-    }
 
     public void addCommentArrayList(Comment comment) {
+        //this.commentArrayList.add(new Comment("hii", "123", timeStamp));
         this.commentArrayList.add(comment);
     }
 
