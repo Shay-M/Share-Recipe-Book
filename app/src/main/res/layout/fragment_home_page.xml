@@ -7,6 +7,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.fragments.HomepageFragment">
 
+   <!-- <SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="211dp" />
+
+-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_of_recipe"
         android:layout_width="match_parent"
@@ -15,14 +23,16 @@
         android:paddingTop="10dp"
         app:layout_constraintBottom_toTopOf="@+id/chipnavigation_bar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/recipe_item_cell" />
-
 
     <com.ismaeldivita.chipnavigation.ChipNavigationBar
         android:id="@+id/chipnavigation_bar"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@color/white"

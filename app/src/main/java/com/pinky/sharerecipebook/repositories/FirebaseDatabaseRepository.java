@@ -176,10 +176,6 @@ public abstract class FirebaseDatabaseRepository<Model> {
     }
 
 
-
-
-
-
 /*    public MutableLiveData<Boolean> userLikedThisRecipe(String recipeId) {
     getUserByIdFromFirebase(FirebaseAuth.getInstance().getCurrentUser().getUid());
         MutableLiveData<User>

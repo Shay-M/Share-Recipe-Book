@@ -10,4 +10,7 @@
     <string name="name">Name</string>
     <string name="ingredients">ingredients</string>
     <string name="preparation">preparation</string>
+    <string name="search">Search</string>
+    <string name="settings">Settings</string>
+    <string name="Logout">logout</string>
 </resources>
