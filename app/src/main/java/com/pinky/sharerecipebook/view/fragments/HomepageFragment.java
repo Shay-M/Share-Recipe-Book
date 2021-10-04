@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.astritveliu.boom.Boom;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.adapters.RecipeAdapter;
 import com.pinky.sharerecipebook.models.Recipe;
@@ -39,7 +38,8 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
     private ArrayList<Recipe> recipeArrayList;
     private RecipeAdapter recipeAdapter;
     private FloatingActionButton floatingAddButton;
-    private ChipNavigationBar chipNavigationBar;
+    //private ChipNavigationBar chipNavigationBar;
+
     private HomeViewModel homeViewModel;
 
 
@@ -48,7 +48,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
 
         inflater.inflate(R.menu.top_bar, menu);
-
+        // search
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
 
@@ -67,9 +67,39 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
             }
         });
 
+
         super.onCreateOptionsMenu(menu, inflater);
 
     }
+
+    //call back user selectd item
+ /*   @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                // User chose the "Settings" item, show the app settings UI...
+                return super.onOptionsItemSelected(item);
+
+            case R.id.action_favorites:
+                Log.d("action_logout", "onOptionsItemSelectedd: ");
+                // as a favorite...
+                return super.onOptionsItemSelected(item);
+
+            case R.id.action_logout:
+                Log.d("action_logout", "onOptionsItemSelected: ");
+                // User chose the "Favorite" action, mark the current item
+                // as a favorite...
+                return super.onOptionsItemSelected(item);
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+
+    }*/
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -125,7 +155,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
         }
 
 
-////////////////////////////////////
+/*////////////////////////////////////
         //chipNavigationBar
         chipNavigationBar = view.findViewById(R.id.chipnavigation_bar);
         chipNavigationBar.setItemSelected(R.id.home, true);
@@ -135,7 +165,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
 
             Log.d("TAG", "onCreateView: " + v);
         });
-/////////////////////////////////////
+/////////////////////////////////////*/
 
         // floatingAddButton
         floatingAddButton = view.findViewById(R.id.floating_add_fragment);

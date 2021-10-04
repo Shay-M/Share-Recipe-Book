@@ -21,7 +21,7 @@
         android:layout_height="0dp"
         android:padding="5dp"
         android:paddingTop="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/chipnavigation_bar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,14 +29,12 @@
         app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/recipe_item_cell" />
 
-    <com.ismaeldivita.chipnavigation.ChipNavigationBar
+    <ImageView
         android:id="@+id/chipnavigation_bar"
         android:layout_width="match_parent"
-        android:visibility="gone"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@color/white"
-        app:cnb_menuResource="@menu/bottom_menu"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -45,10 +43,12 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="36dp"
         android:layout_marginBottom="12dp"
-        android:backgroundTint="@color/purple_500"
         android:clickable="true"
-        android:src="@drawable/ic_launcher_foreground"
-        app:layout_constraintBottom_toTopOf="@+id/chipnavigation_bar"
+        app:tint="@null"
+        app:backgroundTint="@color/d"
+        app:borderWidth="0dp"
+        android:src="@drawable/ic_recipe_book_add"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
 

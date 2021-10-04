@@ -128,6 +128,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         return filter;
     }
 
+
     // interface to manager all RecyclerView events
     public interface RecyclerViewListener {
 
