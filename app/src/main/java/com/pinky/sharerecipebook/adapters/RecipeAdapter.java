@@ -33,13 +33,15 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             ArrayList<Recipe> filteredList = new ArrayList<Recipe>();
-            Log.d("performFiltering", "constraint: " + constraint);
-            if (constraint == null || constraint.length() == 0) {
+//            Log.d("performFiltering", "constraint: " + constraint);
+            if (constraint == null || constraint.length() > 0) {
                 filteredList.addAll(recipeItemListFull); // show all items
             } else {
+                Log.d("performFiltering", "recipeItemListFull: " + recipeItemList);
+
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 for (Recipe item : recipeItemListFull) {
-                    if (item.getTitle().toLowerCase().contains(filterPattern)) {
+                    if (item.getTitle().toLowerCase().startsWith(filterPattern)) {
                         filteredList.add(item);
                     }
                 }
@@ -62,7 +64,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     public RecipeAdapter(ArrayList<Recipe> listOfRecipesItems, Context context) {
         this.recipeItemList = listOfRecipesItems;
         this.context = context;
-        recipeItemListFull = new ArrayList<>(recipeItemList); //copy to the new list
+//        recipeItemListFull = new ArrayList<>(recipeItemList); //copy to the new list
     }
 
     // allows clicks events to be caught
@@ -75,6 +77,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     public RecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_item_cell, parent, false);
         new Boom(view);
+        recipeItemListFull = new ArrayList<>(recipeItemList); //copy to the new list
 
         return new RecipeViewHolder(view); //@return Inflated the view xml
     }

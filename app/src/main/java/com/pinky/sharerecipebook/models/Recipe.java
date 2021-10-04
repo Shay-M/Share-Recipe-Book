@@ -24,6 +24,9 @@ public class Recipe implements Serializable {
         this.rank = 0;
         this.imagePath = imagePath;
         this.commentArrayList = new ArrayList<>();
+        Comment c = new Comment("sdfsdf","sdfsdf");
+        commentArrayList.add(c);
+
     }
 
     public Recipe() {

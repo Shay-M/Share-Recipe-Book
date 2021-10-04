@@ -38,10 +38,8 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
     private ArrayList<Recipe> recipeArrayList;
     private RecipeAdapter recipeAdapter;
     private FloatingActionButton floatingAddButton;
-    //private ChipNavigationBar chipNavigationBar;
 
     private HomeViewModel homeViewModel;
-
 
     // top bar search View
     @Override
@@ -67,13 +65,12 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
             }
         });
 
-
         super.onCreateOptionsMenu(menu, inflater);
 
     }
 
     //call back user selectd item
- /*   @Override
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
@@ -99,7 +96,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
 
         }
 
-    }*/
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -113,7 +110,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
         homeViewModel.init();
         recipeArrayList = homeViewModel.getRecipeLiveData().getValue();
 
-        homeViewModel.inituserLogin();
+        homeViewModel.initUserLogin();
         loginUser = homeViewModel.getUserLiveData().getValue();
 
 
@@ -154,18 +151,6 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
                     });
         }
 
-
-/*////////////////////////////////////
-        //chipNavigationBar
-        chipNavigationBar = view.findViewById(R.id.chipnavigation_bar);
-        chipNavigationBar.setItemSelected(R.id.home, true);
-
-        // select a tab
-        chipNavigationBar.setOnItemSelectedListener(v -> {
-
-            Log.d("TAG", "onCreateView: " + v);
-        });
-/////////////////////////////////////*/
 
         // floatingAddButton
         floatingAddButton = view.findViewById(R.id.floating_add_fragment);

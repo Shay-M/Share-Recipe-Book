@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.pinky.sharerecipebook.models.Recipe;
 import com.pinky.sharerecipebook.models.User;
@@ -15,7 +14,7 @@ import com.pinky.sharerecipebook.repositories.FirebaseDatabaseRepository;
 import java.util.ArrayList;
 
 
-public class HomeViewModel extends ViewModel { // todo ?change to homeViewModel
+public class HomeViewModel extends ViewModel {
 
     public MutableLiveData<ArrayList<Recipe>> liveData;
     public MutableLiveData<User> userLoginliveData;
@@ -34,8 +33,8 @@ public class HomeViewModel extends ViewModel { // todo ?change to homeViewModel
         return liveData;
     }
 
-    //
-    public void inituserLogin() {
+    //////////////////////////
+    public void initUserLogin() {
         if (userLoginliveData != null) {
             return;
         }
