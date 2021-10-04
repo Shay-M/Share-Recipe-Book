@@ -103,6 +103,7 @@ public class RecipeDetailsFragment extends Fragment {
         recipe_ingredients.setText(recipeGet.getIngredients());
         recipe_preparation.setText(recipeGet.getPreparation());
 
+        // set up img like
         recipe_details_likes_text.setText(String.valueOf(recipeGet.getRank()));
         if (!LoginUserGet.getName().equals("Guest"))
             if (LoginUserGet.getFavoriteRecipe().contains(recipeGet.getRecipeId())) {

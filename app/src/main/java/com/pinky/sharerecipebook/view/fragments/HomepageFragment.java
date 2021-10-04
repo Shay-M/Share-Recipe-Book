@@ -43,12 +43,10 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
     private HomeViewModel homeViewModel;
 
 
-    // top bar
+    // top bar search View
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        //super.onCreateOptionsMenu(menu, inflater);
 
-        //inflater = getMenuInflater();
         inflater.inflate(R.menu.top_bar, menu);
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
@@ -111,8 +109,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
                     public void onChanged(ArrayList<Recipe> recipes) {
                         recipeAdapter.notifyDataSetChanged(); // see if can be changed
                         Log.d("loadRecipeViewModel", "onChanged: !!" + recipes);
-                        Log.d("loadRecipeViewModel", "recipeArrayList:" + recipeArrayList);
-                        //recipeArrayList = recipes;
+                        recipeArrayList = recipes;
                     }
                 });
         // get login user

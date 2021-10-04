@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,16 +20,49 @@ import com.pinky.sharerecipebook.models.Recipe;
 
 import java.util.ArrayList;
 
-public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
+public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> implements Filterable {
     private ArrayList<Recipe> recipeItemList;
+    private ArrayList<Recipe> recipeItemListFull;
 
     //callback fun
     private RecyclerViewListener clicksListener;
     private Context context;
 
+    // search filter
+    private Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            ArrayList<Recipe> filteredList = new ArrayList<Recipe>();
+            Log.d("performFiltering", "constraint: " + constraint);
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(recipeItemListFull); // show all items
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for (Recipe item : recipeItemListFull) {
+                    if (item.getTitle().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            recipeItemList.clear();
+            recipeItemList.addAll((ArrayList) results.values);
+            notifyDataSetChanged();
+        }
+    };
+
+    // constructor
     public RecipeAdapter(ArrayList<Recipe> listOfRecipesItems, Context context) {
         this.recipeItemList = listOfRecipesItems;
         this.context = context;
+        recipeItemListFull = new ArrayList<>(recipeItemList); //copy to the new list
     }
 
     // allows clicks events to be caught
@@ -43,7 +78,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
         return new RecipeViewHolder(view); //@return Inflated the view xml
     }
-
 
     //call to load a cell ,this fun get parameter for a cell
     @Override
@@ -83,13 +117,16 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         return recipeItemList.size();
     }
 
-
     // when we have only one type of cell, this fun first call. | position the next cell to show
     @Override
     public int getItemViewType(int position) {
         return super.getItemViewType(position);
     }
 
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
 
     // interface to manager all RecyclerView events
     public interface RecyclerViewListener {
@@ -122,10 +159,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             });
 
 
-            recipeRatingTv.setOnClickListener(view -> {
+            /*recipeRatingTv.setOnClickListener(view -> {
                 if (clicksListener != null)
                     clicksListener.onImgRatingClick(getAdapterPosition(), view);
-            });
+            });*/
 
         }
 
