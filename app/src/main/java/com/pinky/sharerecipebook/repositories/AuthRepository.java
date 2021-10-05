@@ -26,6 +26,7 @@ public class AuthRepository {
     // auth
     private FirebaseAuth firebaseAuth;
     private MutableLiveData<FirebaseUser> userLiveData;
+    //log out
     private MutableLiveData<Boolean> loggedOutLiveData;
 
     public AuthRepository(Application application) {
@@ -96,13 +97,13 @@ public class AuthRepository {
                 });
     }
 
-    public void logOut() {
-        firebaseAuth.signOut();
-        loggedOutLiveData.postValue(true);
-    }
-
     public MutableLiveData<FirebaseUser> getUserLiveData() {
         return userLiveData;
+    }
+
+    public void logOut() {
+        firebaseAuth.signOut();
+        loggedOutLiveData.postValue(true); // update live data
     }
 
     public MutableLiveData<Boolean> getLoggedOutLiveData() {

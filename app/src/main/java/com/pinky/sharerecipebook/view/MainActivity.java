@@ -20,5 +20,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         CameraManagerUrl.init(this);
+
+        getSupportActionBar().setTitle("");
+
     }
 }

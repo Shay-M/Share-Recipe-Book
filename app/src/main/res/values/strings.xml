@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Share Recipe Book</string>
+    <string name="app_name" translatable="false">Share Recipe Book</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home">Home</string>
@@ -13,4 +13,9 @@
     <string name="search">Search</string>
     <string name="settings">Settings</string>
     <string name="Logout">logout</string>
+    <string name="my_favorites">My favorites</string>
+    <string name="My_recipes">My recipes</string>
+    <!--    msg-->
+    <string name="msg_logout">"You have logged out, you are now a guest"</string>
+    <string name="msg_logout_failed">"You are not logged in"</string>
 </resources>
