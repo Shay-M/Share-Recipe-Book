@@ -33,7 +33,7 @@ public class RecipeDetailsFragment extends Fragment {
     private ImageView recipe_details_image_user;
     private RecipeDetailsViewModel recipeDetailsViewModel;
     private Boolean likeRecipe;
-    private User userLogin;
+    private User LoginUserGet;
 
 
     @Override
@@ -75,7 +75,7 @@ public class RecipeDetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         Recipe recipeGet = (Recipe) requireArguments().getSerializable("expandRecipe");
-        User LoginUserGet = (User) requireArguments().getSerializable("expandLoginUser");
+        LoginUserGet = (User) requireArguments().getSerializable("expandLoginUser");
 //        Log.d("UserGet", "onViewCreated: " + UserGet.getName());
 //        recipeDetailsViewModel.setRecipe(recipeGet); todo?
 
@@ -140,7 +140,12 @@ public class RecipeDetailsFragment extends Fragment {
                 numOfFavorites = numOfFavorites + tempLike;
                 recipe_details_likes_text.setText(Integer.toString(numOfFavorites));
 
+                // change like to Recipe
                 recipeDetailsViewModel.changeLikeToRecipe(recipeGet.getRecipeId(), numOfFavorites);
+
+                // change like in user
+                recipeDetailsViewModel.addLikeToUser(LoginUserGet.getFirebaseUserId(), recipeGet.getRecipeId(),"add");
+
             } else {
                 // go to login?
             }

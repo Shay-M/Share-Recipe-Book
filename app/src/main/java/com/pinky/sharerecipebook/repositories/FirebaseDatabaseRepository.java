@@ -108,8 +108,6 @@ public abstract class FirebaseDatabaseRepository<Model> {
 //                    obj.setFirebaseUserIdMade(snapshot.getKey()); // todo need?
                     recipeList.add(obj);
                     arrayListMutableLiveData.setValue(recipeList);
-
-                    Log.d("show", obj.getFirebaseUserIdMade());
                 }
 //                arrayListMutableLiveData.setValue(recipeList);
 //                arrayListMutableLiveData.postValue(recipeList);
@@ -166,11 +164,24 @@ public abstract class FirebaseDatabaseRepository<Model> {
                     .child(fildeToChange);
             if (kindOfValue == 0)  // int
                 myRef.setValue(Integer.parseInt(newValue));
-            else myRef.setValue(newValue);
+            else if (kindOfValue == 1) {  // list
+
+                /*Map<String, Object> map = new HashMap<>();
+                map.put("5", "comment55");
+                rootRef.child("list").child(list_id).updateChildren(map);*/
+
+//                String key = myRef.push().getKey();
+//                myRef.child(key).setValue(newValue);
+                //myRef.push().setValue(newValue);
+            } else myRef.setValue(newValue);
 
         } catch (Exception e) {
             Log.d("send Data Exception", "sendDataFirebase : " + e);
         }
+
+        /*String key = myRecipeDBRef.push().getKey();
+        newRecipe.setRecipeId(key);
+        myRecipeDBRef.child(key).setValue(newRecipe);*/
 
 
     }

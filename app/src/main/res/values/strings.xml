@@ -18,4 +18,5 @@
     <!--    msg-->
     <string name="msg_logout">"You have logged out, you are now a guest"</string>
     <string name="msg_logout_failed">"You are not logged in"</string>
+    <string name="title_bar_login">Login</string>
 </resources>

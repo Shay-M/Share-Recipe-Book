@@ -42,8 +42,18 @@ public class RecipeDetailsViewModel extends ViewModel {
         String folder = "recipe";
         String fildeToChange = "rank";
 
-        FirebaseDatabaseRepository.getInstance()
-                .changeDataFirebase(folder, IdTofind, fildeToChange, Integer.toString(newValue),0);
+        // change like in recipe
+        FirebaseDatabaseRepository.getInstance().changeDataFirebase(folder, IdTofind, fildeToChange, Integer.toString(newValue), 0);
+
+    }
+
+    public void addLikeToUser(String IdTofind, String newValue,String action) {
+        String folder = "users";
+        String fildeToChange = "favoriteRecipe";
+
+        // change like in recipe
+        FirebaseDatabaseRepository.getInstance().changeDataFirebase(folder, IdTofind, fildeToChange, newValue, 1);
+
     }
 
 /*    public LiveData<User> getCurrentUserLiveData() {

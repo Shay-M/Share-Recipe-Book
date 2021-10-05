@@ -15,7 +15,7 @@ public class User extends Guest {
         this.emailAddress = emailAddress;
         this.firebaseUserId = firebaseUserId;
         this.favoriteRecipe = new ArrayList<>();
-        this.favoriteRecipe.add("null");
+        this.favoriteRecipe.add("NO_FAVORITE_RECIPE");
     }
 
     public User() {

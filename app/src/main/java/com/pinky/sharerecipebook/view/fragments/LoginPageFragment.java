@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +16,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseUser;
 import com.pinky.sharerecipebook.R;
@@ -72,6 +73,7 @@ public class LoginPageFragment extends Fragment {
 
         //user click button login
         loginButton.setOnClickListener(view1 -> {
+
             //String email ??need like that?
             email = emailEditText.getEditText().getText().toString();
             String password = passwordEditText.getEditText().getText().toString();
@@ -82,13 +84,15 @@ public class LoginPageFragment extends Fragment {
                 Log.d("onClick", "email.isEmpty()");
 
             } else if (password.isEmpty() || password.length() < 6) {
-                Toast.makeText(getContext(), "Email Address and Password Must Be Entered", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "Email Address and Password Must Be Entered", Toast.LENGTH_SHORT).show();
                 passwordEditText.setError("Password length must be more than 6");
                 passwordEditText.requestFocus();
                 Log.d("onClick", "password.isEmpty() || password.length()");
 
             } else {
                 loginViewModel.login(email, password);
+                Snackbar.make(this.getView(), "Login... Please wait", BaseTransientBottomBar.LENGTH_SHORT).show();
+
             }
         });
 

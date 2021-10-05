@@ -103,13 +103,14 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
                         actionBar.setTitle("");
                         item.setChecked(false);
                     } else {
+                        recipeAdapter.setFavoriteRecipeList(loginUser.getFavoriteRecipe());
                         recipeAdapter.getFilter().filter(loginUser.getFavoriteRecipe().get(0)); // todo
-//                    recipeAdapter.getFilter().filter(loginUser.getFavoriteRecipe().get(0)); // todo
+                        recipeAdapter.getFilter().filter(loginUser.getFavoriteRecipe().get(1)); // todo
                         item.setIcon(R.drawable.ic_baseline_favorite_48);
-                        actionBar.setTitle("Your Favorite Recipe");
+                        actionBar.setTitle("Your Favorite Recipes");
                         item.setChecked(true);
                     }
-                } // todo go to login
+                } // todo go to login from action_favorites
 
                 return true;
 
@@ -118,9 +119,12 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
                     Log.d("action_logout", "onOptionsItemSelected: ");
                     Snackbar.make(this.getView(), R.string.msg_logout, BaseTransientBottomBar.LENGTH_LONG).show();
                     logOutViewModel.logOut();
-                } else
-                    Snackbar.make(this.getView(), R.string.msg_logout, BaseTransientBottomBar.LENGTH_LONG).show();
+                    //loginUser = new User();
+                    item.setTitle(R.string.title_bar_login);
 
+                } else {
+                    //nav to login
+                }
 
                 return true;
 
@@ -160,6 +164,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
 
         homeViewModel.initUserLogin();
         loginUser = homeViewModel.getUserLiveData().getValue();
+
         ////
 
         logOutViewModel = new ViewModelProvider(this).get(LogOutViewModel.class);
@@ -204,6 +209,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
                         public void onChanged(User user) {
                             Log.d("if-loginUser", "onChanged: " + user.getName());
                             loginUser = user;
+//                            item.setTitle(R.string.title_bar_login);
                         }
                     });
         }

@@ -15,6 +15,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseUser;
 import com.pinky.sharerecipebook.R;
@@ -91,6 +93,7 @@ public class registerFragment extends Fragment {
                 passwordEditText.requestFocus();
                 Log.d("onClick", "password");
             } else {
+                Snackbar.make(this.getView(), "Login... Please wait", BaseTransientBottomBar.LENGTH_SHORT).show();
                 loginViewModel.register(email, password, name);
             }
         });

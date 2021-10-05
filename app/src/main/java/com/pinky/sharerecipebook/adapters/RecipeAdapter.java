@@ -27,7 +27,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     //callback fun
     private RecyclerViewListener clicksListener;
     private Context context;
-    private String key = "FAVORITE";
+    private ArrayList<String> favoriteRecipe;
     // search filter
     private Filter filter = new Filter() {
         @Override
@@ -38,12 +38,26 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
-                if (constraint.toString().startsWith("#my")) {
+                if (constraint.toString().startsWith("#my")) { // user Recipe
                     Log.d("performFiltering", "filterPattern: " + filterPattern);
 
                     for (Recipe item : recipeItemListFull) {
                         if (item.getFirebaseUserIdMade().toLowerCase().equals(filterPattern.substring(3, filterPattern.length())))
                             filteredList.add(item);
+                    }
+                } else if (constraint.toString().startsWith("-")) {
+                    Log.d("performFiltering", "filterPattern: " + filterPattern);
+
+                   /* ArrayList<String> temp = new ArrayList<>();
+                    temp.add("-Ml5zZ-lB5eElLZ2UUN0");
+                    temp.add("-MlF2v8HAy5iYKNhIGCA");*/
+
+                    for (Recipe item : recipeItemListFull) {
+                        favoriteRecipe.forEach(s -> {
+                            if (item.getRecipeId().toLowerCase().equals(s.toLowerCase()))
+                                filteredList.add(item);
+                        });
+
                     }
                 } else {
                     for (Recipe itemByName : recipeItemListFull) {
@@ -65,6 +79,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             notifyDataSetChanged();
         }
     };
+
 
     // constructor
     public RecipeAdapter(ArrayList<Recipe> listOfRecipesItems, Context context) {
@@ -136,6 +151,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     @Override
     public Filter getFilter() {
         return filter;
+    }
+
+    public void setFavoriteRecipeList(ArrayList<String> favoriteRecipe) {
+        this.favoriteRecipe = favoriteRecipe;
     }
 
 
