@@ -27,22 +27,28 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     //callback fun
     private RecyclerViewListener clicksListener;
     private Context context;
-
+    private String key = "FAVORITE";
     // search filter
     private Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             ArrayList<Recipe> filteredList = new ArrayList<Recipe>();
-//            Log.d("performFiltering", "constraint: " + constraint);
-            if (constraint == null || constraint.length() > 0) {
+            if (constraint == null || constraint.length() == 0) {
                 filteredList.addAll(recipeItemListFull); // show all items
             } else {
-                Log.d("performFiltering", "recipeItemListFull: " + recipeItemList);
-
                 String filterPattern = constraint.toString().toLowerCase().trim();
-                for (Recipe item : recipeItemListFull) {
-                    if (item.getTitle().toLowerCase().startsWith(filterPattern)) {
-                        filteredList.add(item);
+
+                if (constraint.toString().startsWith("#my")) {
+                    Log.d("performFiltering", "filterPattern: " + filterPattern);
+
+                    for (Recipe item : recipeItemListFull) {
+                        if (item.getFirebaseUserIdMade().toLowerCase().equals(filterPattern.substring(3, filterPattern.length())))
+                            filteredList.add(item);
+                    }
+                } else {
+                    for (Recipe itemByName : recipeItemListFull) {
+                        if (itemByName.getTitle().toLowerCase().startsWith(filterPattern))
+                            filteredList.add(itemByName);
                     }
                 }
             }
@@ -77,6 +83,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     public RecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_item_cell, parent, false);
         new Boom(view);
+
         recipeItemListFull = new ArrayList<>(recipeItemList); //copy to the new list
 
         return new RecipeViewHolder(view); //@return Inflated the view xml
