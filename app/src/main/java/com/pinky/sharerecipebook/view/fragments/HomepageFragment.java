@@ -44,7 +44,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
     private RecipeAdapter recipeAdapter;
     private FloatingActionButton floatingAddButton;
     private ActionBar actionBar;// = ((AppCompatActivity) getActivity()).getSupportActionBar();
-
+    private View rootView;
     private HomeViewModel homeViewModel;
     private LogOutViewModel logOutViewModel;
 
@@ -91,6 +91,13 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
         switch (item.getItemId()) {
             case R.id.action_settings:
                 //  todo User chose the "Settings" item, show the app settings UI...
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("expandLoginUser", loginUser);
+
+                Navigation.findNavController(rootView).navigate(R.id.action_homepageFragment_to_userProfileFragment, bundle);
+
+
                 return true;
 
             case R.id.action_favorites:
@@ -103,9 +110,10 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
                         actionBar.setTitle("");
                         item.setChecked(false);
                     } else {
+                        Log.d("TAG", "onOptionsItemSelected: " + loginUser.getFavoriteRecipe());
+
                         recipeAdapter.setFavoriteRecipeList(loginUser.getFavoriteRecipe());
-                        recipeAdapter.getFilter().filter(loginUser.getFavoriteRecipe().get(0)); // todo
-                        recipeAdapter.getFilter().filter(loginUser.getFavoriteRecipe().get(1)); // todo
+                        recipeAdapter.getFilter().filter("#fav"); // todo "#fav"
                         item.setIcon(R.drawable.ic_baseline_favorite_48);
                         actionBar.setTitle("Your Favorite Recipes");
                         item.setChecked(true);
@@ -181,7 +189,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        rootView = view;
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_of_recipe);
         recyclerView.setHasFixedSize(true);
 

@@ -27,7 +27,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     //callback fun
     private RecyclerViewListener clicksListener;
     private Context context;
-    private ArrayList<String> favoriteRecipe;
+
+    private ArrayList<String> favoriteRecipe = new ArrayList<>();
+
     // search filter
     private Filter filter = new Filter() {
         @Override
@@ -42,19 +44,20 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                     Log.d("performFiltering", "filterPattern: " + filterPattern);
 
                     for (Recipe item : recipeItemListFull) {
-                        if (item.getFirebaseUserIdMade().toLowerCase().equals(filterPattern.substring(3, filterPattern.length())))
+                        if (item.getFirebaseUserIdMade().toLowerCase().equals(filterPattern
+                                .substring(3, filterPattern.length()))) // removing "#my"
                             filteredList.add(item);
                     }
-                } else if (constraint.toString().startsWith("-")) {
-                    Log.d("performFiltering", "filterPattern: " + filterPattern);
+                } else if (constraint.toString().startsWith("#fav") && !favoriteRecipe.isEmpty()) {
 
                    /* ArrayList<String> temp = new ArrayList<>();
                     temp.add("-Ml5zZ-lB5eElLZ2UUN0");
                     temp.add("-MlF2v8HAy5iYKNhIGCA");*/
+                    Log.d("performFiltering", "favoriteRecipe: " + favoriteRecipe);
 
                     for (Recipe item : recipeItemListFull) {
                         favoriteRecipe.forEach(s -> {
-                            if (item.getRecipeId().toLowerCase().equals(s.toLowerCase()))
+                            if (item.getRecipeId().equals(s))
                                 filteredList.add(item);
                         });
 
@@ -74,6 +77,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
+            Log.d("results", "publishResults: " + results);
             recipeItemList.clear();
             recipeItemList.addAll((ArrayList) results.values);
             notifyDataSetChanged();
@@ -153,8 +157,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         return filter;
     }
 
-    public void setFavoriteRecipeList(ArrayList<String> favoriteRecipe) {
-        this.favoriteRecipe = favoriteRecipe;
+    public void setFavoriteRecipeList(ArrayList<String> fRecipe) {
+        this.favoriteRecipe.clear();
+        this.favoriteRecipe.addAll(fRecipe);
+        Log.d("performFiltering", "favoriteRecipe: " + favoriteRecipe);
+
+//        this.favoriteRecipe = favoriteRecipe;
     }
 
 
