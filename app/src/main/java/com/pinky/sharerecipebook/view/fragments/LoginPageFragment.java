@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -57,6 +58,8 @@ public class LoginPageFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login_page, container, false);
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Login");
 
         emailEditText = view.findViewById(R.id.fragment_login_email_textinput);
         passwordEditText = view.findViewById(R.id.fragment_login_password_textinput);

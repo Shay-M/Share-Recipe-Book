@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/teal_200"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/logo"
+    <TextView
+        android:id="@+id/login_instructions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:padding="20dp"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:text="@string/login_instructions"
+        android:textColor="@color/b"
+        android:textSize="16sp" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/fragment_login_email_textinput"
@@ -49,14 +50,19 @@
 
     <Button
         android:id="@+id/fragment_login_login_button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login" />
+        android:layout_gravity="center"
+
+        android:backgroundTint="@color/d"
+        android:text="Login"
+        app:icon="@drawable/ic_twotone_login_24" />
 
     <Button
         android:id="@+id/fragment_login_register_button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="Register" />
 
 </LinearLayout>

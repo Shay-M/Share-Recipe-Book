@@ -129,10 +129,12 @@ public class RecipeDetailsFragment extends Fragment {
                 if (!likeRecipe) {
                     recipe_details_image_like.setImageResource(R.drawable.ic_baseline_favorite_48);
                     likeRecipe = true;
+                    LoginUserGet.addFavoriteRecipe(recipeGet.getRecipeId());
                     tempLike = 1;
                 } else {
                     recipe_details_image_like.setImageResource(R.drawable.ic_twotone_favorite_48);
                     likeRecipe = false;
+                    LoginUserGet.removeFavoriteRecipe(recipeGet.getRecipeId());
                     if (numOfFavorites != 0)
                         tempLike = -1;
 
@@ -144,7 +146,7 @@ public class RecipeDetailsFragment extends Fragment {
                 recipeDetailsViewModel.changeLikeToRecipe(recipeGet.getRecipeId(), numOfFavorites);
 
                 // change like in user
-                recipeDetailsViewModel.addLikeToUser(LoginUserGet.getFirebaseUserId(), recipeGet.getRecipeId(),"add");
+                recipeDetailsViewModel.addIdLikeToUser(LoginUserGet.getFirebaseUserId(), LoginUserGet.getFavoriteRecipe());
 
             } else {
                 // go to login?

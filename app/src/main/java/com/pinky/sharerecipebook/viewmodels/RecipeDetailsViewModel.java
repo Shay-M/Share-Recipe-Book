@@ -9,6 +9,8 @@ import com.pinky.sharerecipebook.models.Recipe;
 import com.pinky.sharerecipebook.models.User;
 import com.pinky.sharerecipebook.repositories.FirebaseDatabaseRepository;
 
+import java.util.ArrayList;
+
 public class RecipeDetailsViewModel extends ViewModel {
 
     public MutableLiveData<User> liveDataUserRecipeCreated;
@@ -47,12 +49,12 @@ public class RecipeDetailsViewModel extends ViewModel {
 
     }
 
-    public void addLikeToUser(String IdTofind, String newValue,String action) {
+    public void addIdLikeToUser(String IdTofind, ArrayList<String> newValue) {
         String folder = "users";
         String fildeToChange = "favoriteRecipe";
 
         // change like in recipe
-        FirebaseDatabaseRepository.getInstance().changeDataFirebase(folder, IdTofind, fildeToChange, newValue, 1);
+        FirebaseDatabaseRepository.getInstance().changeDataFirebaseArrayList(folder, IdTofind, fildeToChange, newValue);
 
     }
 

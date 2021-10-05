@@ -164,16 +164,20 @@ public abstract class FirebaseDatabaseRepository<Model> {
                     .child(fildeToChange);
             if (kindOfValue == 0)  // int
                 myRef.setValue(Integer.parseInt(newValue));
-            else if (kindOfValue == 1) {  // list
+             /*else if (kindOfValue == 1) {  // list
 
-                /*Map<String, Object> map = new HashMap<>();
+               Map<String, Object> map = new HashMap<>();
                 map.put("5", "comment55");
                 rootRef.child("list").child(list_id).updateChildren(map);*/
+               /* ArrayList arrayList = new ArrayList<String>();
+                arrayList.add("hii");
+                Log.d("TAG", " myRef.getKey(): "+ myRef.getKey());*/
 
 //                String key = myRef.push().getKey();
 //                myRef.child(key).setValue(newValue);
                 //myRef.push().setValue(newValue);
-            } else myRef.setValue(newValue);
+                // }
+            else myRef.setValue(newValue);
 
         } catch (Exception e) {
             Log.d("send Data Exception", "sendDataFirebase : " + e);
@@ -183,6 +187,24 @@ public abstract class FirebaseDatabaseRepository<Model> {
         newRecipe.setRecipeId(key);
         myRecipeDBRef.child(key).setValue(newRecipe);*/
 
+
+    }
+
+    public void changeDataFirebaseArrayList(String folder, String idTofind, String fildeToChange, ArrayList<String> newValue) {
+
+        try {
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+            DatabaseReference myRef = database
+                    .getReference(folder)
+                    .child(idTofind)
+                    .child(fildeToChange);
+
+            myRef.setValue(newValue);
+
+        } catch (Exception e) {
+            Log.d("send Data Exception", "sendDataFirebase : " + e);
+        }
 
     }
 

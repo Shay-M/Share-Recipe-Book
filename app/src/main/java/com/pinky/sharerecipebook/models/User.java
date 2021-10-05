@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class User extends Guest {
 
+    //Map<String, String> favoriteRecipeHashMap;
     //private Recipe myRecipe;
     private String firebaseUserId;
     private String emailAddress;
@@ -16,11 +17,13 @@ public class User extends Guest {
         this.firebaseUserId = firebaseUserId;
         this.favoriteRecipe = new ArrayList<>();
         this.favoriteRecipe.add("NO_FAVORITE_RECIPE");
+        //this.favoriteRecipeHashMap = new HashMap<>();
     }
 
     public User() {
         //need for fire base
     }
+
 
     public String getFirebaseUserId() {
         return firebaseUserId;
@@ -48,6 +51,10 @@ public class User extends Guest {
 
     public void addFavoriteRecipe(String favoriteRecipe) {
         this.favoriteRecipe.add(favoriteRecipe);
+    }
+
+    public void removeFavoriteRecipe(String favoriteRecipeId) {
+        this.favoriteRecipe.remove(favoriteRecipeId);
     }
 
 
