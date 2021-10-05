@@ -9,7 +9,7 @@ import com.pinky.sharerecipebook.utils.CameraManagerUrl;
 
 public class MainActivity extends AppCompatActivity {
 
-/*    @Override
+    /*    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return super.onCreateOptionsMenu(menu);
     }*/
