@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.pinky.sharerecipebook.models.User;
 
 public class AuthRepository {
@@ -90,6 +91,8 @@ public class AuthRepository {
                                 .addOnCompleteListener(task1 -> {
                                     Log.d("DatabaseReferenceUsers", "onComplete: ");
                                 });
+
+                        FirebaseMessaging.getInstance().subscribeToTopic(key); // Yariv Added
 
                     } else {
                         Toast.makeText(application.getApplicationContext(), "Registration Failure: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

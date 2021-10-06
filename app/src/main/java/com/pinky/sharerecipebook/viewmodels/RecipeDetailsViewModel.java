@@ -5,9 +5,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.pinky.sharerecipebook.adapters.NotificationAdapter;
 import com.pinky.sharerecipebook.models.Recipe;
 import com.pinky.sharerecipebook.models.User;
 import com.pinky.sharerecipebook.repositories.FirebaseDatabaseRepository;
+import com.pinky.sharerecipebook.repositories.MyFirebaseMessagingService;
 
 import java.util.ArrayList;
 
@@ -55,6 +57,15 @@ public class RecipeDetailsViewModel extends ViewModel {
 
         // change like in recipe
         FirebaseDatabaseRepository.getInstance().changeDataFirebaseArrayList(folder, IdTofind, fildeToChange, newValue);
+
+    }
+
+    public void sendNotification(String SenderId, String ownerId, String recipeName) {
+        String folder = "recipe";
+        String fildeToChange = "commentArrayList";
+
+        // send notification to owner
+        MyFirebaseMessagingService.getInstance().changeDataFirebaseCommentArrayList(SenderId, ownerId, recipeName, folder,fildeToChange);
 
     }
 

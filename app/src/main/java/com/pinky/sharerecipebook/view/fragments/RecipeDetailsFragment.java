@@ -147,6 +147,8 @@ public class RecipeDetailsFragment extends Fragment {
 
                 // change like in user
                 recipeDetailsViewModel.addIdLikeToUser(LoginUserGet.getFirebaseUserId(), LoginUserGet.getFavoriteRecipe());
+                // notification to user
+                recipeDetailsViewModel.sendNotification(LoginUserGet.getFirebaseUserId(), recipeGet.getFirebaseUserIdMade(), recipeGet.getTitle());
 
             } else {
                 // go to login?
