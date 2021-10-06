@@ -47,7 +47,7 @@ public class LoginPageFragment extends Fragment {
             @Override
             public void onChanged(FirebaseUser firebaseUser) {
                 if (firebaseUser != null) { //skype login fragment
-                    UserLoginHelper.getInstance().setUser(firebaseUser.getEmail());
+                    //UserLoginHelper.getInstance().setUser(firebaseUser.getEmail());
                     Navigation.findNavController(getView()).navigate(R.id.action_loginPageFragment_to_addNewRecipeFragment);
                 }
             }
@@ -93,8 +93,9 @@ public class LoginPageFragment extends Fragment {
                 Log.d("onClick", "password.isEmpty() || password.length()");
 
             } else {
-                loginViewModel.login(email, password);
                 Snackbar.make(this.getView(), "Login... Please wait", BaseTransientBottomBar.LENGTH_SHORT).show();
+
+                loginViewModel.login(email, password);
 
             }
         });

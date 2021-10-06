@@ -79,5 +79,8 @@ dependencies {
     //GifLoading
     //implementation 'com.github.Mohammed-Alaa:GifLoading:1.0.3'
 
+    // shimmer -  loading indicator
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
 
 }

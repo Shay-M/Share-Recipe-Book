@@ -38,7 +38,9 @@ public class HomeViewModel extends ViewModel {
         if (userLoginliveData != null) {
             return;
         }
+
         String userId = null;
+
         if (AuthRepository.getInstance().getCurrentUser() != null) {
             userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         }
