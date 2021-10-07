@@ -5,11 +5,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.pinky.sharerecipebook.adapters.NotificationAdapter;
 import com.pinky.sharerecipebook.models.Recipe;
 import com.pinky.sharerecipebook.models.User;
 import com.pinky.sharerecipebook.repositories.FirebaseDatabaseRepository;
-import com.pinky.sharerecipebook.repositories.MyFirebaseMessagingService;
 
 import java.util.ArrayList;
 
@@ -18,12 +16,6 @@ public class RecipeDetailsViewModel extends ViewModel {
     public MutableLiveData<User> liveDataUserRecipeCreated;
     public MutableLiveData<User> liveDataCurrentUser;
     private String userMakeId;
-    //FirebaseDatabase database = FirebaseDatabase.getInstance();
-    //final DatabaseReference myUsersDBRef = database.getReference("users");
-//
-//    public MutableLiveData<Boolean> LikedRecipeOn;
-
-//    protected final FirebaseUser CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
 
     public void init() {
         if (liveDataUserRecipeCreated != null)
@@ -59,21 +51,4 @@ public class RecipeDetailsViewModel extends ViewModel {
         FirebaseDatabaseRepository.getInstance().changeDataFirebaseArrayList(folder, IdTofind, fildeToChange, newValue);
 
     }
-
-    public void sendNotification(String SenderId, String ownerId, String recipeName) {
-        String folder = "recipe";
-        String fildeToChange = "commentArrayList";
-
-        // send notification to owner
-        MyFirebaseMessagingService.getInstance().changeDataFirebaseCommentArrayList(SenderId, ownerId, recipeName, folder,fildeToChange);
-
-    }
-
-/*    public LiveData<User> getCurrentUserLiveData() {
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        liveDataCurrentUser = FirebaseDatabaseRepository.getInstance().getUserByIdFromFirebase(userId);
-        return liveDataCurrentUser;
-    }*/
-
-
 }

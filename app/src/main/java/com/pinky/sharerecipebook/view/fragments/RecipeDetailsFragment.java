@@ -1,5 +1,10 @@
 package com.pinky.sharerecipebook.view.fragments;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +17,21 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.astritveliu.boom.Boom;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.adapters.CommentAdapter;
 import com.pinky.sharerecipebook.models.Comment;
@@ -24,6 +39,14 @@ import com.pinky.sharerecipebook.models.Recipe;
 import com.pinky.sharerecipebook.models.User;
 import com.pinky.sharerecipebook.viewmodels.RecipeDetailsViewModel;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,6 +65,10 @@ public class RecipeDetailsFragment extends Fragment {
     private RecipeDetailsViewModel recipeDetailsViewModel;
     private Boolean likeRecipe;
     private User LoginUserGet;
+
+    final String API_TOKEN_KEY = "AAAAnhV6-hM:APA91bGf-3U4CbbpRZWDOXa_jRLp4fmGCrj8C2qdWMF7q82umHfj5-aVsJI_jj_8mGFDbyh3v_dpg_9EuMIf4ePq0aiJ7isGVbE8eiO_kxgjwC2t_HCqipD3poyvSRfOuOE0LA-M5LXq";
+    FirebaseMessaging messaging = FirebaseMessaging.getInstance();
+    BroadcastReceiver receiver;
 
     private ArrayList<Comment> commentArrayList;
     private CommentAdapter commentAdapter;
@@ -173,7 +200,8 @@ public class RecipeDetailsFragment extends Fragment {
                 // change like in user
                 recipeDetailsViewModel.addIdLikeToUser(LoginUserGet.getFirebaseUserId(), LoginUserGet.getFavoriteRecipe());
                 // notification to user
-                recipeDetailsViewModel.sendNotification(LoginUserGet.getFirebaseUserId(), recipeGet.getFirebaseUserIdMade(), recipeGet.getTitle());
+                sendNotif("deLzdVdlR76RqieFtWI0ry:APA91bHY5nliOWp-j0ZK9PFWdVU0g2MKXDM6Ye6DF0s1OwF0gHd3oeCxINkJhhsnGwKPoRy8T-kbPSdG3ESMfXc7vCyS0_xJ9Sl8XRmMuC22fNJr_t6L7YEuvJKMR6ojP5SYC97qYP4L","This is a test notif");
+                //sendNotification(LoginUserGet.getFirebaseUserId(), recipeGet.getFirebaseUserIdMade(), recipeGet.getTitle());
 
             } else {
                 // go to login?
@@ -184,12 +212,115 @@ public class RecipeDetailsFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
 //        commentAdapter = new CommentAdapter(commentArrayList, getActivity());
-        commentAdapter = new CommentAdapter(commentHashMap, getActivity());
+//        commentAdapter = new CommentAdapter(commentHashMap, getActivity());
 //        commentAdapter.setClicksListener(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(commentAdapter);
+    }
 
 
+    public void sendNotification(String SenderId, String ownerId, String recipeName) {
+        try {
+            String message = "Banana Give like To" + recipeName + "recipe";
+            final JSONObject rootObject  = new JSONObject();
+            rootObject.put("to", ownerId);
+            rootObject.put("data", new JSONObject().put("message", message));
+
+            String url = "https://fcm.googleapis.com/fcm/send";
+
+            RequestQueue queue = Volley.newRequestQueue(getActivity());
+            StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Content-Type", "application/json");
+                    headers.put("Authorization", "key=" + API_TOKEN_KEY);
+                    return headers;
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    return rootObject.toString().getBytes();
+                }
+            };
+            queue.add(request);
+            queue.start();
+
+        }catch (JSONException ex) {
+            ex.printStackTrace();
+        } ;
+
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                // messageTv.setText(intent.getStringExtra("message"));
+            }
+        };
+        IntentFilter filter = new IntentFilter("message_received");
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver,filter);
+    }
+
+    public  String sendNotif (String to,  String body)  {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final String apiKey = API_TOKEN_KEY ;
+                    URL url = new URL("https://fcm.googleapis.com/fcm/send");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setDoOutput(true);
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Content-Type", "application/json");
+                    conn.setRequestProperty("Authorization", "key=" + apiKey);
+                    conn.setDoOutput(true);
+                    JSONObject message = new JSONObject();
+                    message.put("to", to);
+                    message.put("priority", "high");
+
+                    JSONObject notification = new JSONObject();
+                    // notification.put("title", title);
+                    notification.put("body", body);
+                    message.put("data", notification);
+                    OutputStream os = conn.getOutputStream();
+                    os.write(message.toString().getBytes());
+                    os.flush();
+                    os.close();
+
+                    int responseCode = conn.getResponseCode();
+                    System.out.println("\nSending 'POST' request to URL : " + url);
+                    System.out.println("Post parameters : " + message.toString());
+                    System.out.println("Response Code : " + responseCode);
+                    System.out.println("Response Code : " + conn.getResponseMessage());
+
+                    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    String inputLine;
+                    StringBuffer response = new StringBuffer();
+
+                    while ((inputLine = in.readLine()) != null) {
+                        response.append(inputLine);
+                    }
+                    in.close();
+
+                    // print result
+                    System.out.println(response.toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        AsyncTask.execute(runnable);
+        return "ok";
     }
 }
