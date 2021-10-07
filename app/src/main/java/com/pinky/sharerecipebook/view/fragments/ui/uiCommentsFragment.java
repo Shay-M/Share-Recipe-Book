@@ -26,18 +26,21 @@ public class uiCommentsFragment extends Fragment {
 
     private TextInputLayout commentEditText;
     private CommentAdapter commentAdapter;
-    private Map<String, Comment> commentHashMap;
-    private String firebaseUserId;
+    private Map<String, Comment> mcommentHashMap;
+    private String mrecipeId;
+    private String mfirebaseUserIdCommentl;
 
 
-    public uiCommentsFragment(Map<String, Comment> commentHashMapGet, String firebaseUserIdGet) {
+    public uiCommentsFragment(String recipeId, Map<String, Comment> commentHashMap, String firebaseUserIdComment) {
 
-        if (commentHashMapGet == null)
-            this.commentHashMap = new HashMap<>();
+        if (commentHashMap == null)
+            mcommentHashMap = new HashMap<>();
         else
-            this.commentHashMap = commentHashMapGet;
+            mcommentHashMap = commentHashMap;
 
-        firebaseUserId = firebaseUserIdGet;
+        mfirebaseUserIdCommentl = firebaseUserIdComment;
+        mrecipeId = recipeId;
+
     }
 
 
@@ -62,7 +65,7 @@ public class uiCommentsFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_of_comments);
         recyclerView.setHasFixedSize(true);
 
-        commentAdapter = new CommentAdapter(commentHashMap, getActivity());
+        commentAdapter = new CommentAdapter(mcommentHashMap, getActivity());
 
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -71,22 +74,23 @@ public class uiCommentsFragment extends Fragment {
 
         commentEditText.setEndIconOnClickListener(v -> {
             String commentTxt = commentEditText.getEditText().getText().toString();
-            sendAcomment(commentTxt);
-        });
 
+            if (commentEditText.getEditText().getText().toString().length() > 2) {
+                sendAcomment(commentTxt);
+                commentEditText.getEditText().setText("");
+            } //else commentEditText.setError("Write a comment");
+        });
 
     }
 
     private void sendAcomment(String commentTxt) {
         HidesKeyboard.hideKeyboard(this.getActivity());
 
-        Comment comment = new Comment(commentTxt, firebaseUserId);
+        Comment comment = new Comment(commentTxt, mfirebaseUserIdCommentl);
 
-        // todo
         String folder = "recipe";
         String fildeToChange = "commentArrayListHashMap";
-        FirebaseDatabaseRepository.getInstance().changeDataFirebase(folder, IdTofind, fildeToChange, Integer.toString(newValue), 0);
-
+        FirebaseDatabaseRepository.getInstance().changeDataFirebase(folder, mrecipeId, fildeToChange, comment);
 
 
     }

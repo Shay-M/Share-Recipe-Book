@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.models.Comment;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Map;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
@@ -60,16 +60,15 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
         //set Comment text
         holder.commentTv.setText(CommentItem.getTxt());
-        String postDate = "";
-        try {
-            postDate = new SimpleDateFormat("dd.MM.yy.HH:mm").parse(CommentItem.getPostDate()).toString();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy");
+        //  .parse(CommentItem.getPostDate()).toString();
+
+        String postDate = simpleDateFormat.format(new Date());
 
 
         //set Comment date
-        holder.dateTv.setText(postDate);
+        holder.dateTv.setText(String.format(postDate));
 
         //set img
         ImageView imageUserView = holder.commentUserIv;

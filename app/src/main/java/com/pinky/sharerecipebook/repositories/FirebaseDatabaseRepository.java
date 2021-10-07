@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.pinky.sharerecipebook.models.Comment;
 import com.pinky.sharerecipebook.models.Recipe;
 import com.pinky.sharerecipebook.models.User;
 
@@ -208,6 +209,27 @@ public abstract class FirebaseDatabaseRepository<Model> {
         }
 
     }
+
+    //todo !! remove and creat one
+
+
+    public void changeDataFirebase(String folder, String idTofind, String fildeToChange, Comment comment) {
+        try {
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+            DatabaseReference myRef = database
+                    .getReference(folder)
+                    .child(idTofind)
+                    .child(fildeToChange);
+
+            myRef.push().setValue(comment);
+
+        } catch (Exception e) {
+            Log.d("send Data Exception", "sendDataFirebase : " + e);
+        }
+
+    }
+
 
 
 /*    public MutableLiveData<Boolean> userLikedThisRecipe(String recipeId) {
