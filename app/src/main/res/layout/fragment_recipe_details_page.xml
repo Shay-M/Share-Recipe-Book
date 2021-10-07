@@ -60,9 +60,9 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/frag_recipe_View_Pager"
+        android:id="@+id/frag_recipe_details_view_Pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/frag_recipe_details_tabLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,6 +74,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Ingredients"
+        android:visibility="gone"
         android:padding="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -83,6 +84,7 @@
     <TextView
         android:id="@+id/fragment_show_recipe_preparation"
         android:layout_width="406dp"
+        android:visibility="gone"
         android:layout_height="162dp"
         android:layout_marginTop="8dp"
         android:hint="Preparation"
@@ -95,6 +97,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_of_comments"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="200dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_show_recipe_preparation"
@@ -122,6 +125,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/preparation" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/comments" />
 
     </com.google.android.material.tabs.TabLayout>
 

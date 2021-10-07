@@ -4,15 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".view.fragments.ui.ingredientsFragment">
+    android:background="@color/a"
+    tools:context=".view.fragments.ui.prepareAndIngredients">
 
     <TextView
-        android:id="@+id/fragment_show_recipe_ingredients"
+        android:id="@+id/ui_fragment_prepareAndIngredients_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Ingredients"
         android:padding="15dp"
-        android:textSize="15sp" />
+        android:textSize="16sp" />
 
 
 </FrameLayout>

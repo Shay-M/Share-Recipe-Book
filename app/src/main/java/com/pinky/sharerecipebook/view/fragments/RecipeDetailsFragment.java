@@ -1,6 +1,7 @@
 package com.pinky.sharerecipebook.view.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,18 +11,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.astritveliu.boom.Boom;
 import com.bumptech.glide.Glide;
+import com.google.android.material.tabs.TabLayout;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.adapters.CommentAdapter;
+import com.pinky.sharerecipebook.adapters.PagerAdapterDetails;
 import com.pinky.sharerecipebook.models.Comment;
 import com.pinky.sharerecipebook.models.Recipe;
 import com.pinky.sharerecipebook.models.User;
+import com.pinky.sharerecipebook.view.fragments.ui.prepareAndIngredients;
 import com.pinky.sharerecipebook.viewmodels.RecipeDetailsViewModel;
 
 import java.util.ArrayList;
@@ -47,6 +53,10 @@ public class RecipeDetailsFragment extends Fragment {
     private CommentAdapter commentAdapter;
 
     private Map<String, Comment> commentHashMap;
+
+    private TabLayout tabLayout;
+    private ViewPager2 viewPager2;
+    //private FragmentDetailsAdapter fragmentDetailsAdapter; //
 
 
     @Override
@@ -81,6 +91,11 @@ public class RecipeDetailsFragment extends Fragment {
         recipe_details_image_like = view.findViewById(R.id.frag_recipe_details_image_like);
         recipe_details_image_user = view.findViewById(R.id.frag_recipe_details_image_user);
 
+        tabLayout = view.findViewById(R.id.frag_recipe_details_tabLayout);
+        viewPager2 = view.findViewById(R.id.frag_recipe_details_view_Pager);
+
+        //tabLayout.setupWithViewPager(viewPager2);
+
 
         new Boom(recipe_details_image_like);
         new Boom(recipe_details_image_user);
@@ -90,8 +105,6 @@ public class RecipeDetailsFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
-
         super.onViewCreated(view, savedInstanceState);
 
         Recipe recipeGet = (Recipe) requireArguments().getSerializable("expandRecipe");
@@ -125,7 +138,7 @@ public class RecipeDetailsFragment extends Fragment {
         commentArrayList = recipeGet.getCommentArrayList();
         commentHashMap = recipeGet.getCommentArrayListHashMap();
 
-        if (commentArrayList == null)
+        if (commentArrayList == null) // todo
             commentArrayList = new ArrayList<>();
 
         // set up img like
@@ -188,6 +201,48 @@ public class RecipeDetailsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(commentAdapter);
 
+        //////////////////////////////////
+
+        FragmentManager fragmentManager = getParentFragmentManager();
+
+        PagerAdapterDetails pagerAdapter = new PagerAdapterDetails(fragmentManager, getLifecycle());
+
+        pagerAdapter.addFragment(new prepareAndIngredients(recipeGet.getIngredients()));
+        pagerAdapter.addFragment(new prepareAndIngredients(recipeGet.getPreparation()));
+
+        viewPager2.setAdapter(pagerAdapter);
+
+        //viewPager2.setAdapter(new FragmentDetailsAdapter(getActivity()));
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Log.d("TAG", "onTabSelected: no banana " + tab.getPosition());
+                viewPager2.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        /*viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                tabLayout.selectTab(tabLayout.getTabAt(position));
+//                super.onPageSelected(position);
+            }
+        });*/
+
+        /*FragmentDetailsAdapter fDAdapter = getChildFragmentManager();
+         tabLayout;
+         viewPager2;*/
 
     }
 }
