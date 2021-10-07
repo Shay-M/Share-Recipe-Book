@@ -48,7 +48,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService{
                 manager.createNotificationChannel(channel);
                 builder.setChannelId("id_1");
             }
-            builder.setContentTitle("new message from").setContentText(remoteMessage.getData().get("message")).setSmallIcon(android.R.drawable.btn_star);
+            builder.setContentTitle(remoteMessage.getData().get("title")).setContentText(remoteMessage.getData().get("message")).setSmallIcon(android.R.drawable.btn_star);
             manager.notify(1, builder.build());
         }
 
@@ -56,8 +56,5 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService{
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
         }
-
-        // Also if you intend on generating your own notifications as a result of a received FCM
-        // message, here is where that should be initiated. See sendNotification method below.
     }
 }
