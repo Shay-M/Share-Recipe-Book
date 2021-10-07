@@ -15,6 +15,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.adapters.CommentAdapter;
 import com.pinky.sharerecipebook.models.Comment;
+import com.pinky.sharerecipebook.repositories.FirebaseDatabaseRepository;
 import com.pinky.sharerecipebook.utils.HidesKeyboard;
 
 import java.util.HashMap;
@@ -80,6 +81,12 @@ public class uiCommentsFragment extends Fragment {
         HidesKeyboard.hideKeyboard(this.getActivity());
 
         Comment comment = new Comment(commentTxt, firebaseUserId);
+
+        // todo
+        String folder = "recipe";
+        String fildeToChange = "commentArrayListHashMap";
+        FirebaseDatabaseRepository.getInstance().changeDataFirebase(folder, IdTofind, fildeToChange, Integer.toString(newValue), 0);
+
 
 
     }
