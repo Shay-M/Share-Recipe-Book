@@ -48,6 +48,7 @@ public class LoginPageFragment extends Fragment {
             public void onChanged(FirebaseUser firebaseUser) {
                 if (firebaseUser != null) { //skype login fragment
                     //UserLoginHelper.getInstance().setUser(firebaseUser.getEmail());
+
                     Navigation.findNavController(getView()).navigate(R.id.action_loginPageFragment_to_addNewRecipeFragment);
                 }
             }

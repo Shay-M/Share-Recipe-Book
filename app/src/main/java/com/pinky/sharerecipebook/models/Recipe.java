@@ -2,6 +2,8 @@ package com.pinky.sharerecipebook.models;/* Created by Shay Mualem 31/08/2021 */
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 // https://stackoverflow.com/questions/3323074/android-difference-between-parcelable-and-serializable
 
@@ -14,6 +16,8 @@ public class Recipe implements Serializable {
     private int rank;
     private String imagePath;
     private ArrayList<Comment> commentArrayList;// todo change??
+    //Map<String, String> favoriteRecipeHashMap;
+    private Map<String, Comment> commentArrayListHashMap;
 
     public Recipe(String firebaseUserIdMade, String title, String preparation, String ingredients, String imagePath, String recipeId) {
         this.firebaseUserIdMade = firebaseUserIdMade;
@@ -24,12 +28,23 @@ public class Recipe implements Serializable {
         this.rank = 0;
         this.imagePath = imagePath;
         this.commentArrayList = new ArrayList<>();
+        this.commentArrayListHashMap = new HashMap<>();
+        commentArrayListHashMap.put("try", new Comment("fd", "123"));
+
         /*Comment c = new Comment("sdfsdf", "sdfsdf");
         commentArrayList.add(c);*/
     }
 
     public Recipe() {
     } // needed
+
+    public Map<String, Comment> getCommentArrayListHashMap() {
+        return commentArrayListHashMap;
+    }
+
+    public void setCommentArrayListHashMap(Map<String, Comment> commentArrayListHashMap) {
+        this.commentArrayListHashMap = commentArrayListHashMap;
+    }
 
     public ArrayList<Comment> getCommentArrayList() {
         return commentArrayList;

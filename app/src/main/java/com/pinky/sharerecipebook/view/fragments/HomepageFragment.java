@@ -55,6 +55,8 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
 
         actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setTitle("");
+        //MainActivity mA = ((MainActivity)getActivity());
+        //mA.setActionBarColor(Color.parseColor("#FFA2C13E"));
         //actionBar.setTitle("Hello, " + loginUser.getName());
 
 
@@ -138,7 +140,8 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
                     item.setTitle(R.string.title_bar_login);
 
                 } else {
-                    Navigation.findNavController(rootView).navigate(R.id.action_homepageFragment_to_loginPageFragment);
+                    Snackbar.make(this.getView(), R.string.msg_needLogin, BaseTransientBottomBar.LENGTH_LONG).show();
+                    //Navigation.findNavController(rootView).navigate(R.id.action_homepageFragment_to_loginPageFragment);
                 }
 
                 return true;
@@ -155,7 +158,8 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
                         item.setChecked(true);
                     }
                 } else
-                    Navigation.findNavController(rootView).navigate(R.id.action_homepageFragment_to_loginPageFragment);
+                    //Navigation.findNavController(rootView).navigate(R.id.action_homepageFragment_to_loginPageFragment);
+                    Snackbar.make(this.getView(), R.string.msg_needLogin, BaseTransientBottomBar.LENGTH_LONG).show();
 
                 return true;
 
@@ -171,6 +175,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //MainActivity main = (MainActivity) getContext();
+
 
         recipeArrayList = new ArrayList<>();
 
@@ -220,21 +225,24 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
                         recipeArrayList = recipes;
                     }
                 });
+
         // get login user
         //if (AuthRepository.getInstance().getCurrentUser() != null) {
-            homeViewModel.userLoginliveData.observe(getViewLifecycleOwner(),
-                    new Observer<User>() {
-                        @Override
-                        public void onChanged(User user) {
-                            Log.d("if-loginUser", "onChanged: " + user.getName());
+        homeViewModel.userDbLoginliveData.observe(getViewLifecycleOwner(),
+                new Observer<User>() {
+                    @Override
+                    public void onChanged(User user) {
+                        if (AuthRepository.getInstance().getCurrentUser() != null) {
 
-                            if (AuthRepository.getInstance().getCurrentUser() != null) {
-                                loginUser = user;
-                                UserIsLogin = true;
-                            } else  UserIsLogin = false;
-                        }
-                    });
-       // }
+                            //Log.d("if-loginUser", "onChanged: " + user.getName());
+                            //Log.d("if-loginUser", "homeViewModel.getUserLiveData(): " + homeViewModel.getUserLiveData());
+                            loginUser = homeViewModel.getUserLiveData().getValue();
+                            UserIsLogin = true;
+                        } else UserIsLogin = false;
+                    }
+                });
+
+        // }
 
 
         // floating Add Button

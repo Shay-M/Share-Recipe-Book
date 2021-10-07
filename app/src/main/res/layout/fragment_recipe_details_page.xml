@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragments.RecipeDetailsFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".view.fragments.RecipeDetailsFragment">
 
 
     <ImageView
@@ -59,6 +59,16 @@
         app:layout_constraintTop_toBottomOf="@+id/fragment_show_recipe_image"
         app:layout_constraintVertical_bias="0.0" />
 
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/frag_recipe_View_Pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/frag_recipe_details_tabLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frag_recipe_details_bar_bottom_img" />
+
+
     <TextView
         android:id="@+id/fragment_show_recipe_ingredients"
         android:layout_width="match_parent"
@@ -82,7 +92,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_show_recipe_ingredients" />
 
-    <!--<com.google.android.material.tabs.TabLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_of_comments"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_show_recipe_preparation"
+        tools:listitem="@layout/comment_item_cell" />
+
+    <com.google.android.material.tabs.TabLayout
         android:id="@+id/frag_recipe_details_tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -93,8 +111,7 @@
         app:tabIndicatorColor="@color/b"
         app:tabIndicatorHeight="10dp"
         app:tabSelectedTextColor="@color/b"
-        app:tabTextColor="@color/a"
-        >
+        app:tabTextColor="@color/a">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
@@ -107,14 +124,6 @@
             android:text="@string/preparation" />
 
     </com.google.android.material.tabs.TabLayout>
--->
-    <!--<androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/frag_recipe_details_View_Pager"
-        android:layout_width="409dp"
-        android:layout_height="134dp"
-        app:layout_constraintBottom_toTopOf="@+id/frag_recipe_details_tabLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />-->
 
     <TextView
         android:id="@+id/frag_recipe_details_likes_text"

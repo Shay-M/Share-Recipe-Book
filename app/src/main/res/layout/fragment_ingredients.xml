@@ -10,8 +10,9 @@
         android:id="@+id/fragment_show_recipe_ingredients"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/ingredients"
+        android:hint="Ingredients"
         android:padding="15dp"
-        tools:layout_editor_absoluteY="502dp" />
+        android:textSize="15sp" />
+
 
 </FrameLayout>

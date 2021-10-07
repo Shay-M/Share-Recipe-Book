@@ -207,7 +207,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
         public RecipeViewHolder(View itemView) {
             super(itemView);
-            recipeTitleTv = itemView.findViewById(R.id.recipe_item_title_text);
+            recipeTitleTv = itemView.findViewById(R.id.comment_text);
             recipeRatingTv = itemView.findViewById(R.id.recipe_item_rating_text);
             recipeImageIv = itemView.findViewById(R.id.recipe_item_img);
 

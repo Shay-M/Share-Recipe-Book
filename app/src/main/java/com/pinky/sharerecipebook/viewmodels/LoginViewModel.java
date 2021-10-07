@@ -25,8 +25,6 @@ public class LoginViewModel extends AndroidViewModel {
 
         authRepository.login(email, password);
 
-
-
     }
 
     public void register(String email, String password, String name) {

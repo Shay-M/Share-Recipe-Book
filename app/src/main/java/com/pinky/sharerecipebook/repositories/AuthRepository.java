@@ -41,6 +41,7 @@ public class AuthRepository {
         if (firebaseAuth.getCurrentUser() != null) {
             userLiveData.postValue(firebaseAuth.getCurrentUser());
             loggedOutLiveData.postValue(false);
+
         }
     }
 
@@ -56,6 +57,8 @@ public class AuthRepository {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     userLiveData.postValue(firebaseAuth.getCurrentUser());
+                                    loggedOutLiveData.postValue(false); // update live data - login user
+
                                     //UserLoginHelper.getInstance().setUser(email);
 
                                 } else {
@@ -89,6 +92,8 @@ public class AuthRepository {
                                 .setValue(newUser)
                                 .addOnCompleteListener(task1 -> {
                                     Log.d("DatabaseReferenceUsers", "onComplete: ");
+                                    loggedOutLiveData.postValue(false); // update live data
+
                                 });
 
                     } else {
