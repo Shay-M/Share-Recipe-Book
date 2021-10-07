@@ -12,8 +12,8 @@ public class Comment implements Serializable {
 
     public Comment(String txt, String userId) {
         this.txt = txt;
-        this.userId = userId;
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
+        this.userId = userId; // yyMMdd_HHmm >> convert yy.MM.dd
+        String timeStamp = new SimpleDateFormat("dd.MM.yy.HH:mm").format(new Date());
         this.postDate = timeStamp;
     }
 

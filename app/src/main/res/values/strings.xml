@@ -25,4 +25,5 @@
     <string name="register">Register</string>
     <string name="msg_needLogin">You must be logged in to add recipes</string>
     <string name="comments">comments</string>
+    <string name="Send">send</string>
 </resources>

@@ -59,79 +59,6 @@
         app:layout_constraintTop_toBottomOf="@+id/fragment_show_recipe_image"
         app:layout_constraintVertical_bias="0.0" />
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/frag_recipe_details_view_Pager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/frag_recipe_details_tabLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frag_recipe_details_bar_bottom_img" />
-
-
-    <TextView
-        android:id="@+id/fragment_show_recipe_ingredients"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Ingredients"
-        android:visibility="gone"
-        android:padding="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/frag_recipe_details_title_text"
-        app:layout_constraintTop_toBottomOf="@+id/frag_recipe_details_bar_bottom_img" />
-
-    <TextView
-        android:id="@+id/fragment_show_recipe_preparation"
-        android:layout_width="406dp"
-        android:visibility="gone"
-        android:layout_height="162dp"
-        android:layout_marginTop="8dp"
-        android:hint="Preparation"
-        android:padding="15dp"
-        app:layout_constraintEnd_toEndOf="@+id/fragment_show_recipe_ingredients"
-        app:layout_constraintHorizontal_bias="0.6"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_show_recipe_ingredients" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_of_comments"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_show_recipe_preparation"
-        tools:listitem="@layout/comment_item_cell" />
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/frag_recipe_details_tabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:tabBackground="@color/c"
-        app:tabIndicatorColor="@color/b"
-        app:tabIndicatorHeight="10dp"
-        app:tabSelectedTextColor="@color/b"
-        app:tabTextColor="@color/a">
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ingredients" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/preparation" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/comments" />
-
-    </com.google.android.material.tabs.TabLayout>
-
     <TextView
         android:id="@+id/frag_recipe_details_likes_text"
         android:layout_width="wrap_content"
@@ -169,5 +96,46 @@
         app:layout_constraintStart_toEndOf="@+id/frag_recipe_details_image_user"
         app:layout_constraintTop_toBottomOf="@+id/fragment_show_recipe_image"
         app:layout_constraintVertical_bias="0.586" />
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/frag_recipe_details_view_Pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/frag_recipe_details_tabLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frag_recipe_details_bar_bottom_img" />
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/frag_recipe_details_tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:tabBackground="@color/c"
+        app:tabIndicatorColor="@color/b"
+        app:tabIndicatorHeight="10dp"
+        app:tabSelectedTextColor="@color/b"
+        app:tabTextColor="@color/a">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ingredients" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/preparation" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/comments" />
+
+    </com.google.android.material.tabs.TabLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
