@@ -28,6 +28,7 @@ import com.pinky.sharerecipebook.models.Comment;
 import com.pinky.sharerecipebook.models.Recipe;
 import com.pinky.sharerecipebook.models.User;
 import com.pinky.sharerecipebook.view.fragments.ui.prepareAndIngredients;
+import com.pinky.sharerecipebook.view.fragments.ui.uiCommentsFragment;
 import com.pinky.sharerecipebook.viewmodels.RecipeDetailsViewModel;
 
 import java.util.ArrayList;
@@ -109,7 +110,6 @@ public class RecipeDetailsFragment extends Fragment {
 
         Recipe recipeGet = (Recipe) requireArguments().getSerializable("expandRecipe");
         LoginUserGet = (User) requireArguments().getSerializable("expandLoginUser");
-//        Log.d("UserGet", "onViewCreated: " + UserGet.getName());
 //        recipeDetailsViewModel.setRecipe(recipeGet); todo?
 
         recipeDetailsViewModel.getUserLiveData(recipeGet.getFirebaseUserIdMade()).getValue();
@@ -143,7 +143,7 @@ public class RecipeDetailsFragment extends Fragment {
 
         // set up img like
         recipe_details_likes_text.setText(String.valueOf(recipeGet.getRank()));
-        if (!LoginUserGet.getName().equals("Guest"))
+        if (!LoginUserGet.getName().equals("Guest")) // todo
             if (LoginUserGet.getFavoriteRecipe().contains(recipeGet.getRecipeId())) {
                 likeRecipe = true;
                 recipe_details_image_like.setImageResource(R.drawable.ic_baseline_favorite_48);
@@ -210,6 +210,8 @@ public class RecipeDetailsFragment extends Fragment {
         pagerAdapter.addFragment(new prepareAndIngredients(recipeGet.getIngredients()));
         pagerAdapter.addFragment(new prepareAndIngredients(recipeGet.getPreparation()));
 
+        pagerAdapter.addFragment(new uiCommentsFragment(recipeGet.getCommentArrayListHashMap()));
+
         viewPager2.setAdapter(pagerAdapter);
 
         //viewPager2.setAdapter(new FragmentDetailsAdapter(getActivity()));
@@ -232,17 +234,6 @@ public class RecipeDetailsFragment extends Fragment {
             }
         });
 
-        /*viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                tabLayout.selectTab(tabLayout.getTabAt(position));
-//                super.onPageSelected(position);
-            }
-        });*/
-
-        /*FragmentDetailsAdapter fDAdapter = getChildFragmentManager();
-         tabLayout;
-         viewPager2;*/
 
     }
 }
