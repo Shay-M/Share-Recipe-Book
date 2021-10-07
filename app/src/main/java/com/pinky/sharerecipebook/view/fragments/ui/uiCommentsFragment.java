@@ -11,9 +11,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.adapters.CommentAdapter;
 import com.pinky.sharerecipebook.models.Comment;
+import com.pinky.sharerecipebook.utils.HidesKeyboard;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,17 +23,20 @@ import java.util.Map;
 
 public class uiCommentsFragment extends Fragment {
 
-    //    private ArrayList<Comment> commentArrayList;
+    private TextInputLayout commentEditText;
     private CommentAdapter commentAdapter;
     private Map<String, Comment> commentHashMap;
+    private String firebaseUserId;
 
 
-    public uiCommentsFragment(Map<String, Comment> commentHashMapGet) {
+    public uiCommentsFragment(Map<String, Comment> commentHashMapGet, String firebaseUserIdGet) {
 
         if (commentHashMapGet == null)
             this.commentHashMap = new HashMap<>();
         else
             this.commentHashMap = commentHashMapGet;
+
+        firebaseUserId = firebaseUserIdGet;
     }
 
 
@@ -44,7 +49,7 @@ public class uiCommentsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ui_comments, container, false);
-//        prepareAndIngredientsTextView = view.findViewById(R.id.ui_fragment_prepareAndIngredients_text);
+        commentEditText = view.findViewById(R.id.ui_fragment_comments_textinput);
 
         return view;
     }
@@ -63,6 +68,19 @@ public class uiCommentsFragment extends Fragment {
         recyclerView.setAdapter(commentAdapter);
 
 
-//        prepareAndIngredientsTextView.setText(textGet);
+        commentEditText.setEndIconOnClickListener(v -> {
+            String commentTxt = commentEditText.getEditText().getText().toString();
+            sendAcomment(commentTxt);
+        });
+
+
+    }
+
+    private void sendAcomment(String commentTxt) {
+        HidesKeyboard.hideKeyboard(this.getActivity());
+
+        Comment comment = new Comment(commentTxt, firebaseUserId);
+
+
     }
 }

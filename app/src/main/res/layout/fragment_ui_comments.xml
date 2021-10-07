@@ -12,14 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/fragment_login_email_textinput"
+        app:layout_constraintBottom_toTopOf="@+id/ui_fragment_comments_textinput"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         tools:layout_editor_absoluteX="0dp"
         tools:listitem="@layout/comment_item_cell" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/fragment_login_email_textinput"
+        android:id="@+id/ui_fragment_comments_textinput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -27,6 +27,7 @@
         app:counterEnabled="true"
         app:counterMaxLength="200"
         app:endIconMode="custom"
+        app:endIconCheckable ="true"
         app:endIconDrawable="@drawable/ic_twotone_send_24"
         app:endIconContentDescription="@string/Send"
         app:layout_constraintBottom_toBottomOf="parent"
