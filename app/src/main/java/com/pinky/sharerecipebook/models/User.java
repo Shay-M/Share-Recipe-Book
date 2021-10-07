@@ -1,7 +1,7 @@
 package com.pinky.sharerecipebook.models;/* Created by Shay Mualem 31/08/2021 */
 
 import java.util.ArrayList;
-
+// https://stackoverflow.com/questions/52718594/what-is-the-best-way-to-add-data-to-a-list-in-firebase-realtime-database
 public class User extends Guest {
 
     //Map<String, String> favoriteRecipeHashMap;

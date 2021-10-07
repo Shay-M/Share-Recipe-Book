@@ -51,7 +51,7 @@
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/recipe_item_title_text"
+            android:id="@+id/comment_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/recipe_item_img"

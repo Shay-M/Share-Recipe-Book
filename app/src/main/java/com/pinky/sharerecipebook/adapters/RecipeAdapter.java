@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.astritveliu.boom.Boom;
 import com.bumptech.glide.Glide;
+import com.facebook.shimmer.Shimmer;
+import com.facebook.shimmer.ShimmerDrawable;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.models.Recipe;
 
@@ -121,13 +123,30 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         //set img
         ImageView imageView = holder.recipeImageIv;///////
 
-        //todo Shimmer ? https://stackoverflow.com/questions/61076174/how-to-use-a-view-shimmer-as-a-placeholder-for-an-imageview-glide
+        //Shimmer https://stackoverflow.com/questions/61076174/how-to-use-a-view-shimmer-as-a-placeholder-for-an-imageview-glide
+
+        // The attributes for a ShimmerDrawable is set by this builder
+        // how long the shimmering animation takes to do one full sweep
+        //the alpha of the underlying children
+        // the shimmer alpha amount
+        Shimmer shimmer = new Shimmer.AlphaHighlightBuilder()// The attributes for a ShimmerDrawable is set by this builder
+                .setDuration(1500) // how long the shimmering animation takes to do one full sweep
+                .setBaseAlpha(0.5f) //the alpha of the underlying children
+                .setHighlightAlpha(0.3f) // the shimmer alpha amount
+                .setDirection(Shimmer.Direction.LEFT_TO_RIGHT)
+                .setAutoStart(true)
+                .build();
+
+        // This is the placeholder for the imageView
+        ShimmerDrawable shimmerDrawable = new ShimmerDrawable();
+        shimmerDrawable.setShimmer(shimmer);
+
         if (RecipeItem.getImagePath() != null)
             Glide.with(holder.recipeImageIv.getContext())
                     .load(RecipeItem.getImagePath())
                     .thumbnail(0.10f)
                     .centerCrop()
-//                    .placeholder(R.drawable.common_google_signin_btn_icon_dark) // todo change img or not need?
+                    .placeholder(shimmerDrawable)
                     .error(android.R.drawable.ic_dialog_info)
                     .into(imageView);
         else {
@@ -158,8 +177,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     }
 
     public void setFavoriteRecipeList(ArrayList<String> fRecipe) {
-        this.favoriteRecipe.clear();
-        this.favoriteRecipe.addAll(fRecipe);
+        if (fRecipe != null) {
+            this.favoriteRecipe.clear();
+            this.favoriteRecipe.addAll(fRecipe);
+        }
         Log.d("performFiltering", "favoriteRecipe: " + favoriteRecipe);
 
 //        this.favoriteRecipe = favoriteRecipe;
@@ -186,7 +207,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
         public RecipeViewHolder(View itemView) {
             super(itemView);
-            recipeTitleTv = itemView.findViewById(R.id.recipe_item_title_text);
+            recipeTitleTv = itemView.findViewById(R.id.comment_text);
             recipeRatingTv = itemView.findViewById(R.id.recipe_item_rating_text);
             recipeImageIv = itemView.findViewById(R.id.recipe_item_img);
 

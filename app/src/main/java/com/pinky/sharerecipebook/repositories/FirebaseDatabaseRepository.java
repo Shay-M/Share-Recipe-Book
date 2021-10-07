@@ -71,7 +71,7 @@ public abstract class FirebaseDatabaseRepository<Model> {
     static FirebaseDatabaseRepository INSTANCE;
 
     private ArrayList<Recipe> recipeList = new ArrayList<>();
-    private User user;
+    private User user = new User();
 
     private MutableLiveData<ArrayList<Recipe>> arrayListMutableLiveData;
     private MutableLiveData<User> userMutableLiveData;
@@ -122,7 +122,7 @@ public abstract class FirebaseDatabaseRepository<Model> {
 
     public MutableLiveData<User> getUserByIdFromFirebase(String userIdTofind) {
         //if (userIdTofind != null) {
-        user = new User();
+        //user = null;
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("users");
         myRef.addValueEventListener(new ValueEventListener() {
@@ -132,6 +132,7 @@ public abstract class FirebaseDatabaseRepository<Model> {
 //                    if (!Objects.requireNonNull(ds.child("is_Manger").getValue(Boolean.class))) {
                     if (snapshot.getKey().equals(userIdTofind)) {
                         user = snapshot.getValue(User.class);
+//                        return;
                         // userMutableLiveData.setValue(obj);
 //                        Log.d("getUserByIdFromFirebase", "obj.getName() : " + user.getName());
                     } else {

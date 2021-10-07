@@ -17,10 +17,11 @@ import java.util.ArrayList;
 public class HomeViewModel extends ViewModel {
 
     public MutableLiveData<ArrayList<Recipe>> liveData;
-    public MutableLiveData<User> userLoginliveData;
-//    public LiveData<User> userliveData;
-
+    public MutableLiveData<User> userDbLoginliveData;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+    //    public LiveData<User> userliveData;
+    private String userId = null;
 
     public void init() {
         if (liveData != null) {
@@ -35,20 +36,28 @@ public class HomeViewModel extends ViewModel {
 
     //////////////////////////
     public void initUserLogin() {
-        if (userLoginliveData != null) {
+        if (userDbLoginliveData != null) {
             return;
         }
-        String userId = null;
+
+
         if (AuthRepository.getInstance().getCurrentUser() != null) {
             userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        }
-        userLoginliveData = FirebaseDatabaseRepository.getInstance().getUserByIdFromFirebase(userId);
+        } else userId = null;
+
+        userDbLoginliveData = FirebaseDatabaseRepository.getInstance().getUserByIdFromFirebase(userId);
 //        userliveData = FirebaseDatabaseRepository.getInstance().getUserByIdFromFirebase(userId);
 
     }
 
     public LiveData<User> getUserLiveData() {
-        return userLoginliveData;
+
+        /*if (userDbLoginliveData.getValue().getName() !="Guest" ) {
+            userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            userDbLoginliveData = FirebaseDatabaseRepository.getInstance().getUserByIdFromFirebase(userId);
+        }
+*/
+        return userDbLoginliveData;
     }
 
 

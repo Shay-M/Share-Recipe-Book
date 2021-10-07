@@ -12,13 +12,21 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.astritveliu.boom.Boom;
 import com.bumptech.glide.Glide;
 import com.pinky.sharerecipebook.R;
+import com.pinky.sharerecipebook.adapters.CommentAdapter;
+import com.pinky.sharerecipebook.models.Comment;
 import com.pinky.sharerecipebook.models.Recipe;
 import com.pinky.sharerecipebook.models.User;
 import com.pinky.sharerecipebook.viewmodels.RecipeDetailsViewModel;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RecipeDetailsFragment extends Fragment {
 
@@ -35,6 +43,11 @@ public class RecipeDetailsFragment extends Fragment {
     private Boolean likeRecipe;
     private User LoginUserGet;
 
+    private ArrayList<Comment> commentArrayList;
+    private CommentAdapter commentAdapter;
+
+    private Map<String, Comment> commentHashMap;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,6 +57,10 @@ public class RecipeDetailsFragment extends Fragment {
         recipeDetailsViewModel.init();
 
         //add all live? todo
+
+        commentArrayList = new ArrayList<>();
+
+        commentHashMap = new HashMap<>();
 
 
     }
@@ -64,6 +81,7 @@ public class RecipeDetailsFragment extends Fragment {
         recipe_details_image_like = view.findViewById(R.id.frag_recipe_details_image_like);
         recipe_details_image_user = view.findViewById(R.id.frag_recipe_details_image_user);
 
+
         new Boom(recipe_details_image_like);
         new Boom(recipe_details_image_user);
 
@@ -72,6 +90,8 @@ public class RecipeDetailsFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+
         super.onViewCreated(view, savedInstanceState);
 
         Recipe recipeGet = (Recipe) requireArguments().getSerializable("expandRecipe");
@@ -102,6 +122,11 @@ public class RecipeDetailsFragment extends Fragment {
         recipe_title.setText(recipeGet.getTitle());
         recipe_ingredients.setText(recipeGet.getIngredients());
         recipe_preparation.setText(recipeGet.getPreparation());
+        commentArrayList = recipeGet.getCommentArrayList();
+        commentHashMap = recipeGet.getCommentArrayListHashMap();
+
+        if (commentArrayList == null)
+            commentArrayList = new ArrayList<>();
 
         // set up img like
         recipe_details_likes_text.setText(String.valueOf(recipeGet.getRank()));
@@ -155,28 +180,15 @@ public class RecipeDetailsFragment extends Fragment {
             }
         });
 
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view_of_comments);
+        recyclerView.setHasFixedSize(true);
 
+//        commentAdapter = new CommentAdapter(commentArrayList, getActivity());
+        commentAdapter = new CommentAdapter(commentHashMap, getActivity());
+//        commentAdapter.setClicksListener(this);
 
-
-       /* recipeDetailsViewModel
-                .getCurrentUserLiveData()
-                .observe(getViewLifecycleOwner(),
-                        new Observer<User>() {
-                            @Override
-                            public void onChanged(User user) {
-
-                                recipe_details_image_like.setOnClickListener(v -> {
-                                 *//*int numOfFavorites = Integer.parseInt(recipe_details_likes_text.getText().toString());
-                                    numOfFavorites = numOfFavorites + 1;
-                                    recipe_details_likes_text.setText(String.valueOf(numOfFavorites));*//*
-                                    Log.d("userGet", "onChanged: "+user);
-
-                                    //recipeDetailsViewModel.userLikedThisRecipe(recipeGet.getRecipeId());
-
-                                });
-
-                            }
-                        });*/
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(commentAdapter);
 
 
     }

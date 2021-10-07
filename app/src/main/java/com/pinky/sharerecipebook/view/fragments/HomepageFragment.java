@@ -40,6 +40,7 @@ import java.util.ArrayList;
 public class HomepageFragment extends Fragment implements RecipeAdapter.RecyclerViewListener {
 
     User loginUser = new User();
+    private Boolean UserIsLogin;
     private ArrayList<Recipe> recipeArrayList;
     private RecipeAdapter recipeAdapter;
     private FloatingActionButton floatingAddButton;
@@ -48,11 +49,16 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
     private HomeViewModel homeViewModel;
     private LogOutViewModel logOutViewModel;
 
-    // top bar search View
+    // top bar
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
 
         actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setTitle("");
+        //MainActivity mA = ((MainActivity)getActivity());
+        //mA.setActionBarColor(Color.parseColor("#FFA2C13E"));
+        //actionBar.setTitle("Hello, " + loginUser.getName());
+
 
         inflater.inflate(R.menu.top_bar, menu);
         /*CheckBox checkBox = (CheckBox) menu.findItem(R.id.action_favorites).getActionView();
@@ -82,7 +88,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
 
     }
 
-    //call back user selectd item
+    //call back user select item
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
@@ -97,12 +103,11 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
 
                 Navigation.findNavController(rootView).navigate(R.id.action_homepageFragment_to_userProfileFragment, bundle);
 
-
                 return true;
 
             case R.id.action_favorites:
                 // User chose the "Favorite" action, mark the current item
-                if (loginUser.getName() != "Guest") {
+                if (UserIsLogin) {
 
                     if (item.isChecked()) {
                         recipeAdapter.getFilter().filter(null);
@@ -118,26 +123,31 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
                         actionBar.setTitle("Your Favorite Recipes");
                         item.setChecked(true);
                     }
-                } // todo go to login from action_favorites
+                } else
+                    Navigation.findNavController(rootView).navigate(R.id.action_homepageFragment_to_loginPageFragment);
+
 
                 return true;
 
             case R.id.action_logout:
-                if (loginUser.getName() != "Guest") {
+                if (UserIsLogin) {
                     Log.d("action_logout", "onOptionsItemSelected: ");
                     Snackbar.make(this.getView(), R.string.msg_logout, BaseTransientBottomBar.LENGTH_LONG).show();
                     logOutViewModel.logOut();
-                    //loginUser = new User();
+                    loginUser = null;
+                    loginUser = new User();
+                    UserIsLogin = false;
                     item.setTitle(R.string.title_bar_login);
 
                 } else {
-                    //nav to login
+                    Snackbar.make(this.getView(), R.string.msg_needLogin, BaseTransientBottomBar.LENGTH_LONG).show();
+                    //Navigation.findNavController(rootView).navigate(R.id.action_homepageFragment_to_loginPageFragment);
                 }
 
                 return true;
 
             case R.id.action_my_recipes:
-                if (loginUser.getName() != "Guest") {
+                if (UserIsLogin) {
                     if (item.isChecked()) {
                         recipeAdapter.getFilter().filter(null);
                         actionBar.setTitle("");
@@ -147,7 +157,10 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
                         actionBar.setTitle("Your Recipe");
                         item.setChecked(true);
                     }
-                }
+                } else
+                    //Navigation.findNavController(rootView).navigate(R.id.action_homepageFragment_to_loginPageFragment);
+                    Snackbar.make(this.getView(), R.string.msg_needLogin, BaseTransientBottomBar.LENGTH_LONG).show();
+
                 return true;
 
             default:
@@ -163,7 +176,10 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
         super.onCreate(savedInstanceState);
         //MainActivity main = (MainActivity) getContext();
 
+
         recipeArrayList = new ArrayList<>();
+
+        UserIsLogin = false;
 
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
@@ -204,26 +220,32 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
                 new Observer<ArrayList<Recipe>>() {
                     @Override
                     public void onChanged(ArrayList<Recipe> recipes) {
-                        recipeAdapter.notifyDataSetChanged(); // see if can be changed
+                        recipeAdapter.notifyDataSetChanged();
                         Log.d("loadRecipeViewModel", "onChanged: !!" + recipes);
                         recipeArrayList = recipes;
                     }
                 });
+
         // get login user
-        if (AuthRepository.getInstance().getCurrentUser() != null) {
-            homeViewModel.userLoginliveData.observe(getViewLifecycleOwner(),
-                    new Observer<User>() {
-                        @Override
-                        public void onChanged(User user) {
-                            Log.d("if-loginUser", "onChanged: " + user.getName());
-                            loginUser = user;
-//                            item.setTitle(R.string.title_bar_login);
-                        }
-                    });
-        }
+        //if (AuthRepository.getInstance().getCurrentUser() != null) {
+        homeViewModel.userDbLoginliveData.observe(getViewLifecycleOwner(),
+                new Observer<User>() {
+                    @Override
+                    public void onChanged(User user) {
+                        if (AuthRepository.getInstance().getCurrentUser() != null) {
+
+                            //Log.d("if-loginUser", "onChanged: " + user.getName());
+                            //Log.d("if-loginUser", "homeViewModel.getUserLiveData(): " + homeViewModel.getUserLiveData());
+                            loginUser = homeViewModel.getUserLiveData().getValue();
+                            UserIsLogin = true;
+                        } else UserIsLogin = false;
+                    }
+                });
+
+        // }
 
 
-        // floatingAddButton
+        // floating Add Button
         floatingAddButton = view.findViewById(R.id.floating_add_fragment);
         new Boom(floatingAddButton);
 
