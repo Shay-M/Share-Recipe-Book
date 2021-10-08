@@ -180,7 +180,7 @@ public class RecipeDetailsFragment extends Fragment {
         // adding fragments
         pagerAdapter.addFragment(new prepareAndIngredients(recipeGet.getIngredients()));
         pagerAdapter.addFragment(new prepareAndIngredients(recipeGet.getPreparation()));
-        pagerAdapter.addFragment(new uiCommentsFragment(recipeGet.getRecipeId(), recipeGet.getCommentArrayListHashMap(), LoginUserGet.getFirebaseUserId()));
+        pagerAdapter.addFragment(new uiCommentsFragment(recipeGet.getRecipeId(), recipeGet.getCommentArrayListHashMap(), LoginUserGet.getUserImagePath()));
 
         viewPager2.setAdapter(pagerAdapter);
 
