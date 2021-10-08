@@ -42,11 +42,13 @@
             android:layout_alignEnd="@+id/recipe_item_rating_img"
             android:layout_alignBottom="@+id/recipe_item_rating_img"
             android:layout_marginStart="0dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="0dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/recipety"
             android:text="00"
             android:textAlignment="center"
+
             android:textColor="@color/white"
             android:textSize="20sp" />
 
@@ -60,11 +62,13 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
+            android:fontFamily="@font/recipety"
             android:padding="2dp"
             android:text="Recipe Title"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
 
     </RelativeLayout>

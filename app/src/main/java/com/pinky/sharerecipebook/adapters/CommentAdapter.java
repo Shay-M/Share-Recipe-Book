@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.models.Comment;
 
@@ -75,35 +76,18 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         //new Boom(imageUserView);
 
 
-
-
-        /*Shimmer shimmer = new Shimmer.AlphaHighlightBuilder()// The attributes for a ShimmerDrawable is set by this builder
-                .setDuration(1500) // how long the shimmering animation takes to do one full sweep
-                .setBaseAlpha(0.5f) //the alpha of the underlying children
-                .setHighlightAlpha(0.3f) // the shimmer alpha amount
-                .setDirection(Shimmer.Direction.LEFT_TO_RIGHT)
-                .setAutoStart(true)
-                .build();
-
-        // This is the placeholder for the imageView
-        ShimmerDrawable shimmerDrawable = new ShimmerDrawable();
-        shimmerDrawable.setShimmer(shimmer);
-
-        if (RecipeItem.getImagePath() != null)
-            Glide.with(holder.recipeImageIv.getContext())
-                    .load(RecipeItem.getImagePath())
-                    .thumbnail(0.10f)
-                    .centerCrop()
-                    .placeholder(shimmerDrawable)
+        if (CommentItem.getUserId() != null)
+            Glide.with(holder.commentUserIv.getContext())
+                    .load(CommentItem.getUserId())
+                    .circleCrop()
                     .error(android.R.drawable.ic_dialog_info)
-                    .into(imageView);
+                    .into(imageUserView);
         else {
             // make sure Glide doesn't load anything into this view until told otherwise
-            Glide.with(context).clear(holder.recipeImageIv);
+            Glide.with(context).clear(holder.commentUserIv);
             // remove the placeholder (optional)
-            holder.recipeImageIv.setImageDrawable(null);
-            Log.d("Glide", "onBindViewHolder: is null");
-        }*/
+            holder.commentUserIv.setImageDrawable(null);
+        }
 
     }
 
