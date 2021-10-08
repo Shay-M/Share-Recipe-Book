@@ -1,6 +1,7 @@
 package com.pinky.sharerecipebook.adapters;/* Created by Shay Mualem 23/07/2021 */
 
 import android.content.Context;
+import android.icu.text.SimpleDateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.pinky.sharerecipebook.models.Comment;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Map;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
@@ -35,7 +37,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         this.commentHashMap = commentHashMap;
         Collection<Comment> values = commentHashMap.values();
         ArrayList<Comment> listOfValues = new ArrayList<>(values);
-        commentItemList =  listOfValues;
+        commentItemList = listOfValues;
         this.context = context;
     }
 
@@ -58,10 +60,20 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
         //set Comment text
         holder.commentTv.setText(CommentItem.getTxt());
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy");
+        //  .parse(CommentItem.getPostDate()).toString();
+
+        String postDate = simpleDateFormat.format(new Date());
+
+
         //set Comment date
-        holder.dateTv.setText(CommentItem.getPostDate());
+        holder.dateTv.setText(String.format(postDate));
+
         //set img
         ImageView imageUserView = holder.commentUserIv;
+        //new Boom(imageUserView);
+
 
 
 
