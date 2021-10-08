@@ -200,8 +200,9 @@ public class RecipeDetailsFragment extends Fragment {
                 // change like in user
                 recipeDetailsViewModel.addIdLikeToUser(LoginUserGet.getFirebaseUserId(), LoginUserGet.getFavoriteRecipe());
                 // notification to user
-                sendNotif("deLzdVdlR76RqieFtWI0ry:APA91bHY5nliOWp-j0ZK9PFWdVU0g2MKXDM6Ye6DF0s1OwF0gHd3oeCxINkJhhsnGwKPoRy8T-kbPSdG3ESMfXc7vCyS0_xJ9Sl8XRmMuC22fNJr_t6L7YEuvJKMR6ojP5SYC97qYP4L","This is a test notif");
-                //sendNotification(LoginUserGet.getFirebaseUserId(), recipeGet.getFirebaseUserIdMade(), recipeGet.getTitle());
+                sendLikeNotification(LoginUserGet.getName(),
+                        "deLzdVdlR76RqieFtWI0ry:APA91bHY5nliOWp-j0ZK9PFWdVU0g2MKXDM6Ye6DF0s1OwF0gHd3oeCxINkJhhsnGwKPoRy8T-kbPSdG3ESMfXc7vCyS0_xJ9Sl8XRmMuC22fNJr_t6L7YEuvJKMR6ojP5SYC97qYP4L",
+                        recipeGet.getTitle());
 
             } else {
                 // go to login?
@@ -220,87 +221,33 @@ public class RecipeDetailsFragment extends Fragment {
     }
 
 
-    public void sendNotification(String SenderId, String ownerId, String recipeName) {
-        try {
-            String message = "Banana Give like To" + recipeName + "recipe";
-            final JSONObject rootObject  = new JSONObject();
-            rootObject.put("to", ownerId);
-            rootObject.put("data", new JSONObject().put("message", message));
-
-            String url = "https://fcm.googleapis.com/fcm/send";
-
-            RequestQueue queue = Volley.newRequestQueue(getActivity());
-            StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                }
-            }) {
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> headers = new HashMap<>();
-                    headers.put("Content-Type", "application/json");
-                    headers.put("Authorization", "key=" + API_TOKEN_KEY);
-                    return headers;
-                }
-
-                @Override
-                public byte[] getBody() throws AuthFailureError {
-                    return rootObject.toString().getBytes();
-                }
-            };
-            queue.add(request);
-            queue.start();
-
-        }catch (JSONException ex) {
-            ex.printStackTrace();
-        } ;
-
-        receiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-
-                // messageTv.setText(intent.getStringExtra("message"));
-            }
-        };
-        IntentFilter filter = new IntentFilter("message_received");
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver,filter);
-    }
-
-    public  String sendNotif (String to,  String body)  {
+    public String sendLikeNotification (String SenderName, String ownerToken, String recipeName)  {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 try {
-                    final String apiKey = API_TOKEN_KEY ;
                     URL url = new URL("https://fcm.googleapis.com/fcm/send");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setDoOutput(true);
                     conn.setRequestMethod("POST");
                     conn.setRequestProperty("Content-Type", "application/json");
-                    conn.setRequestProperty("Authorization", "key=" + apiKey);
+                    conn.setRequestProperty("Authorization", "key=" + API_TOKEN_KEY);
                     conn.setDoOutput(true);
-                    JSONObject message = new JSONObject();
-                    message.put("to", to);
-                    message.put("priority", "high");
 
-                    JSONObject notification = new JSONObject();
-                    // notification.put("title", title);
-                    notification.put("body", body);
-                    message.put("data", notification);
+                    String message = SenderName + " has liked your " + recipeName + " recipe.";
+                    final JSONObject rootObject  = new JSONObject();
+                    rootObject.put("to", ownerToken);
+                    rootObject.put("data", new JSONObject().put("message", message).put("title", "You've got a like!"));
+                    rootObject.put("priority", "high");
+
                     OutputStream os = conn.getOutputStream();
-                    os.write(message.toString().getBytes());
+                    os.write(rootObject.toString().getBytes());
                     os.flush();
                     os.close();
 
                     int responseCode = conn.getResponseCode();
                     System.out.println("\nSending 'POST' request to URL : " + url);
-                    System.out.println("Post parameters : " + message.toString());
+                    System.out.println("Post parameters : " + rootObject.toString());
                     System.out.println("Response Code : " + responseCode);
                     System.out.println("Response Code : " + conn.getResponseMessage());
 
