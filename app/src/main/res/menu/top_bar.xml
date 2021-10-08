@@ -13,9 +13,15 @@
         android:orderInCategory="101"
         android:title="@string/settings"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_properties"
+        android:orderInCategory="101"
+        android:title="@string/user_properties"
+        app:showAsAction="never" />
     <item
         android:id="@+id/action_logout"
-        android:orderInCategory="102"
+        android:orderInCategory="103"
         android:title="@string/Logout"
         app:showAsAction="never" />
 

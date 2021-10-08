@@ -3,7 +3,7 @@
     <PreferenceCategory app:title="@string/Ui">
 
         <ListPreference
-            app:defaultValue="English"
+            app:defaultValue="en"
             app:entries="@array/reply_entries"
             app:entryValues="@array/reply_values"
             app:key="reply"
