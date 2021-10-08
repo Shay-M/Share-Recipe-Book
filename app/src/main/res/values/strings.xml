@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Share Recipe Book</string>
+    <string name="app_name">Share Recipe Book</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home">Home</string>
@@ -15,7 +15,13 @@
     <string name="Logout">logout</string>
     <string name="my_favorites">My favorites</string>
     <string name="My_recipes">My recipes</string>
+    <string name="login_instructions">Hello! \nTo enjoy all of our features, you must be logged in. You can sign up if you do not have an account yet</string>
+    <string name="register_instructions">Please fill in your name, email and password</string>
+
     <!--    msg-->
     <string name="msg_logout">"You have logged out, you are now a guest"</string>
     <string name="msg_logout_failed">"You are not logged in"</string>
+    <string name="title_bar_login">Login</string>
+    <string name="register">Register</string>
+    <string name="msg_needLogin">You must be logged in to add recipes</string>
 </resources>

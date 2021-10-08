@@ -4,17 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/purple_700"
-    tools:context=".view.fragments.registerFragment"
-    android:orientation="vertical">
+    android:background="@color/d"
+    android:orientation="vertical"
+    tools:context=".view.fragments.registerFragment">
 
-    <ImageView
-        android:id="@+id/logo"
+    <TextView
+        android:id="@+id/login_instructions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:padding="20dp"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:text="@string/register_instructions"
+        android:textColor="@color/b"
+        android:textSize="16sp" />
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -68,6 +70,6 @@
         android:id="@+id/fragment_register_register_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Register" />
+        android:text="@string/register" />
 
 </LinearLayout>

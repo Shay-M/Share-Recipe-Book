@@ -1,9 +1,10 @@
 package com.pinky.sharerecipebook.models;/* Created by Shay Mualem 31/08/2021 */
 
 import java.util.ArrayList;
-
+// https://stackoverflow.com/questions/52718594/what-is-the-best-way-to-add-data-to-a-list-in-firebase-realtime-database
 public class User extends Guest {
 
+    //Map<String, String> favoriteRecipeHashMap;
     //private Recipe myRecipe;
     private String firebaseUserId;
     private String emailAddress;
@@ -15,12 +16,14 @@ public class User extends Guest {
         this.emailAddress = emailAddress;
         this.firebaseUserId = firebaseUserId;
         this.favoriteRecipe = new ArrayList<>();
-        this.favoriteRecipe.add("null");
+        this.favoriteRecipe.add("NO_FAVORITE_RECIPE");
+        //this.favoriteRecipeHashMap = new HashMap<>();
     }
 
     public User() {
         //need for fire base
     }
+
 
     public String getFirebaseUserId() {
         return firebaseUserId;
@@ -48,6 +51,10 @@ public class User extends Guest {
 
     public void addFavoriteRecipe(String favoriteRecipe) {
         this.favoriteRecipe.add(favoriteRecipe);
+    }
+
+    public void removeFavoriteRecipe(String favoriteRecipeId) {
+        this.favoriteRecipe.remove(favoriteRecipeId);
     }
 
 

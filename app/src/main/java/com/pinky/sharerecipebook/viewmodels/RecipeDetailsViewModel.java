@@ -9,17 +9,13 @@ import com.pinky.sharerecipebook.models.Recipe;
 import com.pinky.sharerecipebook.models.User;
 import com.pinky.sharerecipebook.repositories.FirebaseDatabaseRepository;
 
+import java.util.ArrayList;
+
 public class RecipeDetailsViewModel extends ViewModel {
 
     public MutableLiveData<User> liveDataUserRecipeCreated;
     public MutableLiveData<User> liveDataCurrentUser;
     private String userMakeId;
-    //FirebaseDatabase database = FirebaseDatabase.getInstance();
-    //final DatabaseReference myUsersDBRef = database.getReference("users");
-//
-//    public MutableLiveData<Boolean> LikedRecipeOn;
-
-//    protected final FirebaseUser CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
 
     public void init() {
         if (liveDataUserRecipeCreated != null)
@@ -42,15 +38,17 @@ public class RecipeDetailsViewModel extends ViewModel {
         String folder = "recipe";
         String fildeToChange = "rank";
 
-        FirebaseDatabaseRepository.getInstance()
-                .changeDataFirebase(folder, IdTofind, fildeToChange, Integer.toString(newValue),0);
+        // change like in recipe
+        FirebaseDatabaseRepository.getInstance().changeDataFirebase(folder, IdTofind, fildeToChange, Integer.toString(newValue), 0);
+
     }
 
-/*    public LiveData<User> getCurrentUserLiveData() {
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        liveDataCurrentUser = FirebaseDatabaseRepository.getInstance().getUserByIdFromFirebase(userId);
-        return liveDataCurrentUser;
-    }*/
+    public void addIdLikeToUser(String IdTofind, ArrayList<String> newValue) {
+        String folder = "users";
+        String fildeToChange = "favoriteRecipe";
 
+        // change like in recipe
+        FirebaseDatabaseRepository.getInstance().changeDataFirebaseArrayList(folder, IdTofind, fildeToChange, newValue);
 
+    }
 }

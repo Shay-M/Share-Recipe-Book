@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.astritveliu.boom.Boom;
 import com.bumptech.glide.Glide;
+import com.facebook.shimmer.Shimmer;
+import com.facebook.shimmer.ShimmerDrawable;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.models.Recipe;
 
@@ -27,7 +29,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     //callback fun
     private RecyclerViewListener clicksListener;
     private Context context;
-    private String key = "FAVORITE";
+
+    private ArrayList<String> favoriteRecipe = new ArrayList<>();
+
     // search filter
     private Filter filter = new Filter() {
         @Override
@@ -38,12 +42,27 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
-                if (constraint.toString().startsWith("#my")) {
+                if (constraint.toString().startsWith("#my")) { // user Recipe
                     Log.d("performFiltering", "filterPattern: " + filterPattern);
 
                     for (Recipe item : recipeItemListFull) {
-                        if (item.getFirebaseUserIdMade().toLowerCase().equals(filterPattern.substring(3, filterPattern.length())))
+                        if (item.getFirebaseUserIdMade().toLowerCase().equals(filterPattern
+                                .substring(3, filterPattern.length()))) // removing "#my"
                             filteredList.add(item);
+                    }
+                } else if (constraint.toString().startsWith("#fav") && !favoriteRecipe.isEmpty()) {
+
+                   /* ArrayList<String> temp = new ArrayList<>();
+                    temp.add("-Ml5zZ-lB5eElLZ2UUN0");
+                    temp.add("-MlF2v8HAy5iYKNhIGCA");*/
+                    Log.d("performFiltering", "favoriteRecipe: " + favoriteRecipe);
+
+                    for (Recipe item : recipeItemListFull) {
+                        favoriteRecipe.forEach(s -> {
+                            if (item.getRecipeId().equals(s))
+                                filteredList.add(item);
+                        });
+
                     }
                 } else {
                     for (Recipe itemByName : recipeItemListFull) {
@@ -60,11 +79,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
+            Log.d("results", "publishResults: " + results);
             recipeItemList.clear();
             recipeItemList.addAll((ArrayList) results.values);
             notifyDataSetChanged();
         }
     };
+
 
     // constructor
     public RecipeAdapter(ArrayList<Recipe> listOfRecipesItems, Context context) {
@@ -102,13 +123,30 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         //set img
         ImageView imageView = holder.recipeImageIv;///////
 
-        //todo Shimmer ? https://stackoverflow.com/questions/61076174/how-to-use-a-view-shimmer-as-a-placeholder-for-an-imageview-glide
+        //Shimmer https://stackoverflow.com/questions/61076174/how-to-use-a-view-shimmer-as-a-placeholder-for-an-imageview-glide
+
+        // The attributes for a ShimmerDrawable is set by this builder
+        // how long the shimmering animation takes to do one full sweep
+        //the alpha of the underlying children
+        // the shimmer alpha amount
+        Shimmer shimmer = new Shimmer.AlphaHighlightBuilder()// The attributes for a ShimmerDrawable is set by this builder
+                .setDuration(1500) // how long the shimmering animation takes to do one full sweep
+                .setBaseAlpha(0.5f) //the alpha of the underlying children
+                .setHighlightAlpha(0.3f) // the shimmer alpha amount
+                .setDirection(Shimmer.Direction.LEFT_TO_RIGHT)
+                .setAutoStart(true)
+                .build();
+
+        // This is the placeholder for the imageView
+        ShimmerDrawable shimmerDrawable = new ShimmerDrawable();
+        shimmerDrawable.setShimmer(shimmer);
+
         if (RecipeItem.getImagePath() != null)
             Glide.with(holder.recipeImageIv.getContext())
                     .load(RecipeItem.getImagePath())
                     .thumbnail(0.10f)
                     .centerCrop()
-//                    .placeholder(R.drawable.common_google_signin_btn_icon_dark) // todo change img or not need?
+                    .placeholder(shimmerDrawable)
                     .error(android.R.drawable.ic_dialog_info)
                     .into(imageView);
         else {
@@ -138,6 +176,16 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         return filter;
     }
 
+    public void setFavoriteRecipeList(ArrayList<String> fRecipe) {
+        if (fRecipe != null) {
+            this.favoriteRecipe.clear();
+            this.favoriteRecipe.addAll(fRecipe);
+        }
+        Log.d("performFiltering", "favoriteRecipe: " + favoriteRecipe);
+
+//        this.favoriteRecipe = favoriteRecipe;
+    }
+
 
     // interface to manager all RecyclerView events
     public interface RecyclerViewListener {
@@ -159,7 +207,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
         public RecipeViewHolder(View itemView) {
             super(itemView);
-            recipeTitleTv = itemView.findViewById(R.id.recipe_item_title_text);
+            recipeTitleTv = itemView.findViewById(R.id.comment_text);
             recipeRatingTv = itemView.findViewById(R.id.recipe_item_rating_text);
             recipeImageIv = itemView.findViewById(R.id.recipe_item_img);
 

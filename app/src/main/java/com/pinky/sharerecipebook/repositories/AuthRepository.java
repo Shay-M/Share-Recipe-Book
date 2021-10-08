@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.pinky.sharerecipebook.models.User;
 
 public class AuthRepository {
@@ -41,6 +42,7 @@ public class AuthRepository {
         if (firebaseAuth.getCurrentUser() != null) {
             userLiveData.postValue(firebaseAuth.getCurrentUser());
             loggedOutLiveData.postValue(false);
+
         }
     }
 
@@ -56,6 +58,8 @@ public class AuthRepository {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     userLiveData.postValue(firebaseAuth.getCurrentUser());
+                                    loggedOutLiveData.postValue(false); // update live data - login user
+
                                     //UserLoginHelper.getInstance().setUser(email);
 
                                 } else {
@@ -89,7 +93,11 @@ public class AuthRepository {
                                 .setValue(newUser)
                                 .addOnCompleteListener(task1 -> {
                                     Log.d("DatabaseReferenceUsers", "onComplete: ");
+                                    loggedOutLiveData.postValue(false); // update live data
+
                                 });
+
+                        FirebaseMessaging.getInstance().subscribeToTopic(key); // Yariv Added
 
                     } else {
                         Toast.makeText(application.getApplicationContext(), "Registration Failure: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

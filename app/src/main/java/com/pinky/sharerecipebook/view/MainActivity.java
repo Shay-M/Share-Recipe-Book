@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
         CameraManagerUrl.init(this);
 
-        getSupportActionBar().setTitle("");
+        getSupportActionBar().setTitle(""); // show user name or not?
 
     }
 }
