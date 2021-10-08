@@ -163,6 +163,12 @@ public class RecipeDetailsFragment extends Fragment {
                     likeRecipe = true;
                     LoginUserGet.addFavoriteRecipe(recipeGet.getRecipeId());
                     tempLike = 1;
+
+                    if(!LoginUserGet.getFirebaseUserId().equals(recipeGet.getFirebaseUserIdMade())) {
+                        sendLikeNotification(LoginUserGet.getName(),
+                                recipeGet.getFirebaseDeviceTokenMade(),
+                                recipeGet.getTitle());
+                    }
                 } else {
                     recipe_details_image_like.setImageResource(R.drawable.ic_twotone_favorite_48);
                     likeRecipe = false;
@@ -179,11 +185,6 @@ public class RecipeDetailsFragment extends Fragment {
 
                 // change like in user
                 recipeDetailsViewModel.addIdLikeToUser(LoginUserGet.getFirebaseUserId(), LoginUserGet.getFavoriteRecipe());
-
-                sendLikeNotification(LoginUserGet.getName(),
-                        "deLzdVdlR76RqieFtWI0ry:APA91bHY5nliOWp-j0ZK9PFWdVU0g2MKXDM6Ye6DF0s1OwF0gHd3oeCxINkJhhsnGwKPoRy8T-kbPSdG3ESMfXc7vCyS0_xJ9Sl8XRmMuC22fNJr_t6L7YEuvJKMR6ojP5SYC97qYP4L",
-                        recipeGet.getTitle());
-
             } else {
                 // go to login?
             }
