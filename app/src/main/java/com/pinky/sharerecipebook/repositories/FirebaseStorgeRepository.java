@@ -48,7 +48,7 @@ public class FirebaseStorgeRepository {
         return INSTANCE;
     }
 
-    public void UploadFile(Uri imageUri, OnTaskDownloadUri onTaskDownloadUri) {
+    public void UploadFile(Uri imageUri, String folder, OnTaskDownloadUri onTaskDownloadUri) {
         Log.d("UploadFile", "imageUri:" + imageUri);
 
         String userID = AuthRepository.getInstance().getCurrentUser().getUid(); // userID for name folder in db
@@ -61,7 +61,7 @@ public class FirebaseStorgeRepository {
         String fileName = "" + timeStamp + "" + ".jpg ";
 
         // Create a reference
-        storageReference = mStorageRef.child("images/recipe/" + userID + "/" + fileName);
+        storageReference = mStorageRef.child("images/" + folder + "/" + userID + "/" + fileName);
 
         UploadTask uploadTask;
         uploadTask = storageReference.putFile(imageUri);

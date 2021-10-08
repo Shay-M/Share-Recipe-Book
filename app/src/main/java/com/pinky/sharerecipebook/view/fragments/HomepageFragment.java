@@ -66,9 +66,6 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
 
 
         inflater.inflate(R.menu.top_bar, menu);
-        /*CheckBox checkBox = (CheckBox) menu.findItem(R.id.action_favorites).getActionView();
-        checkBox.setChecked(false);
-        checkBox.setButtonDrawable(R.drawable.ic_twotone_favorite_48);*/
 
         // search
         MenuItem searchItem = menu.findItem(R.id.action_search);
@@ -112,7 +109,6 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
             case R.id.action_properties:
                 bundle = new Bundle();
                 bundle.putSerializable("expandLoginUser", loginUser);
-//                actionBar.setTitle("hhh");
                 Navigation.findNavController(rootView).navigate(R.id.action_homepageFragment_to_userProfileFragment, bundle);
 
                 return true;

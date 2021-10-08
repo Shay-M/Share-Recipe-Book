@@ -1,11 +1,11 @@
 package com.pinky.sharerecipebook.view;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.utils.CameraManagerUrl;
@@ -30,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
         actionBar = getSupportActionBar();
         // Set BackgroundDrawable
         actionBar.setBackgroundDrawable(colorDrawable);*/
+
+
+        SharedPreferences banana = PreferenceManager.getDefaultSharedPreferences(this);
+        Log.d("len", "onCreate: " + banana.getString("language", "iw"));
 
         CameraManagerUrl.init(this);
 

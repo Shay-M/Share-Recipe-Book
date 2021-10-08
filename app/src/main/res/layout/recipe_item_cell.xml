@@ -66,12 +66,11 @@
             android:text="Recipe Title"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textSize="18sp" />
 
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
 
 
-<!--    android:fontFamily="@font/recipety"-->
+    <!--    android:fontFamily="@font/recipety"-->

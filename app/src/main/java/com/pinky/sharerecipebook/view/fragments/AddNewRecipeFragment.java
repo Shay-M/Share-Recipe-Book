@@ -280,7 +280,7 @@ public class AddNewRecipeFragment extends Fragment {
                 loadingDialog.startLoadingDialog();
 
                 // upload img to Firebase Storge
-                FirebaseStorgeRepository.getInstance().UploadFile(photoURI, new FirebaseStorgeRepository.OnTaskDownloadUri() {
+                FirebaseStorgeRepository.getInstance().UploadFile(photoURI,"recipe", new FirebaseStorgeRepository.OnTaskDownloadUri() {
                     @Override
                     public void onSuccess(Uri downloadUri) {
 
@@ -311,7 +311,6 @@ public class AddNewRecipeFragment extends Fragment {
                     @Override
                     public void onProgress(double progressNum) { // todo remove?
                         Log.d("onProgress", "progressNum: " + progressNum + " %");
-                        //loadingDialog./////();
                     }
                 });
             }
@@ -323,12 +322,10 @@ public class AddNewRecipeFragment extends Fragment {
         cameraFullSizeResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.TakePicture(),
                 result -> {
-                    Log.d("initLaunchers", "result: " + result);
                     if (result) { //true if the image saved to the uri given in the launch function
                         Glide.with(this)
                                 .load(photoURI)
                                 .centerCrop()
-                                .thumbnail(0.10f)
                                 //.placeholder(R.drawable.common_google_signin_btn_icon_dark) // todo change img or not need?
                                 .error(android.R.drawable.ic_dialog_info)
                                 .into(picContentView);
@@ -345,7 +342,6 @@ public class AddNewRecipeFragment extends Fragment {
                         Glide.with(this)
                                 .load(photoURI)
                                 .centerCrop()
-                                .thumbnail(0.10f)
                                 //.placeholder(R.drawable.common_google_signin_btn_icon_dark) // todo change img or not need?
                                 .error(android.R.drawable.ic_dialog_info)
                                 .into(picContentView); // todo add try?

@@ -53,6 +53,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword" />
+
+        <TextView
+            android:id="@+id/resat_pasoword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="@string/resat_pasoword"
+            android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -61,7 +69,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-
         android:backgroundTint="@color/d"
         android:text="Login"
         app:icon="@drawable/ic_twotone_login_24" />
@@ -71,6 +78,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:backgroundTint="@color/f"
         android:text="Register" />
 
 </LinearLayout>

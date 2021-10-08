@@ -6,7 +6,7 @@
             app:defaultValue="en"
             app:entries="@array/reply_entries"
             app:entryValues="@array/reply_values"
-            app:key="reply"
+            app:key="language"
             app:title="@string/language"
             app:useSimpleSummaryProvider="true" />
 
