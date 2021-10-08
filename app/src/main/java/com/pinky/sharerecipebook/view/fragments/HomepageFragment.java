@@ -54,7 +54,12 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
 
         actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setTitle("");
+
+        if (actionBar != null) {
+            actionBar.show();
+            actionBar.setTitle("");
+        }
+
         //MainActivity mA = ((MainActivity)getActivity());
         //mA.setActionBarColor(Color.parseColor("#FFA2C13E"));
         //actionBar.setTitle("Hello, " + loginUser.getName());

@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
@@ -45,7 +47,14 @@ public class RecipeDetailsFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.hide();
+        }
+
         super.onCreate(savedInstanceState);
+
         likeRecipe = false;
         recipeDetailsViewModel = new ViewModelProvider(this).get(RecipeDetailsViewModel.class);
         recipeDetailsViewModel.init();
@@ -58,6 +67,8 @@ public class RecipeDetailsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 //        return inflater.inflate(R.layout.fragment_recipe_details_page, container, false);
+
+
         View view = inflater.inflate(R.layout.fragment_recipe_details_page, container, false);
 
         recipe_title = view.findViewById(R.id.frag_recipe_details_title_text);
@@ -160,6 +171,7 @@ public class RecipeDetailsFragment extends Fragment {
                 // go to login?
             }
         });
+
         //  pager Adapter
         FragmentManager fragmentManager = getParentFragmentManager();
 
@@ -186,6 +198,15 @@ public class RecipeDetailsFragment extends Fragment {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 
+            }
+        });
+
+        // update tabLayout
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                tabLayout.selectTab(tabLayout.getTabAt(position));
+                super.onPageSelected(position);
             }
         });
 
