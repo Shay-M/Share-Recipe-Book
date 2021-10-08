@@ -106,7 +106,8 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("expandLoginUser", loginUser);
 
-                Navigation.findNavController(rootView).navigate(R.id.action_homepageFragment_to_userProfileFragment, bundle);
+//                Navigation.findNavController(rootView).navigate(R.id.action_homepageFragment_to_userProfileFragment, bundle);
+                Navigation.findNavController(rootView).navigate(R.id.action_homepageFragment_to_settingsFragment, bundle);
 
                 return true;
 

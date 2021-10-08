@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_homepageFragment_to_userProfileFragment"
             app:destination="@id/userProfileFragment" />
+        <action
+            android:id="@+id/action_homepageFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/recipeDetailsFragment"
@@ -74,4 +77,8 @@
         android:name="com.pinky.sharerecipebook.view.fragments.UserProfileFragment"
         android:label="fragment_user_profile"
         tools:layout="@layout/fragment_user_profile" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.pinky.sharerecipebook.view.fragments.SettingsFragment"
+        android:label="SettingsFragment" />
 </navigation>
