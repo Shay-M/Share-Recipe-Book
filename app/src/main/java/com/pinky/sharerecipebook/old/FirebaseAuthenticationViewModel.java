@@ -269,3 +269,6 @@ public class FirebaseAuthenticationViewModel {
     //*/
 
 }
+
+
+// https://www.youtube.com/watch?v=xoP2GsPcr1o

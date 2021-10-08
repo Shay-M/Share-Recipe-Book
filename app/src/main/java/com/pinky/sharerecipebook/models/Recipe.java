@@ -1,7 +1,6 @@
 package com.pinky.sharerecipebook.models;/* Created by Shay Mualem 31/08/2021 */
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,8 +14,6 @@ public class Recipe implements Serializable {
     private String ingredients; // convert to class
     private int rank;
     private String imagePath;
-    private ArrayList<Comment> commentArrayList;// todo change??
-    //Map<String, String> favoriteRecipeHashMap;
     private Map<String, Comment> commentArrayListHashMap;
 
     public Recipe(String firebaseUserIdMade, String title, String preparation, String ingredients, String imagePath, String recipeId) {
@@ -27,10 +24,10 @@ public class Recipe implements Serializable {
         this.preparation = preparation;
         this.rank = 0;
         this.imagePath = imagePath;
-        this.commentArrayList = new ArrayList<>();
         this.commentArrayListHashMap = new HashMap<>();
-        commentArrayListHashMap.put("try", new Comment("fd", "123"));
 
+        //        this.commentArrayList = new ArrayList<>();
+//        commentArrayListHashMap.put("try", new Comment("fd", "123"));
         /*Comment c = new Comment("sdfsdf", "sdfsdf");
         commentArrayList.add(c);*/
     }
@@ -46,13 +43,6 @@ public class Recipe implements Serializable {
         this.commentArrayListHashMap = commentArrayListHashMap;
     }
 
-    public ArrayList<Comment> getCommentArrayList() {
-        return commentArrayList;
-    }
-
-    public void setCommentArrayList(ArrayList<Comment> commentArrayList) {
-        this.commentArrayList = commentArrayList;
-    }
 
     public String getRecipeId() {
         return recipeId;
@@ -62,11 +52,6 @@ public class Recipe implements Serializable {
         this.recipeId = recipeId;
     }
 
-
-    public void addCommentArrayList(Comment comment) {
-        //this.commentArrayList.add(new Comment("hii", "123", timeStamp));
-        this.commentArrayList.add(comment);
-    }
 
     public String getFirebaseUserIdMade() {
         return firebaseUserIdMade;
