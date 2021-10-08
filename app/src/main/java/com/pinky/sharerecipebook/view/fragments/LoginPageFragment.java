@@ -11,23 +11,19 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseUser;
 import com.pinky.sharerecipebook.R;
-import com.pinky.sharerecipebook.utils.UserLoginHelper;
 import com.pinky.sharerecipebook.viewmodels.LoginViewModel;
 
 public class LoginPageFragment extends Fragment {
-    // private EditText emailEditText;
-    // private EditText passwordEditText;
     private TextInputLayout passwordEditText;
     private TextInputLayout emailEditText;
     private Button loginButton;
@@ -38,6 +34,13 @@ public class LoginPageFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.hide();
+        }
+
         super.onCreate(savedInstanceState);
 
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
@@ -94,8 +97,7 @@ public class LoginPageFragment extends Fragment {
                 Log.d("onClick", "password.isEmpty() || password.length()");
 
             } else {
-                Snackbar.make(this.getView(), "Login... Please wait", BaseTransientBottomBar.LENGTH_SHORT).show();
-
+//                Snackbar.make(this.getView(), "Login... Please wait", BaseTransientBottomBar.LENGTH_SHORT).show();
                 loginViewModel.login(email, password);
 
             }

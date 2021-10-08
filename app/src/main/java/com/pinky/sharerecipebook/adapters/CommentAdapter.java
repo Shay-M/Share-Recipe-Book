@@ -75,8 +75,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         //new Boom(imageUserView);
 
 
-
-
         /*Shimmer shimmer = new Shimmer.AlphaHighlightBuilder()// The attributes for a ShimmerDrawable is set by this builder
                 .setDuration(1500) // how long the shimmering animation takes to do one full sweep
                 .setBaseAlpha(0.5f) //the alpha of the underlying children

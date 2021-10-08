@@ -12,8 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Ingredients"
+        android:fontFamily="@font/recipety"
         android:padding="15dp"
-        android:textSize="16sp" />
+        android:textSize="18sp" />
 
 
 </FrameLayout>
