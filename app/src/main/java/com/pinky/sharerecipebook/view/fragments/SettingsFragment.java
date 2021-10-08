@@ -15,7 +15,7 @@ import com.pinky.sharerecipebook.R;
 public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        container.setBackgroundColor(getResources().getColor(R.color.c, null));
+        container.setBackgroundColor(getResources().getColor(R.color.a, null));
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 

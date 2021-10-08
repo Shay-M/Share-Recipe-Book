@@ -98,16 +98,22 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         Log.d("action", "item: " + item);
+        Bundle bundle;
 
         switch (item.getItemId()) {
             case R.id.action_settings:
-                //  todo User chose the "Settings" item, show the app settings UI...
-
-                Bundle bundle = new Bundle();
+                bundle = new Bundle();
                 bundle.putSerializable("expandLoginUser", loginUser);
-
-//                Navigation.findNavController(rootView).navigate(R.id.action_homepageFragment_to_userProfileFragment, bundle);
+                actionBar.setTitle("settings");
                 Navigation.findNavController(rootView).navigate(R.id.action_homepageFragment_to_settingsFragment, bundle);
+
+                return true;
+
+            case R.id.action_properties:
+                bundle = new Bundle();
+                bundle.putSerializable("expandLoginUser", loginUser);
+//                actionBar.setTitle("hhh");
+                Navigation.findNavController(rootView).navigate(R.id.action_homepageFragment_to_userProfileFragment, bundle);
 
                 return true;
 
