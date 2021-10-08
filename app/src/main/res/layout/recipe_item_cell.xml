@@ -67,7 +67,8 @@
             android:text="Recipe Title"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
 
     </RelativeLayout>
