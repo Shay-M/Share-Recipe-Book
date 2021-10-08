@@ -1,4 +1,5 @@
-package com.pinky.sharerecipebook.adapters;/* Created by Shay Mualem 23/07/2021 */
+package com.pinky.sharerecipebook.adapters;
+/* Created by Shay Mualem 23/07/2021 */
 
 import android.content.Context;
 import android.util.Log;

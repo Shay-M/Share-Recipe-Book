@@ -81,7 +81,8 @@ public class AuthRepository {
                                 name,
                                 "", // todo
                                 email,
-                                firebaseAuth.getCurrentUser().getUid()
+                                firebaseAuth.getCurrentUser().getUid(),
+                                "deviceTokenId" // todo
                         );
 
                         String key = firebaseAuth.getCurrentUser().getUid(); //??? DatabaseReferenceUsers.push().getKey();
