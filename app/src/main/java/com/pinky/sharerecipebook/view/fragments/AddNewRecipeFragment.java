@@ -183,6 +183,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.models.Recipe;
+import com.pinky.sharerecipebook.models.User;
 import com.pinky.sharerecipebook.repositories.AuthRepository;
 import com.pinky.sharerecipebook.repositories.FirebaseStorgeRepository;
 import com.pinky.sharerecipebook.utils.CameraManagerUrl;
@@ -286,6 +287,7 @@ public class AddNewRecipeFragment extends Fragment {
 
                         Recipe tempRecipe = new Recipe(
                                 AuthRepository.getInstance().getCurrentUser().getUid(), // same? AuthRepository.getInstance().getUid()
+                                ((User) requireArguments().getSerializable("expandLoginUser")).getDeviceTokenId(),
                                 TitleText.getText().toString(),
                                 preparationText.getText().toString(),
                                 IngredientsText.getText().toString(),

@@ -16,10 +16,13 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.viewmodels.LoginViewModel;
 
@@ -97,9 +100,14 @@ public class registerFragment extends Fragment {
                 Log.d("onClick", "password");
             } else {
                 Snackbar.make(this.getView(), "Login... Please wait", BaseTransientBottomBar.LENGTH_SHORT).show();
-                loginViewModel.register(email, password, name);
+
+                FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        loginViewModel.register(email, password, name, task.getResult());
+                    }
+                });
             }
         });
     }
-
 }

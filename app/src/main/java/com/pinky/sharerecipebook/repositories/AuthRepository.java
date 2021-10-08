@@ -70,7 +70,7 @@ public class AuthRepository {
                         });
     }
 
-    public void register(String email, String password, String name) { // create New User
+    public void register(String email, String password, String name, String deviceTokenId) { // create New User
 
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(application.getMainExecutor(), task -> {
@@ -83,7 +83,7 @@ public class AuthRepository {
                                 "", // todo
                                 email,
                                 firebaseAuth.getCurrentUser().getUid(),
-                                "deviceTokenId" // todo
+                                deviceTokenId
                         );
 
                         String key = firebaseAuth.getCurrentUser().getUid(); //??? DatabaseReferenceUsers.push().getKey();

@@ -9,6 +9,7 @@ import java.util.Map;
 public class Recipe implements Serializable {
     private String recipeId;
     private String firebaseUserIdMade;    //add userId
+    private String firebaseDeviceTokenMade;
     private String title;
     private String preparation;
     private String ingredients; // convert to class
@@ -16,8 +17,9 @@ public class Recipe implements Serializable {
     private String imagePath;
     private Map<String, Comment> commentArrayListHashMap;
 
-    public Recipe(String firebaseUserIdMade, String title, String preparation, String ingredients, String imagePath, String recipeId) {
+    public Recipe(String firebaseUserIdMade, String firebaseDeviceTokenMade, String title, String preparation, String ingredients, String imagePath, String recipeId) {
         this.firebaseUserIdMade = firebaseUserIdMade;
+        this.firebaseDeviceTokenMade = firebaseDeviceTokenMade;
         this.recipeId = recipeId;
         this.title = title;
         this.ingredients = ingredients;
@@ -59,6 +61,14 @@ public class Recipe implements Serializable {
 
     public void setFirebaseUserIdMade(String firebaseUserIdMade) {
         this.firebaseUserIdMade = firebaseUserIdMade;
+    }
+
+    public String getFirebaseDeviceTokenMade() {
+        return firebaseDeviceTokenMade;
+    }
+
+    public void setFirebaseDeviceTokenMade(String firebaseDeviceTokenMade) {
+        this.firebaseDeviceTokenMade = firebaseDeviceTokenMade;
     }
 
     public String getTitle() {
