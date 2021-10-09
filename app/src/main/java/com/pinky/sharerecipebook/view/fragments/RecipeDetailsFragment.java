@@ -166,7 +166,7 @@ public class RecipeDetailsFragment extends Fragment {
                     LoginUserGet.addFavoriteRecipe(recipeGet.getRecipeId());
                     tempLike = 1;
 
-                    if(!LoginUserGet.getFirebaseUserId().equals(recipeGet.getFirebaseUserIdMade())) {
+                    if (LoginUserGet.getFirebaseUserId().equals(recipeGet.getFirebaseUserIdMade())) {
                         sendLikeNotification(LoginUserGet.getName(),
                                 recipeGet.getFirebaseDeviceTokenMade(),
                                 recipeGet.getTitle());
@@ -197,7 +197,7 @@ public class RecipeDetailsFragment extends Fragment {
             /*Bundle bundle = new Bundle();
             bundle.putSerializable("expanduserId", recipeGet.getFirebaseUserIdMade());
             bundle.putSerializable("expanduserMakeName",  userMakeName);*/
-           // RecipeDetailsFragmentDirections.actionRecipeDetailsFragmentToHomepageFragment(recipeGet.getFirebaseUserIdMade());
+            // RecipeDetailsFragmentDirections.actionRecipeDetailsFragmentToHomepageFragment(recipeGet.getFirebaseUserIdMade());
             //Navigation.findNavController(view).navigate(R.id.action_recipeDetailsFragment_to_homepageFragment, bundle);
 
         });
@@ -210,7 +210,6 @@ public class RecipeDetailsFragment extends Fragment {
         // adding fragments
         pagerAdapter.addFragment(new prepareAndIngredients(recipeGet.getIngredients()));
         pagerAdapter.addFragment(new prepareAndIngredients(recipeGet.getPreparation()));
-        pagerAdapter.addFragment(new uiCommentsFragment(recipeGet.getRecipeId(), recipeGet.getCommentArrayListHashMap(), LoginUserGet.getUserImagePath()));
 
         //Aaron
         pagerAdapter.addFragment(new uiCommentsFragment(recipeGet.getRecipeId(),
@@ -247,9 +246,10 @@ public class RecipeDetailsFragment extends Fragment {
                 super.onPageSelected(position);
             }
         });
+    }
 
-
-    public String sendLikeNotification (String senderName, String ownerToken, String recipeName)  {
+    public String sendLikeNotification (String senderName, String ownerToken, String recipeName)
+    {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -263,7 +263,7 @@ public class RecipeDetailsFragment extends Fragment {
                     conn.setDoOutput(true);
 
                     String message = senderName + " has liked your " + recipeName + " recipe.";
-                    final JSONObject rootObject  = new JSONObject();
+                    final JSONObject rootObject = new JSONObject();
                     rootObject.put("to", ownerToken);
                     rootObject.put("data", new JSONObject().put("message", message).put("title", "You've got a like!"));
                     rootObject.put("priority", "high");
