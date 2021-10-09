@@ -2,6 +2,7 @@ package com.pinky.sharerecipebook.view.fragments.ui;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -117,7 +118,7 @@ public class uiCommentsFragment extends Fragment {
 
     }
 
-    public String sendCommentNotification (String senderName, String ownerToken, String recipeName)  {
+    public void sendCommentNotification (String senderName, String ownerToken, String recipeName)  {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -130,10 +131,10 @@ public class uiCommentsFragment extends Fragment {
                     conn.setRequestProperty("Authorization", "key=" + API_TOKEN_KEY);
                     conn.setDoOutput(true);
 
-                    String message = senderName + " has commented on your " + recipeName + " recipe.";
+                    String message = senderName + " " + getString(R.string.comment_notif_has_commented) + " " + recipeName;
                     final JSONObject rootObject  = new JSONObject();
                     rootObject.put("to", ownerToken);
-                    rootObject.put("data", new JSONObject().put("message", message).put("title", "You've got a new comment!"));
+                    rootObject.put("data", new JSONObject().put("message", message).put("title", getString(R.string.comment_notif_title)));
                     rootObject.put("priority", "high");
 
                     OutputStream os = conn.getOutputStream();
@@ -142,10 +143,11 @@ public class uiCommentsFragment extends Fragment {
                     os.close();
 
                     int responseCode = conn.getResponseCode();
-                    System.out.println("\nSending 'POST' request to URL : " + url);
-                    System.out.println("Post parameters : " + rootObject.toString());
-                    System.out.println("Response Code : " + responseCode);
-                    System.out.println("Response Code : " + conn.getResponseMessage());
+                    Log.d("CommentNotification", "\nSending 'POST' request to URL : " + url);
+                    Log.d("CommentNotification", "Post parameters : " + rootObject.toString());
+                    Log.d("CommentNotification", "Post parameters : " + rootObject.toString());
+                    Log.d("CommentNotification", "Response Code : " + responseCode);
+                    Log.d("CommentNotification", "Response Code : " + conn.getResponseMessage());
 
                     BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                     String inputLine;
@@ -164,6 +166,5 @@ public class uiCommentsFragment extends Fragment {
             }
         };
         AsyncTask.execute(runnable);
-        return "ok";
     }
 }

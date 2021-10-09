@@ -104,7 +104,7 @@ public class UserProfileFragment extends Fragment {
             String userName = userNameTInput.getEditText().getText().toString();
 
             if (userName.isEmpty()) {
-                userNameTInput.setError("Give a name");
+                userNameTInput.setError(getString(R.string.error_fill_name));
                 userNameTInput.requestFocus();
                 if (userName.equals(LoginUserGet.getName()))
                     userName = null;
