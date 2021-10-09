@@ -166,7 +166,7 @@ public class RecipeDetailsFragment extends Fragment {
                     LoginUserGet.addFavoriteRecipe(recipeGet.getRecipeId());
                     tempLike = 1;
 
-                    if (LoginUserGet.getFirebaseUserId().equals(recipeGet.getFirebaseUserIdMade())) {
+                    if (!LoginUserGet.getFirebaseUserId().equals(recipeGet.getFirebaseUserIdMade())) {
                         sendLikeNotification(LoginUserGet.getName(),
                                 recipeGet.getFirebaseDeviceTokenMade(),
                                 recipeGet.getTitle());
