@@ -9,11 +9,13 @@ import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.view.MainActivity;
 
 
@@ -29,6 +31,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService{
     }
 
     final String TAG = "NotificationAdapter";
+    final String CHANNEL_ID = "id_1";
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
@@ -40,17 +43,23 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService{
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            Notification.Builder builder = new Notification.Builder(this);
 
             // Pending intent to bring user to the app
             PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
 
-            if(Build.VERSION.SDK_INT>=26){
-                NotificationChannel channel = new NotificationChannel("id_1", "name_1",NotificationManager.IMPORTANCE_HIGH);
-                manager.createNotificationChannel(channel);
-                builder.setChannelId("id_1").setContentIntent(pendingIntent);
-            }
-            builder.setContentTitle(remoteMessage.getData().get("title")).setContentText(remoteMessage.getData().get("message")).setSmallIcon(android.R.drawable.btn_star);
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID);
+
+
+            NotificationChannel channel = new NotificationChannel("id_1", "name_1",NotificationManager.IMPORTANCE_HIGH);
+            manager.createNotificationChannel(channel);
+
+            builder.setContentIntent(pendingIntent)
+                    .setContentTitle(remoteMessage.getData().get("title"))
+                    .setContentText(remoteMessage.getData().get("message"))
+                    .setSmallIcon(R.drawable.recipe_notif_icon)
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                    .bigText(remoteMessage.getData().get("message")));
+
             manager.notify(1, builder.build());
         }
 
