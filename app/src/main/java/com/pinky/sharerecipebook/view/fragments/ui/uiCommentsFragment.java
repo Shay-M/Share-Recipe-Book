@@ -1,5 +1,6 @@
 package com.pinky.sharerecipebook.view.fragments.ui;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,13 @@ import com.pinky.sharerecipebook.models.Comment;
 import com.pinky.sharerecipebook.repositories.FirebaseDatabaseRepository;
 import com.pinky.sharerecipebook.utils.HidesKeyboard;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,9 +37,13 @@ public class uiCommentsFragment extends Fragment {
     private Map<String, Comment> mcommentHashMap;
     private String mrecipeId;
     private String mfirebaseUserIdCommentl;
+    private String msenderName;
+    private String mownerToken;
+    private String mrecipeName;
+    final String API_TOKEN_KEY = "AAAAnhV6-hM:APA91bGf-3U4CbbpRZWDOXa_jRLp4fmGCrj8C2qdWMF7q82umHfj5-aVsJI_jj_8mGFDbyh3v_dpg_9EuMIf4ePq0aiJ7isGVbE8eiO_kxgjwC2t_HCqipD3poyvSRfOuOE0LA-M5LXq";
 
 
-    public uiCommentsFragment(String recipeId, Map<String, Comment> commentHashMap, String firebaseUserIdComment) {
+    public uiCommentsFragment(String recipeId, Map<String, Comment> commentHashMap, String firebaseUserIdComment, String senderName, String ownerToken, String recipeName) {
 
         if (commentHashMap == null)
             mcommentHashMap = new HashMap<>();
@@ -40,7 +52,9 @@ public class uiCommentsFragment extends Fragment {
 
         mfirebaseUserIdCommentl = firebaseUserIdComment;
         mrecipeId = recipeId;
-
+        msenderName = senderName;
+        mownerToken = ownerToken;
+        mrecipeName = recipeName;
     }
 
 
@@ -92,6 +106,56 @@ public class uiCommentsFragment extends Fragment {
         String fildeToChange = "commentArrayListHashMap";
         FirebaseDatabaseRepository.getInstance().changeDataFirebase(folder, mrecipeId, fildeToChange, comment);
 
+        sendCommentNotification(msenderName, mownerToken, mrecipeName);
+    }
 
+    public String sendCommentNotification (String senderName, String ownerToken, String recipeName)  {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL("https://fcm.googleapis.com/fcm/send");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setDoOutput(true);
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Content-Type", "application/json");
+                    conn.setRequestProperty("Authorization", "key=" + API_TOKEN_KEY);
+                    conn.setDoOutput(true);
+
+                    String message = senderName + " has commented on your " + recipeName + " recipe.";
+                    final JSONObject rootObject  = new JSONObject();
+                    rootObject.put("to", ownerToken);
+                    rootObject.put("data", new JSONObject().put("message", message).put("title", "You've got a new comment!"));
+                    rootObject.put("priority", "high");
+
+                    OutputStream os = conn.getOutputStream();
+                    os.write(rootObject.toString().getBytes());
+                    os.flush();
+                    os.close();
+
+                    int responseCode = conn.getResponseCode();
+                    System.out.println("\nSending 'POST' request to URL : " + url);
+                    System.out.println("Post parameters : " + rootObject.toString());
+                    System.out.println("Response Code : " + responseCode);
+                    System.out.println("Response Code : " + conn.getResponseMessage());
+
+                    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    String inputLine;
+                    StringBuffer response = new StringBuffer();
+
+                    while ((inputLine = in.readLine()) != null) {
+                        response.append(inputLine);
+                    }
+                    in.close();
+
+                    // print result
+                    System.out.println(response.toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        AsyncTask.execute(runnable);
+        return "ok";
     }
 }

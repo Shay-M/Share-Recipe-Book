@@ -55,7 +55,6 @@ public class RecipeDetailsFragment extends Fragment {
     private RecipeDetailsViewModel recipeDetailsViewModel;
 
     final String API_TOKEN_KEY = "AAAAnhV6-hM:APA91bGf-3U4CbbpRZWDOXa_jRLp4fmGCrj8C2qdWMF7q82umHfj5-aVsJI_jj_8mGFDbyh3v_dpg_9EuMIf4ePq0aiJ7isGVbE8eiO_kxgjwC2t_HCqipD3poyvSRfOuOE0LA-M5LXq";
-    FirebaseMessaging messaging = FirebaseMessaging.getInstance();
 
 
     @Override
@@ -198,7 +197,12 @@ public class RecipeDetailsFragment extends Fragment {
         // adding fragments
         pagerAdapter.addFragment(new prepareAndIngredients(recipeGet.getIngredients()));
         pagerAdapter.addFragment(new prepareAndIngredients(recipeGet.getPreparation()));
-        pagerAdapter.addFragment(new uiCommentsFragment(recipeGet.getRecipeId(), recipeGet.getCommentArrayListHashMap(), LoginUserGet.getUserImagePath()));
+        pagerAdapter.addFragment(new uiCommentsFragment(recipeGet.getRecipeId(),
+                recipeGet.getCommentArrayListHashMap(),
+                LoginUserGet.getUserImagePath(),
+                LoginUserGet.getName(),
+                recipeGet.getFirebaseDeviceTokenMade(),
+                recipeGet.getTitle()));
 
         viewPager2.setAdapter(pagerAdapter);
 
@@ -229,7 +233,7 @@ public class RecipeDetailsFragment extends Fragment {
         });
     }
 
-    public String sendLikeNotification (String SenderName, String ownerToken, String recipeName)  {
+    public String sendLikeNotification (String senderName, String ownerToken, String recipeName)  {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -242,7 +246,7 @@ public class RecipeDetailsFragment extends Fragment {
                     conn.setRequestProperty("Authorization", "key=" + API_TOKEN_KEY);
                     conn.setDoOutput(true);
 
-                    String message = SenderName + " has liked your " + recipeName + " recipe.";
+                    String message = senderName + " has liked your " + recipeName + " recipe.";
                     final JSONObject rootObject  = new JSONObject();
                     rootObject.put("to", ownerToken);
                     rootObject.put("data", new JSONObject().put("message", message).put("title", "You've got a like!"));
