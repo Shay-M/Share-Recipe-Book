@@ -263,10 +263,12 @@ public class RecipeDetailsFragment extends Fragment {
                     conn.setRequestProperty("Authorization", "key=" + API_TOKEN_KEY);
                     conn.setDoOutput(true);
 
-                    String message = senderName + " " + getString(R.string.like_notif_has_liked) + " " + recipeName;
                     final JSONObject rootObject  = new JSONObject();
                     rootObject.put("to", ownerToken);
-                    rootObject.put("data", new JSONObject().put("message", message).put("title", getString(R.string.like_notif_title)));
+                    rootObject.put("data",
+                            new JSONObject().put("senderName", senderName)
+                                    .put("recipeName", recipeName)
+                                    .put("type", "like"));
                     rootObject.put("priority", "high");
 
                     OutputStream os = conn.getOutputStream();
