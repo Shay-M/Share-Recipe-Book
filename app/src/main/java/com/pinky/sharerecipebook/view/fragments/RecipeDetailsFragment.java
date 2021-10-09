@@ -1,5 +1,6 @@
 package com.pinky.sharerecipebook.view.fragments;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.astritveliu.boom.Boom;
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.adapters.PagerAdapterDetails;
 import com.pinky.sharerecipebook.models.Recipe;
@@ -28,6 +30,14 @@ import com.pinky.sharerecipebook.utils.MyShimmer;
 import com.pinky.sharerecipebook.view.fragments.ui.prepareAndIngredients;
 import com.pinky.sharerecipebook.view.fragments.ui.uiCommentsFragment;
 import com.pinky.sharerecipebook.viewmodels.RecipeDetailsViewModel;
+
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class RecipeDetailsFragment extends Fragment {
 
@@ -45,6 +55,8 @@ public class RecipeDetailsFragment extends Fragment {
     private String userMakeName;
 
     private RecipeDetailsViewModel recipeDetailsViewModel;
+
+    final String API_TOKEN_KEY = "AAAAnhV6-hM:APA91bGf-3U4CbbpRZWDOXa_jRLp4fmGCrj8C2qdWMF7q82umHfj5-aVsJI_jj_8mGFDbyh3v_dpg_9EuMIf4ePq0aiJ7isGVbE8eiO_kxgjwC2t_HCqipD3poyvSRfOuOE0LA-M5LXq";
 
 
     @Override
@@ -153,6 +165,12 @@ public class RecipeDetailsFragment extends Fragment {
                     likeRecipe = true;
                     LoginUserGet.addFavoriteRecipe(recipeGet.getRecipeId());
                     tempLike = 1;
+
+                    if(!LoginUserGet.getFirebaseUserId().equals(recipeGet.getFirebaseUserIdMade())) {
+                        sendLikeNotification(LoginUserGet.getName(),
+                                recipeGet.getFirebaseDeviceTokenMade(),
+                                recipeGet.getTitle());
+                    }
                 } else {
                     recipe_details_image_like.setImageResource(R.drawable.ic_twotone_favorite_48);
                     likeRecipe = false;
@@ -194,6 +212,14 @@ public class RecipeDetailsFragment extends Fragment {
         pagerAdapter.addFragment(new prepareAndIngredients(recipeGet.getPreparation()));
         pagerAdapter.addFragment(new uiCommentsFragment(recipeGet.getRecipeId(), recipeGet.getCommentArrayListHashMap(), LoginUserGet.getUserImagePath()));
 
+        //Aaron
+        pagerAdapter.addFragment(new uiCommentsFragment(recipeGet.getRecipeId(),
+                recipeGet.getCommentArrayListHashMap(),
+                LoginUserGet.getUserImagePath(),
+                LoginUserGet.getName(),
+                recipeGet.getFirebaseDeviceTokenMade(),
+                recipeGet.getTitle()));
+
         viewPager2.setAdapter(pagerAdapter);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -223,5 +249,53 @@ public class RecipeDetailsFragment extends Fragment {
         });
 
 
+    public String sendLikeNotification (String senderName, String ownerToken, String recipeName)  {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL("https://fcm.googleapis.com/fcm/send");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setDoOutput(true);
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Content-Type", "application/json");
+                    conn.setRequestProperty("Authorization", "key=" + API_TOKEN_KEY);
+                    conn.setDoOutput(true);
+
+                    String message = senderName + " has liked your " + recipeName + " recipe.";
+                    final JSONObject rootObject  = new JSONObject();
+                    rootObject.put("to", ownerToken);
+                    rootObject.put("data", new JSONObject().put("message", message).put("title", "You've got a like!"));
+                    rootObject.put("priority", "high");
+
+                    OutputStream os = conn.getOutputStream();
+                    os.write(rootObject.toString().getBytes());
+                    os.flush();
+                    os.close();
+
+                    int responseCode = conn.getResponseCode();
+                    System.out.println("\nSending 'POST' request to URL : " + url);
+                    System.out.println("Post parameters : " + rootObject.toString());
+                    System.out.println("Response Code : " + responseCode);
+                    System.out.println("Response Code : " + conn.getResponseMessage());
+
+                    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    String inputLine;
+                    StringBuffer response = new StringBuffer();
+
+                    while ((inputLine = in.readLine()) != null) {
+                        response.append(inputLine);
+                    }
+                    in.close();
+
+                    // print result
+                    System.out.println(response.toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        AsyncTask.execute(runnable);
+        return "ok";
     }
 }

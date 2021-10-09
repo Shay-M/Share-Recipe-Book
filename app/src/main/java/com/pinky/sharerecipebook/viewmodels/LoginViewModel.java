@@ -27,9 +27,9 @@ public class LoginViewModel extends AndroidViewModel {
 
     }
 
-    public void register(String email, String password, String name) {
+    public void register(String email, String password, String name, String deviceTokenId) {
 
-        authRepository.register(email, password, name);// todo need live?
+        authRepository.register(email, password, name, deviceTokenId);// todo need live?
 
     }
 

@@ -25,9 +25,12 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseUser;
 import com.pinky.sharerecipebook.R;
+import com.pinky.sharerecipebook.utils.UserLoginHelper;
 import com.pinky.sharerecipebook.viewmodels.LoginViewModel;
 
 public class LoginPageFragment extends Fragment {
+    // private EditText emailEditText;
+    // private EditText passwordEditText;
     private TextInputLayout passwordEditText;
     private TextInputLayout emailEditText;
     private Button loginButton;

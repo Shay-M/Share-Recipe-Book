@@ -264,7 +264,9 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
 
         floatingAddButton.setOnClickListener(v -> {
             if (AuthRepository.getInstance().getCurrentUser() != null) {
-                Navigation.findNavController(v).navigate(R.id.action_homepageFragment_to_addNewRecipeFragment);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("expandLoginUser", loginUser);
+                Navigation.findNavController(v).navigate(R.id.action_homepageFragment_to_addNewRecipeFragment, bundle);
             } else
                 Navigation.findNavController(v).navigate(R.id.action_homepageFragment_to_loginPageFragment);
         });

@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.pinky.sharerecipebook.models.User;
 
 public class AuthRepository {
@@ -69,7 +70,7 @@ public class AuthRepository {
                         });
     }
 
-    public void register(String email, String password, String name) { // create New User
+    public void register(String email, String password, String name, String deviceTokenId) { // create New User
 
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(application.getMainExecutor(), task -> {
@@ -82,7 +83,7 @@ public class AuthRepository {
                                 "", // todo
                                 email,
                                 firebaseAuth.getCurrentUser().getUid(),
-                                "deviceTokenId" // todo
+                                deviceTokenId
                         );
 
                         String key = firebaseAuth.getCurrentUser().getUid(); //??? DatabaseReferenceUsers.push().getKey();

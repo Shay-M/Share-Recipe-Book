@@ -16,12 +16,6 @@ public class RecipeDetailsViewModel extends ViewModel {
     public MutableLiveData<User> liveDataUserRecipeCreated;
     public MutableLiveData<User> liveDataCurrentUser;
     private String userMakeId;
-    //FirebaseDatabase database = FirebaseDatabase.getInstance();
-    //final DatabaseReference myUsersDBRef = database.getReference("users");
-//
-//    public MutableLiveData<Boolean> LikedRecipeOn;
-
-//    protected final FirebaseUser CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
 
     public void init() {
         if (liveDataUserRecipeCreated != null)
@@ -57,12 +51,4 @@ public class RecipeDetailsViewModel extends ViewModel {
         FirebaseDatabaseRepository.getInstance().changeDataFirebaseArrayList(folder, IdTofind, fildeToChange, newValue);
 
     }
-
-/*    public LiveData<User> getCurrentUserLiveData() {
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        liveDataCurrentUser = FirebaseDatabaseRepository.getInstance().getUserByIdFromFirebase(userId);
-        return liveDataCurrentUser;
-    }*/
-
-
 }
