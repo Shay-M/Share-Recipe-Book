@@ -49,6 +49,11 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
     private HomeViewModel homeViewModel;
     private LogOutViewModel logOutViewModel;
 
+    //
+    /*private String expanduserId ;
+    private String expanduserMakeName ;*/
+
+
     // top bar
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
@@ -264,6 +269,10 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
                 Navigation.findNavController(v).navigate(R.id.action_homepageFragment_to_loginPageFragment);
         });
 
+
+        /*String expanduserId = (String) requireArguments().getSerializable("expanduserId");
+        String expanduserMakeName = (String) requireArguments().getSerializable("expanduserMakeName");*/
+
     }
 
     @Nullable
@@ -297,13 +306,13 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
 
     }
 
-    public void showRecipeByUserId(String userId, String userName) {
+    /*public void showRecipeByUserId(String userId, String userName) {
 
         recipeAdapter.getFilter().filter("#my" + userId);
         actionBar.setTitle("Your Recipe");
         actionBar.setTitle("Recipes of " + userName);
 
-    }
+    }*/
 
 
 }

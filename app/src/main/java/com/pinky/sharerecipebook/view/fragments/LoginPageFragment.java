@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,6 +34,7 @@ public class LoginPageFragment extends Fragment {
     private Button registerButton;
     private String email = "";
     private TextView ResatPasswordTextView;
+    private ProgressBar progressBarLogin;
 
     private LoginViewModel loginViewModel;
 
@@ -49,13 +51,15 @@ public class LoginPageFragment extends Fragment {
 
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
+
+
         // if  login go to addNewRecipeFragment
         loginViewModel.getUserLiveData().observe(this, new Observer<FirebaseUser>() {
             @Override
             public void onChanged(FirebaseUser firebaseUser) {
                 if (firebaseUser != null) { //skype login fragment
                     //UserLoginHelper.getInstance().setUser(firebaseUser.getEmail());
-
+                    progressBarLogin.setVisibility(View.GONE);
                     Navigation.findNavController(getView()).navigate(R.id.action_loginPageFragment_to_addNewRecipeFragment);
                 }
             }
@@ -74,6 +78,8 @@ public class LoginPageFragment extends Fragment {
         loginButton = view.findViewById(R.id.fragment_login_login_button);
         registerButton = view.findViewById(R.id.fragment_login_register_button);
         ResatPasswordTextView = view.findViewById(R.id.fragment_login_resat_password);
+        progressBarLogin = view.findViewById(R.id.fragment_login_progressBar);
+        progressBarLogin.setVisibility(View.GONE);
 
 
         return view;
@@ -103,17 +109,16 @@ public class LoginPageFragment extends Fragment {
 
             } else {
 //                Snackbar.make(this.getView(), "Login... Please wait", BaseTransientBottomBar.LENGTH_SHORT).show();
+                progressBarLogin.setVisibility(View.VISIBLE);
                 loginViewModel.login(email, password);
 
             }
         });
 
-
         registerButton.setOnClickListener(view2 -> {
-
             Navigation.findNavController(getView()).navigate(R.id.action_loginPageFragment_to_registerFragment);
         });
-
+        // resat
         ResatPasswordTextView.setOnClickListener(v -> {
             if (!email.isEmpty()) {
                 loginViewModel.resatPassword(email);

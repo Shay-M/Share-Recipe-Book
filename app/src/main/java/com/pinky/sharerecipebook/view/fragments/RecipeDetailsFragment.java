@@ -42,6 +42,7 @@ public class RecipeDetailsFragment extends Fragment {
     private User LoginUserGet;
     private TabLayout tabLayout;
     private ViewPager2 viewPager2;
+    private String userMakeName;
 
     private RecipeDetailsViewModel recipeDetailsViewModel;
 
@@ -110,7 +111,8 @@ public class RecipeDetailsFragment extends Fragment {
                         new Observer<User>() {
                             @Override
                             public void onChanged(User user) {
-                                recipe_details_user_name_text.setText(user.getName());
+                                userMakeName = user.getName();
+                                recipe_details_user_name_text.setText(userMakeName);
 
                                 Glide.with(mthis)
                                         .load(user.getUserImagePath())
@@ -173,8 +175,12 @@ public class RecipeDetailsFragment extends Fragment {
             }
         });
 
-        recipe_details_image_user.setOnClickListener(v -> {
-
+        recipe_details_image_user.setOnClickListener(v -> { // todo
+            /*Bundle bundle = new Bundle();
+            bundle.putSerializable("expanduserId", recipeGet.getFirebaseUserIdMade());
+            bundle.putSerializable("expanduserMakeName",  userMakeName);*/
+           // RecipeDetailsFragmentDirections.actionRecipeDetailsFragmentToHomepageFragment(recipeGet.getFirebaseUserIdMade());
+            //Navigation.findNavController(view).navigate(R.id.action_recipeDetailsFragment_to_homepageFragment, bundle);
 
         });
 
