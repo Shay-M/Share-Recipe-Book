@@ -99,10 +99,10 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
 
         switch (item.getItemId()) {
             case R.id.action_settings:
-                bundle = new Bundle();
-                bundle.putSerializable("expandLoginUser", loginUser);
+                //bundle = new Bundle();
+                //bundle.putSerializable("expandLoginUser", loginUser);
                 actionBar.setTitle("settings");
-                Navigation.findNavController(rootView).navigate(R.id.action_homepageFragment_to_settingsFragment, bundle);
+                Navigation.findNavController(rootView).navigate(R.id.action_homepageFragment_to_settingsFragment);
 
                 return true;
 
@@ -126,7 +126,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
                         Log.d("TAG", "onOptionsItemSelected: " + loginUser.getFavoriteRecipe());
 
                         recipeAdapter.setFavoriteRecipeList(loginUser.getFavoriteRecipe());
-                        recipeAdapter.getFilter().filter("#fav"); // todo "#fav"
+                        recipeAdapter.getFilter().filter("#fav");
                         item.setIcon(R.drawable.ic_baseline_favorite_48);
                         actionBar.setTitle("Your Favorite Recipes");
                         item.setChecked(true);
@@ -294,6 +294,14 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
     @Override
     public void onImgRatingClick(int position, View view) {
         Log.d("TAG", "onImgRatingClick: ");
+
+    }
+
+    public void showRecipeByUserId(String userId, String userName) {
+
+        recipeAdapter.getFilter().filter("#my" + userId);
+        actionBar.setTitle("Your Recipe");
+        actionBar.setTitle("Recipes of " + userName);
 
     }
 

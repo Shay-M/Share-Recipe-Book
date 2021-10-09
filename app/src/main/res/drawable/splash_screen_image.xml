@@ -5,8 +5,8 @@
     <item android:drawable="@color/b" />
 
     <item
-        android:width="100dp"
-        android:height="70dp"
+        android:width="136dp"
+        android:height="90dp"
         android:drawable="@drawable/logo_hdpi"
         android:gravity="center" />
 

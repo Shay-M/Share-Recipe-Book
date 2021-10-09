@@ -34,6 +34,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         this.context = context;
     }
 
+    // constructor Map
     public CommentAdapter(Map<String, Comment> commentHashMap, Context context) {
         this.commentHashMap = commentHashMap;
         Collection<Comment> values = commentHashMap.values();
@@ -41,6 +42,15 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         commentItemList = listOfValues;
         this.context = context;
     }
+    public void UpdateAdapter(Comment commentArrayList) {
+        //this.commentHashMap = commentHashMap;
+        //Collection<Comment> values = commentHashMap.values();
+        //ArrayList<Comment> listOfValues = new ArrayList<>(values);
+        //commentItemList = listOfValues;
+        commentItemList.add(0,commentArrayList);
+
+    }
+
 
     // allows clicks events to be caught
     public void setClicksListener(RecyclerViewListener clicksListener) {

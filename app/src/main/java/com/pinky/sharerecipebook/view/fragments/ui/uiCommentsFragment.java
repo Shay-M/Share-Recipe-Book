@@ -47,6 +47,8 @@ public class uiCommentsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Collections.sort(arrayList, new Comparator<HashMap< String,Comment >>() {});
+
     }
 
 
@@ -65,6 +67,7 @@ public class uiCommentsFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_of_comments);
         recyclerView.setHasFixedSize(true);
 
+
         commentAdapter = new CommentAdapter(mcommentHashMap, getActivity());
 
 
@@ -76,22 +79,27 @@ public class uiCommentsFragment extends Fragment {
             String commentTxt = commentEditText.getEditText().getText().toString();
 
             if (commentEditText.getEditText().getText().toString().length() > 2) {
-                sendAcomment(commentTxt);
+                sendComment(commentTxt);
                 commentEditText.getEditText().setText("");
             } //else commentEditText.setError("Write a comment");
+
+
         });
 
     }
 
-    private void sendAcomment(String commentTxt) {
+    private void sendComment(String commentTxt) {
         HidesKeyboard.hideKeyboard(this.getActivity());
 
         Comment comment = new Comment(commentTxt, mfirebaseUserIdCommentl);
 
         String folder = "recipe";
-        String fildeToChange = "commentArrayListHashMap";
-        FirebaseDatabaseRepository.getInstance().changeDataFirebase(folder, mrecipeId, fildeToChange, comment);
-
+        String fieldToChange = "commentArrayListHashMap";
+        FirebaseDatabaseRepository.getInstance().changeDataFirebase(folder, mrecipeId, fieldToChange, comment);
+        mcommentHashMap.put("temp", comment);
+        commentAdapter.UpdateAdapter(comment);
+//        commentAdapter.notifyDataSetChanged();
+        commentAdapter.notifyItemInserted(0);
 
     }
 }

@@ -55,11 +55,11 @@
             android:inputType="textPassword" />
 
         <TextView
-            android:id="@+id/resat_pasoword"
+            android:id="@+id/fragment_login_resat_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:text="@string/resat_pasoword"
+            android:text="@string/forgot_password"
             android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 

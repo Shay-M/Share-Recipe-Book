@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +19,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseUser;
 import com.pinky.sharerecipebook.R;
@@ -29,6 +32,7 @@ public class LoginPageFragment extends Fragment {
     private Button loginButton;
     private Button registerButton;
     private String email = "";
+    private TextView ResatPasswordTextView;
 
     private LoginViewModel loginViewModel;
 
@@ -69,6 +73,7 @@ public class LoginPageFragment extends Fragment {
         passwordEditText = view.findViewById(R.id.fragment_login_password_textinput);
         loginButton = view.findViewById(R.id.fragment_login_login_button);
         registerButton = view.findViewById(R.id.fragment_login_register_button);
+        ResatPasswordTextView = view.findViewById(R.id.fragment_login_resat_password);
 
 
         return view;
@@ -107,6 +112,13 @@ public class LoginPageFragment extends Fragment {
         registerButton.setOnClickListener(view2 -> {
 
             Navigation.findNavController(getView()).navigate(R.id.action_loginPageFragment_to_registerFragment);
+        });
+
+        ResatPasswordTextView.setOnClickListener(v -> {
+            if (!email.isEmpty()) {
+                loginViewModel.resatPassword(email);
+                Snackbar.make(this.getView(), "We'll send you a password reset email", BaseTransientBottomBar.LENGTH_SHORT).show();
+            }
         });
     }
 }

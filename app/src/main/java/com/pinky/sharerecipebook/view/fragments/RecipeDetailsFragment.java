@@ -24,6 +24,7 @@ import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.adapters.PagerAdapterDetails;
 import com.pinky.sharerecipebook.models.Recipe;
 import com.pinky.sharerecipebook.models.User;
+import com.pinky.sharerecipebook.utils.MyShimmer;
 import com.pinky.sharerecipebook.view.fragments.ui.prepareAndIngredients;
 import com.pinky.sharerecipebook.view.fragments.ui.uiCommentsFragment;
 import com.pinky.sharerecipebook.viewmodels.RecipeDetailsViewModel;
@@ -134,7 +135,7 @@ public class RecipeDetailsFragment extends Fragment {
         // load recipe img
         Glide.with(this)
                 .load(recipeGet.getImagePath())
-//                .placeholder(R.drawable.gallery)
+                .placeholder(MyShimmer.getShimmer())
                 .centerCrop()
                 .error(android.R.drawable.ic_dialog_info)
                 .into(recipe_img_url_string);
@@ -170,6 +171,11 @@ public class RecipeDetailsFragment extends Fragment {
             } else {
                 // go to login?
             }
+        });
+
+        recipe_details_image_user.setOnClickListener(v -> {
+
+
         });
 
         //  pager Adapter

@@ -16,33 +16,42 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.astritveliu.boom.Boom;
 import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputLayout;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.models.User;
-import com.pinky.sharerecipebook.repositories.FirebaseStorgeRepository;
-import com.pinky.sharerecipebook.utils.CameraManagerUrl;
+import com.pinky.sharerecipebook.utils.MyShimmer;
 import com.pinky.sharerecipebook.view.LoadingDialog;
+import com.pinky.sharerecipebook.viewmodels.UserProfileViewModel;
 
 public class UserProfileFragment extends Fragment {
     //((AppCompatActivity) getActivity()).getSupportActionBar();
 
-    ActivityResultLauncher<Uri> cameraFullSizeResultLauncher; //big img
+    //    ActivityResultLauncher<Uri> cameraFullSizeResultLauncher; //big img
     ActivityResultLauncher<String> pickContentResultLauncher;
     Uri photoURI;
     private TextInputLayout userNameTInput;
-
     private TextView userEmailTV;
+    private TextView ResatPasswordTextView;
     private Button saveButton;
 
     private ImageView userImage;
     private User LoginUserGet;
-    private CameraManagerUrl cameraManagerUrl;
 
     private LoadingDialog loadingDialog;
 
+    private UserProfileViewModel userProfileViewModel;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        userProfileViewModel = new ViewModelProvider(this).get(UserProfileViewModel.class);
+
+    }
 
     @Nullable
     @Override
@@ -54,8 +63,8 @@ public class UserProfileFragment extends Fragment {
         userImage = view.findViewById(R.id.fragment_user_profile_user_image);
         userNameTInput = view.findViewById(R.id.fragment_user_profile_name_input);
         userEmailTV = view.findViewById(R.id.fragment_user_profile_email_textView);
+        ResatPasswordTextView = view.findViewById(R.id.fragment_user_profile_resat_password);
 
-        //switchEdit = view.findViewById(R.id.fragment_user_profile_switch_edit);
         saveButton = view.findViewById(R.id.fragment_user_profile_save_button);
 
         //userNameTInput.setEnabled(false);
@@ -80,22 +89,25 @@ public class UserProfileFragment extends Fragment {
         Glide.with(this)
                 .load(LoginUserGet.getUserImagePath())
                 .circleCrop()
+                .placeholder(MyShimmer.getShimmer())
                 .error(R.drawable.ic_twotone_person_outline_24)
                 .into(userImage);
 
+        // take a pic
         userImage.setOnClickListener(v -> {
             picFromGalleria();
         });
 
-        // save
+        // save user profile
         saveButton.setOnClickListener(v -> {
-
 
             String userName = userNameTInput.getEditText().getText().toString();
 
             if (userName.isEmpty()) {
                 userNameTInput.setError("Give a name");
                 userNameTInput.requestFocus();
+                if (userName.equals(LoginUserGet.getName()))
+                    userName = null;
 
             } else if (photoURI == null) {
                 Log.d("floating_attach_recipe", "photoURI is Empty!");
@@ -103,26 +115,37 @@ public class UserProfileFragment extends Fragment {
 
             loadingDialog.startLoadingDialog();
 
-            FirebaseStorgeRepository.getInstance().UploadFile(photoURI, "users", new FirebaseStorgeRepository.OnTaskDownloadUri() {
-
+            userProfileViewModel.saveUserProfileChanges(photoURI, userName, LoginUserGet.getFirebaseUserId(), new UserProfileViewModel.saveUserListener() {
                 @Override
-                public void onSuccess(Uri downloadUri) {
+                public void onSucceededSaveUri() {
                     loadingDialog.dismissLoadingDialog();
-
                 }
 
                 @Override
-                public void onFailure() {
+                public void onSucceededSaveData() {
                     loadingDialog.dismissLoadingDialog();
-
                 }
 
                 @Override
-                public void onProgress(double progressNum) {
+                public void onFailedSaveUri() {
+                    photoURI = null;
+                    loadingDialog.dismissLoadingDialog();
+                }
 
+                @Override
+                public void onFailedSaveData() {
+                    loadingDialog.dismissLoadingDialog();
                 }
             });
+
+
         });
+
+        /*ResatPasswordTextView.setOnClickListener(v -> {
+            userProfileViewModel.resatPassword();
+            Snackbar.make(this.getView(), "We'll send you a password reset email", BaseTransientBottomBar.LENGTH_SHORT).show();
+
+        });*/
 
 
     }
@@ -137,7 +160,8 @@ public class UserProfileFragment extends Fragment {
                         Glide.with(this)
                                 .load(photoURI)
                                 .circleCrop()
-                                .error(android.R.drawable.ic_dialog_info)
+                                .placeholder(MyShimmer.getShimmer())
+                                .error(R.drawable.ic_twotone_person_outline_24)
                                 .into(userImage);
 
                     }

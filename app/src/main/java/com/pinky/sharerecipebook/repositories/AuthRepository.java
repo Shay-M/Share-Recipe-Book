@@ -115,4 +115,9 @@ public class AuthRepository {
     public MutableLiveData<Boolean> getLoggedOutLiveData() {
         return loggedOutLiveData;
     }
+
+    public void resatPassword(String email) {
+        firebaseAuth.sendPasswordResetEmail(email);
+
+    }
 }

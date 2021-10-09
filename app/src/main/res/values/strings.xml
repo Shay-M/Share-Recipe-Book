@@ -39,5 +39,7 @@
     <string name="language">Language</string>
     <string name="user_properties">User properties</string>
     <string name="resat_pasoword">Resat pasoword</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="save_changes">save changes</string>
 
 </resources>

@@ -210,7 +210,7 @@ public abstract class FirebaseDatabaseRepository<Model> {
 
     }
 
-    //todo !! remove and creat one
+    //todo !! remove and create one
 
 
     public void changeDataFirebase(String folder, String idTofind, String fildeToChange, Comment comment) {
