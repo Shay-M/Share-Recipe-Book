@@ -5,27 +5,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/a"
     tools:context=".view.fragments.AddNewRecipeFragment">
 
-    <EditText
-        android:id="@+id/fragment_add_recipe_title"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/do_not_know_why_you_need_it_for_a_floating_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="104dp"
-        android:hint="Recipe Title"
-        android:inputType="text"
-        android:padding="15dp"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/imagebac"
+        android:layout_width="wrap_content"
+        android:layout_height="800dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/tartan_wooden_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/fragment_add_recipe_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="8dp"
+        android:gravity="top|start"
+        android:hint="@string/recipe_name"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toBottomOf="@+id/imagebac"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/FrameLayout"
+        app:layout_constraintVertical_bias="0.050000012">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top|start" />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <FrameLayout
         android:id="@+id/FrameLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_add_recipe_title">
+        android:layout_marginTop="50dp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp">
 
         <ImageView
             android:id="@+id/fragment_add_recipe_image"
@@ -33,11 +59,11 @@
             android:layout_height="150dp"
             android:layout_centerInParent="true"
             android:layout_marginTop="32dp"
-            android:background="@drawable/ic_launcher_background"
+            android:background="@color/c"
             android:contentDescription="@+id/fragment_add_recipe_image"
             android:gravity="center"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_launcher_foreground"
+            android:padding="30dp"
+            android:src="@drawable/camerabigxhdpi"
             tools:layout_editor_absoluteX="130dp" />
 
         <ImageView
@@ -49,7 +75,8 @@
             android:layout_marginBottom="44dp"
             android:contentDescription="@+id/take_a_pic"
             android:gravity="center"
-            android:src="@drawable/photograph" />
+            android:src="@drawable/photograph"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/add_a_pic"
@@ -64,42 +91,16 @@
 
     </FrameLayout>
 
-
-    <EditText
-        android:id="@+id/fragment_add_recipe_ingredients"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:hint="Ingredients"
-        android:inputType="text"
-        android:padding="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/fragment_add_recipe_title"
-        app:layout_constraintTop_toBottomOf="@+id/FrameLayout" />
-
-    <EditText
-        android:id="@+id/fragment_add_recipe_preparation"
-        android:layout_width="406dp"
-        android:layout_height="162dp"
-        android:layout_marginTop="16dp"
-        android:hint="Preparation"
-        android:inputType="textMultiLine"
-        android:padding="15dp"
-        app:layout_constraintEnd_toEndOf="@+id/fragment_add_recipe_ingredients"
-        app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_add_recipe_ingredients" />
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fragment_add_floating_attach_new_recipe"
+        android:id="@+id/fragment_add_floating_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="36dp"
-        android:layout_marginBottom="36dp"
-        android:backgroundTint="@color/purple_500"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="18dp"
+        android:backgroundTint="@color/e"
         android:clickable="true"
-        android:src="@drawable/ic_launcher_foreground"
+        android:fitsSystemWindows="false"
+        android:src="@drawable/ic_twotone_navigate_next_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

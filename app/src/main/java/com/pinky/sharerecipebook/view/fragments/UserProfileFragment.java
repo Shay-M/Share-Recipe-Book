@@ -35,7 +35,7 @@ public class UserProfileFragment extends Fragment {
     Uri photoURI;
     private TextInputLayout userNameTInput;
     private TextView userEmailTV;
-    private TextView ResatPasswordTextView;
+    //private TextView ResatPasswordTextView;
     private Button saveButton;
 
     private ImageView userImage;
@@ -63,14 +63,14 @@ public class UserProfileFragment extends Fragment {
         userImage = view.findViewById(R.id.fragment_user_profile_user_image);
         userNameTInput = view.findViewById(R.id.fragment_user_profile_name_input);
         userEmailTV = view.findViewById(R.id.fragment_user_profile_email_textView);
-        ResatPasswordTextView = view.findViewById(R.id.fragment_user_profile_resat_password);
+        //ResatPasswordTextView = view.findViewById(R.id.fragment_user_profile_resat_password);
 
         saveButton = view.findViewById(R.id.fragment_user_profile_save_button);
 
-        //userNameTInput.setEnabled(false);
         loadingDialog = new LoadingDialog(this);
 
         new Boom(userImage);
+        new Boom(saveButton);
 
         initLaunchers();
 
@@ -82,7 +82,12 @@ public class UserProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         LoginUserGet = (User) requireArguments().getSerializable("expandLoginUser");
+        Log.d("TAG", "LoginUserGet.getFirebaseUserId(): "+LoginUserGet.getFirebaseUserId());
+        if (LoginUserGet.getName().equals("Guest")) {
+            saveButton.setVisibility(View.GONE);
+            userNameTInput.setEnabled(false);
 
+        }
         userNameTInput.getEditText().setText(LoginUserGet.getName());
         userEmailTV.setText(LoginUserGet.getEmailAddress());
 

@@ -158,6 +158,7 @@ public class AddNewRecipeFragment extends Fragment {
 }*/
 
 package com.pinky.sharerecipebook.view.fragments;
+// https://www.delish.com/cooking/recipe-ideas/a22745193/easy-banana-cake-recipe/
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -165,7 +166,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -181,31 +181,26 @@ import androidx.navigation.Navigation;
 import com.astritveliu.boom.Boom;
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputLayout;
 import com.pinky.sharerecipebook.R;
-import com.pinky.sharerecipebook.models.Recipe;
 import com.pinky.sharerecipebook.models.User;
 import com.pinky.sharerecipebook.repositories.AuthRepository;
-import com.pinky.sharerecipebook.repositories.FirebaseStorgeRepository;
 import com.pinky.sharerecipebook.utils.CameraManagerUrl;
-import com.pinky.sharerecipebook.view.LoadingDialog;
 import com.pinky.sharerecipebook.viewmodels.AddRecipeViewModel;
 
 
 public class AddNewRecipeFragment extends Fragment {
     //
-    Uri photoURI;
-    ActivityResultLauncher<Uri> cameraFullSizeResultLauncher; //big img
-    ActivityResultLauncher<String> pickContentResultLauncher;
-    private EditText TitleText;
-    private EditText IngredientsText;
-    private EditText preparationText;
+    private Uri photoURI;
+    private ActivityResultLauncher<Uri> cameraFullSizeResultLauncher; //big img
+    private ActivityResultLauncher<String> pickContentResultLauncher;
+    private TextInputLayout TitleText;
     private ImageView picContentView;
-    private FloatingActionButton floating_attach_recipe;
+    private FloatingActionButton floating_add;
     private CameraManagerUrl cameraManagerUrl;
 
-    private LoadingDialog loadingDialog;
-
     private AddRecipeViewModel addRecipeViewModel;
+
 
     //
 
@@ -213,17 +208,15 @@ public class AddNewRecipeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        addRecipeViewModel = new ViewModelProvider(this).get(AddRecipeViewModel.class);
+
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 
         if (actionBar != null) {
             actionBar.hide();
         }
 
-        addRecipeViewModel = new ViewModelProvider(this).get(AddRecipeViewModel.class);
-        //addRecipeViewModel.init();
-
         //recipeArrayList = loadRecipeViewModel.getRecipeLiveData().getValue();
-        loadingDialog = new LoadingDialog(this);
 
     }
 
@@ -235,12 +228,11 @@ public class AddNewRecipeFragment extends Fragment {
         cameraManagerUrl = CameraManagerUrl.getInstance();
 
         TitleText = view.findViewById(R.id.fragment_add_recipe_title);
-        IngredientsText = view.findViewById(R.id.fragment_add_recipe_ingredients);
-        preparationText = view.findViewById(R.id.fragment_add_recipe_preparation);
         picContentView = view.findViewById(R.id.fragment_add_recipe_image);
-        floating_attach_recipe = view.findViewById(R.id.fragment_add_floating_attach_new_recipe);
+        floating_add = view.findViewById(R.id.fragment_add_floating_next);
 
-        new Boom(floating_attach_recipe);
+        new Boom(floating_add);
+        new Boom(TitleText);
 
         initLaunchers();
 
@@ -250,72 +242,46 @@ public class AddNewRecipeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ImageView takeApicBtn = view.findViewById(R.id.take_a_pic);
+        User LoginUserGet = (User) requireArguments().getSerializable("expandLoginUser");
+
+        //ImageView takeApicBtn = view.findViewById(R.id.take_a_pic);
         ImageView galleriaPicBtn = view.findViewById(R.id.add_a_pic);
 
         //From Camera Button
-        new Boom(takeApicBtn);
-        takeApicBtn.setOnClickListener(v -> takeApicFromCamera());
+        new Boom(picContentView);
+        picContentView.setOnClickListener(v -> takeApicFromCamera());
 
         //From Galleria Button
         new Boom(galleriaPicBtn);
         galleriaPicBtn.setOnClickListener(v -> picFromGalleria());
 
 
-        floating_attach_recipe.setOnClickListener(v -> {
+        floating_add.setOnClickListener(v -> {
             Log.d("onViewCreated", "floating_attach_recipe: " + AuthRepository.getInstance().getCurrentUser());
+
+            String recipeName = TitleText.getEditText().getText().toString();
+
 
             if (photoURI == null) {
                 Log.d("floating_attach_recipe", "photoURI is Empty!");
                 takeApicFromCamera();
-            } else if (TitleText.getText().toString().isEmpty()) {
+            } else if (recipeName.isEmpty()) {
                 TitleText.setError("Give a name");
                 TitleText.requestFocus();
-            } else if (IngredientsText.getText().toString().isEmpty()) {
-                IngredientsText.requestFocus();
-                IngredientsText.setError("what the Ingredients");
-            } else if (preparationText.getText().toString().isEmpty()) {
-                preparationText.requestFocus();
-                preparationText.setError("preparation is Empty");
             } else {
-                loadingDialog.startLoadingDialog();
 
-                // upload img to Firebase Storge
-                FirebaseStorgeRepository.getInstance().UploadFile(photoURI,"recipe", new FirebaseStorgeRepository.OnTaskDownloadUri() {
-                    @Override
-                    public void onSuccess(Uri downloadUri) {
+                addRecipeViewModel.setRecipeName(recipeName);
+                addRecipeViewModel.setRecipephotoURI(photoURI);
+                addRecipeViewModel.setLoginUserGet(LoginUserGet);
 
-                        Recipe tempRecipe = new Recipe(
-                                AuthRepository.getInstance().getCurrentUser().getUid(), // same? AuthRepository.getInstance().getUid()
-                                ((User) requireArguments().getSerializable("expandLoginUser")).getDeviceTokenId(),
-                                TitleText.getText().toString(),
-                                preparationText.getText().toString(),
-                                IngredientsText.getText().toString(),
-                                downloadUri.toString(),
-                                ""
-                        );
+                Bundle bundle = new Bundle();
+                bundle.putString("expandRecipeName", recipeName);
+                bundle.putString("expandPhotoUriString", photoURI.toString());
+                bundle.putSerializable("expandLoginUser", LoginUserGet);
 
-                        addRecipeViewModel.AttachNewRecipe(tempRecipe); // add to db
-
-                        loadingDialog.dismissLoadingDialog();
-
-                        Navigation.findNavController(v).navigate(R.id.action_addNewRecipeFragment_to_homepageFragment);
-                    }
-
-                    @Override
-                    public void onFailure() {
-                        photoURI = null;
-                        loadingDialog.dismissLoadingDialog();
-                        Log.d("onFailure", "onFailure");
-
-                    }
-
-                    @Override
-                    public void onProgress(double progressNum) { // todo remove?
-                        Log.d("onProgress", "progressNum: " + progressNum + " %");
-                    }
-                });
+                Navigation.findNavController(v).navigate(R.id.action_addNewRecipeFragment_to_addNewRecipeFragment2, bundle);
             }
+
         });
     }
 
@@ -340,6 +306,7 @@ public class AddNewRecipeFragment extends Fragment {
                 new ActivityResultContracts.GetContent(),
                 result -> {
                     if (result != null) {
+//                        picContentView.setCropToPadding(false);
                         photoURI = result;
                         Glide.with(this)
                                 .load(photoURI)

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/a"
+    android:orientation="vertical"
     tools:context=".view.fragments.RecipeDetailsFragment">
 
 
@@ -24,13 +24,19 @@
         android:id="@+id/frag_recipe_details_title_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:autoSizeMaxTextSize="30sp"
+        android:autoSizeMinTextSize="12sp"
+        android:autoSizeStepGranularity="1sp"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/recipety"
+        android:maxLines="1"
         android:padding="15dp"
         android:shadowColor="#000000"
         android:shadowDx="1.5"
         android:shadowDy="1.5"
         android:shadowRadius="1.8"
+        android:singleLine="true"
         android:text="Recipe Title"
-        android:fontFamily="@font/recipety"
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="28sp"
@@ -38,7 +44,9 @@
         app:layout_constraintBottom_toBottomOf="@+id/fragment_show_recipe_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fragment_show_recipe_image"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
         android:id="@+id/frag_recipe_details_bar_bottom_img"

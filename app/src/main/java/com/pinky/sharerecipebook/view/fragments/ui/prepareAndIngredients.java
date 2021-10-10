@@ -1,6 +1,7 @@
 package com.pinky.sharerecipebook.view.fragments.ui;
 
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,7 @@ public class prepareAndIngredients extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ui_fragment_prepare_and_ingredients, container, false);
         prepareAndIngredientsTextView = view.findViewById(R.id.ui_fragment_prepareAndIngredients_text);
-
+        prepareAndIngredientsTextView.setMovementMethod(new ScrollingMovementMethod());
         return view;
     }
 

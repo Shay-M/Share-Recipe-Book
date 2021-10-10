@@ -73,12 +73,10 @@
         android:label="fragment_add_new_recipe"
         tools:layout="@layout/fragment_add_new_recipe" >
         <action
-            android:id="@+id/action_addNewRecipeFragment_to_homepageFragment"
-            app:destination="@id/homepageFragment"
+            android:id="@+id/action_addNewRecipeFragment_to_addNewRecipeFragment2"
+            app:destination="@id/addNewRecipeFragment2"
             app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popUpTo="@id/homepageFragment"
-            app:popUpToInclusive="true" />
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -102,4 +100,17 @@
         android:id="@+id/settingsFragment"
         android:name="com.pinky.sharerecipebook.view.fragments.SettingsFragment"
         android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/addNewRecipeFragment2"
+        android:name="com.pinky.sharerecipebook.view.fragments.AddNewRecipeFragment2"
+        android:label="fragment_add_new_recipe2"
+        tools:layout="@layout/fragment_add_new_recipe2" >
+        <action
+            android:id="@+id/action_addNewRecipeFragment2_to_homepageFragment"
+            app:destination="@id/homepageFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popUpTo="@id/homepageFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>
