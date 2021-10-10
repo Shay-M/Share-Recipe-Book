@@ -35,6 +35,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService{
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
+        String title = "";
+        String text = "";
 
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
@@ -49,16 +51,28 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService{
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID);
 
+            if(remoteMessage.getData().get("type").equals("comment"))
+            {
+                title = getString(R.string.comment_notif_title);
+                text = remoteMessage.getData().get("senderName") + " " + getString(R.string.comment_notif_has_commented) + " " + remoteMessage.getData().get("recipeName");
+            }
+            else if(remoteMessage.getData().get("type").equals("like"))
+            {
+                title = getString(R.string.like_notif_title);
+                text = remoteMessage.getData().get("senderName") + " " + getString(R.string.like_notif_has_liked) + " " + remoteMessage.getData().get("recipeName");
+            }
+
+
 
             NotificationChannel channel = new NotificationChannel("id_1", "name_1",NotificationManager.IMPORTANCE_HIGH);
             manager.createNotificationChannel(channel);
 
             builder.setContentIntent(pendingIntent)
-                    .setContentTitle(remoteMessage.getData().get("title"))
-                    .setContentText(remoteMessage.getData().get("message"))
+                    .setContentTitle(title)
+                    .setContentText(text)
                     .setSmallIcon(R.drawable.recipe_notif_icon)
                     .setStyle(new NotificationCompat.BigTextStyle()
-                    .bigText(remoteMessage.getData().get("message")));
+                    .bigText(text));
 
             manager.notify(1, builder.build());
         }

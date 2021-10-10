@@ -84,22 +84,22 @@ public class registerFragment extends Fragment {
 
             // name
             if (name.trim().isEmpty()) {
-                nameEditText.setError("Please fill in your name");
+                nameEditText.setError(getString(R.string.error_fill_name));
                 nameEditText.requestFocus();
                 Log.d("onClick", "name.isEmpty()");
                 // EMAIL
             } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 //Toast.makeText(getContext(), "Email Address and Password Must Be Entered", Toast.LENGTH_SHORT).show();
-                emailEditText.setError("Email Address Must Be Entered");
+                emailEditText.setError(getString(R.string.error_fill_email));
                 emailEditText.requestFocus();
                 Log.d("onClick", "Email");
                 // password
             } else if (password.isEmpty() || password.length() < 6) {
-                passwordEditText.setError("Password Must Be Entered, Password is last then 6");
+                passwordEditText.setError(getString(R.string.error_fill_password));
                 passwordEditText.requestFocus();
                 Log.d("onClick", "password");
             } else {
-                Snackbar.make(this.getView(), "Login... Please wait", BaseTransientBottomBar.LENGTH_SHORT).show();
+                Snackbar.make(this.getView(), getString(R.string.login_wait), BaseTransientBottomBar.LENGTH_SHORT).show();
 
                 FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override

@@ -35,6 +35,7 @@ import com.pinky.sharerecipebook.viewmodels.HomeViewModel;
 import com.pinky.sharerecipebook.viewmodels.LogOutViewModel;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 
 public class HomepageFragment extends Fragment implements RecipeAdapter.RecyclerViewListener {
@@ -237,6 +238,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
                         recipeAdapter.notifyDataSetChanged();
                         Log.d("loadRecipeViewModel", "onChanged: !!" + recipes);
                         recipeArrayList = recipes;
+                        recipeArrayList.sort(Comparator.comparing(Recipe::getRank).reversed());
                     }
                 });
 

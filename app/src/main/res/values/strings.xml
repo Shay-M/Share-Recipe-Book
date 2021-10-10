@@ -12,10 +12,10 @@
     <string name="preparation">preparation</string>
     <string name="search">Search</string>
     <string name="settings">Settings</string>
-    <string name="Logout">logout</string>
+    <string name="Logout">Logout</string>
     <string name="my_favorites">My favorites</string>
     <string name="My_recipes">My recipes</string>
-    <string name="login_instructions">Hello! \nTo enjoy all of our features, you must be logged in. You can sign up if you do not have an account yet</string>
+    <string name="login_instructions">Hello!  To enjoy all of our features, you must be logged in. You can sign up if you do not have an account yet</string>
     <string name="register_instructions">Please fill in your name, email and password</string>
 
     <!--    msg-->
@@ -24,8 +24,8 @@
     <string name="title_bar_login">Login</string>
     <string name="register">Register</string>
     <string name="msg_needLogin">You must be logged in to add recipes</string>
-    <string name="comments">comments</string>
-    <string name="Send">send</string>
+    <string name="comments">Comments</string>
+    <string name="Send">Send</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
@@ -34,14 +34,20 @@
     <!-- Messages Preferences -->
     <string name="reply_title">Default</string>
 
+    <!-- Sync Preferences -->
     <string name="sync_title">Receive notifications</string>
     <string name="language">Language</string>
     <string name="user_properties">User properties</string>
     <string name="resat_pasoword">Resat pasoword</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="save_changes">save changes</string>
-    <string name="recipe_title">List of ingredients</string>
-    <string name="next">Next</string>
-    <string name="recipe_name">Recipe Name</string>
+    <string name="comment_notif_title">You\'ve got a comment!</string>
+    <string name="comment_notif_has_commented">has commented on</string>
+    <string name="like_notif_title">You\'ve got a like!</string>
+    <string name="like_notif_has_liked">has liked</string>
+    <string name="error_fill_name">Please fill in your name</string>
+    <string name="error_fill_email">Email Address Must Be Entered</string>
+    <string name="error_fill_password">Password Must Be Entered and it has to be at least 6 characters long</string>
+    <string name="login_wait">Login... Please wait</string>
 
 </resources>

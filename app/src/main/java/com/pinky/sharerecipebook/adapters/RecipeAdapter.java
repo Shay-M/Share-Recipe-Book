@@ -66,7 +66,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                     }
                 } else {
                     for (Recipe itemByName : recipeItemListFull) {
-                        if (itemByName.getTitle().toLowerCase().startsWith(filterPattern))
+                        if (itemByName.getTitle().toLowerCase().contains(filterPattern))
                             filteredList.add(itemByName);
                     }
                 }

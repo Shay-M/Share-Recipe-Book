@@ -2,6 +2,7 @@ package com.pinky.sharerecipebook.view.fragments.ui;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.adapters.CommentAdapter;
 import com.pinky.sharerecipebook.models.Comment;
+import com.pinky.sharerecipebook.models.Recipe;
+import com.pinky.sharerecipebook.models.User;
 import com.pinky.sharerecipebook.repositories.FirebaseDatabaseRepository;
 import com.pinky.sharerecipebook.utils.HidesKeyboard;
 
@@ -26,6 +29,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,13 +43,12 @@ public class uiCommentsFragment extends Fragment {
     private Map<String, Comment> mcommentHashMap;
     private String mrecipeId;
     private String mfirebaseUserIdCommentl;
-    private String msenderName;
-    private String mownerToken;
-    private String mrecipeName;
+    private User muserSender;
+    private Recipe mownerRecipe;
     final String API_TOKEN_KEY = "AAAAnhV6-hM:APA91bGf-3U4CbbpRZWDOXa_jRLp4fmGCrj8C2qdWMF7q82umHfj5-aVsJI_jj_8mGFDbyh3v_dpg_9EuMIf4ePq0aiJ7isGVbE8eiO_kxgjwC2t_HCqipD3poyvSRfOuOE0LA-M5LXq";
 
 
-    public uiCommentsFragment(String recipeId, Map<String, Comment> commentHashMap, String firebaseUserIdComment, String senderName, String ownerToken, String recipeName) {
+    public uiCommentsFragment(String recipeId, Map<String, Comment> commentHashMap, String firebaseUserIdComment, User userSender, Recipe ownerRecipe) {
 
         if (commentHashMap == null)
             mcommentHashMap = new HashMap<>();
@@ -52,9 +57,8 @@ public class uiCommentsFragment extends Fragment {
 
         mfirebaseUserIdCommentl = firebaseUserIdComment;
         mrecipeId = recipeId;
-        msenderName = senderName;
-        mownerToken = ownerToken;
-        mrecipeName = recipeName;
+        muserSender = userSender;
+        mownerRecipe = ownerRecipe;
     }
 
 
@@ -81,8 +85,10 @@ public class uiCommentsFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_of_comments);
         recyclerView.setHasFixedSize(true);
 
-
-        commentAdapter = new CommentAdapter(mcommentHashMap, getActivity());
+        Collection<Comment> values = mcommentHashMap.values();
+        ArrayList<Comment> listOfValues = new ArrayList<>(values);
+        listOfValues.sort(Comparator.comparing(Comment::getPostDate).reversed());
+        commentAdapter = new CommentAdapter(listOfValues, getActivity());
 
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -97,7 +103,9 @@ public class uiCommentsFragment extends Fragment {
                 commentEditText.getEditText().setText("");
             } //else commentEditText.setError("Write a comment");
 
-            sendCommentNotification(msenderName, mownerToken, mrecipeName);
+            if(!muserSender.getDeviceTokenId().equals(mownerRecipe.getFirebaseDeviceTokenMade())) {
+                sendCommentNotification(muserSender.getName(), mownerRecipe.getFirebaseDeviceTokenMade(), mownerRecipe.getTitle());
+            }
         });
 
     }
@@ -117,7 +125,7 @@ public class uiCommentsFragment extends Fragment {
 
     }
 
-    public String sendCommentNotification (String senderName, String ownerToken, String recipeName)  {
+    public void sendCommentNotification (String senderName, String ownerToken, String recipeName)  {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -130,10 +138,12 @@ public class uiCommentsFragment extends Fragment {
                     conn.setRequestProperty("Authorization", "key=" + API_TOKEN_KEY);
                     conn.setDoOutput(true);
 
-                    String message = senderName + " has commented on your " + recipeName + " recipe.";
                     final JSONObject rootObject  = new JSONObject();
                     rootObject.put("to", ownerToken);
-                    rootObject.put("data", new JSONObject().put("message", message).put("title", "You've got a new comment!"));
+                    rootObject.put("data",
+                            new JSONObject().put("senderName", senderName)
+                                    .put("recipeName", recipeName)
+                                    .put("type", "comment"));
                     rootObject.put("priority", "high");
 
                     OutputStream os = conn.getOutputStream();
@@ -142,10 +152,11 @@ public class uiCommentsFragment extends Fragment {
                     os.close();
 
                     int responseCode = conn.getResponseCode();
-                    System.out.println("\nSending 'POST' request to URL : " + url);
-                    System.out.println("Post parameters : " + rootObject.toString());
-                    System.out.println("Response Code : " + responseCode);
-                    System.out.println("Response Code : " + conn.getResponseMessage());
+                    Log.d("CommentNotification", "\nSending 'POST' request to URL : " + url);
+                    Log.d("CommentNotification", "Post parameters : " + rootObject.toString());
+                    Log.d("CommentNotification", "Post parameters : " + rootObject.toString());
+                    Log.d("CommentNotification", "Response Code : " + responseCode);
+                    Log.d("CommentNotification", "Response Code : " + conn.getResponseMessage());
 
                     BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                     String inputLine;
@@ -164,6 +175,5 @@ public class uiCommentsFragment extends Fragment {
             }
         };
         AsyncTask.execute(runnable);
-        return "ok";
     }
 }
