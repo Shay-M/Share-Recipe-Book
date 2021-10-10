@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceManager;
@@ -34,11 +33,13 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setBackgroundDrawable(colorDrawable);*/
 
 
-        SharedPreferences banana = PreferenceManager.getDefaultSharedPreferences(this);
-        Log.d("len", "onCreate: " + banana.getString("language", "iw"));
-
-
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        SharedPreferences darkModeOn = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean darkMode = darkModeOn.getBoolean("dark", false);
+        Log.d("darkMode", " " + darkMode);
+        if (darkMode)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        else
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         CameraManagerUrl.init(this);
 

@@ -29,7 +29,7 @@
     <string name="Send">Send</string>
 
     <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
+    <string name="messages_header">Dark theme</string>
     <string name="Ui">Ui</string>
 
     <!-- Messages Preferences -->

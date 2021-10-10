@@ -155,8 +155,8 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
                     item.setTitle(R.string.title_bar_login);
 
                 } else {
-                    Snackbar.make(this.getView(), R.string.msg_needLogin, BaseTransientBottomBar.LENGTH_LONG).show();
-                    //Navigation.findNavController(rootView).navigate(R.id.action_homepageFragment_to_loginPageFragment);
+//                    Snackbar.make(this.getView(), R.string.msg_needLogin, BaseTransientBottomBar.LENGTH_LONG).show();
+                    Navigation.findNavController(rootView).navigate(R.id.action_homepageFragment_to_loginPageFragment);
                 }
 
                 return true;
