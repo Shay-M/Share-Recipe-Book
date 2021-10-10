@@ -46,6 +46,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
     private FloatingActionButton floatingAddButton;
     private ActionBar actionBar;// = ((AppCompatActivity) getActivity()).getSupportActionBar();
     private View rootView;
+
     private HomeViewModel homeViewModel;
     private LogOutViewModel logOutViewModel;
 

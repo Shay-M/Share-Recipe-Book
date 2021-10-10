@@ -18,7 +18,7 @@ public class AddRecipeViewModel extends ViewModel {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     final DatabaseReference myRecipeDBRef = database.getReference("recipe");
     private String mRecipeName;
-    private Uri mPhotoURI;
+    private String mPhotoURI;
     private User mLoginUserGet;
 
 
@@ -38,7 +38,7 @@ public class AddRecipeViewModel extends ViewModel {
     }
 
 
-    public void setRecipephotoURI(Uri photoURI) {
+    public void setRecipephotoURI(String photoURI) {
         mPhotoURI = photoURI;
     }
 
@@ -50,7 +50,7 @@ public class AddRecipeViewModel extends ViewModel {
         return mRecipeName;
     }
 
-    public Uri getmPhotoURI() {
+    public String getmPhotoURI() {
         return mPhotoURI;
     }
 

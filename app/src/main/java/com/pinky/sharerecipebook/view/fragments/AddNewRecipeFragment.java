@@ -242,7 +242,17 @@ public class AddNewRecipeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // todo this need fix
         User LoginUserGet = (User) requireArguments().getSerializable("expandLoginUser");
+
+        TitleText.getEditText().setText(addRecipeViewModel.getmRecipeName());
+        if (addRecipeViewModel.getmPhotoURI() != null) {
+            Glide.with(this)
+                    .load(addRecipeViewModel.getmPhotoURI())
+                    .centerCrop()
+                    .error(android.R.drawable.ic_dialog_info)
+                    .into(picContentView);
+        }
 
         //ImageView takeApicBtn = view.findViewById(R.id.take_a_pic);
         ImageView galleriaPicBtn = view.findViewById(R.id.add_a_pic);
@@ -271,7 +281,7 @@ public class AddNewRecipeFragment extends Fragment {
             } else {
 
                 addRecipeViewModel.setRecipeName(recipeName);
-                addRecipeViewModel.setRecipephotoURI(photoURI);
+                addRecipeViewModel.setRecipephotoURI(photoURI.toString());
                 addRecipeViewModel.setLoginUserGet(LoginUserGet);
 
                 Bundle bundle = new Bundle();

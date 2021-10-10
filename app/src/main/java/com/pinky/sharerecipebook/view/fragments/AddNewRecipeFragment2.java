@@ -64,15 +64,15 @@ public class AddNewRecipeFragment2 extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-       /* String mTitleText = requireArguments().getString("expandRecipeName");
-        String PhotoUriString = requireArguments().getString("expandPhotoUriString");
-        User LoginUserGet = (User) requireArguments().getSerializable("expandLoginUser");*/
+        String mTitleText = requireArguments().getString("expandRecipeName");
+        String mPhotoUriString = requireArguments().getString("expandPhotoUriString");
+        User mLoginUserGet = (User) requireArguments().getSerializable("expandLoginUser");
 
-        String mTitleText = addRecipeViewModel.getmRecipeName();
-        Uri PhotoUri = addRecipeViewModel.getmPhotoURI();
-        User LoginUserGet = addRecipeViewModel.getmLoginUserGet();
+        /*String mmmTitleText = addRecipeViewModel.getmRecipeName();
+        String photoURIString = addRecipeViewModel.getmPhotoURI();
+        User LoginUserGet = addRecipeViewModel.getmLoginUserGet();*/
 
-        //Uri photoURI = Uri.parse(PhotoUriString); // need?
+        Uri photoURI = Uri.parse(mPhotoUriString); // need?
 
         floating_attach_recipe.setOnClickListener(v -> {
             Log.d("onViewCreated", "floating_attach_recipe: " + AuthRepository.getInstance().getCurrentUser());
@@ -88,13 +88,13 @@ public class AddNewRecipeFragment2 extends Fragment {
 
 
                 // upload img to Firebase Storge
-                FirebaseStorgeRepository.getInstance().UploadFile(PhotoUri, "recipe", new FirebaseStorgeRepository.OnTaskDownloadUri() {
+                FirebaseStorgeRepository.getInstance().UploadFile(photoURI, "recipe", new FirebaseStorgeRepository.OnTaskDownloadUri() {
                     @Override
                     public void onSuccess(Uri downloadUri) {
 
                         Recipe tempRecipe = new Recipe(
                                 AuthRepository.getInstance().getCurrentUser().getUid(), // same? AuthRepository.getInstance().getUid()
-                                (LoginUserGet).getDeviceTokenId(),
+                                (mLoginUserGet).getDeviceTokenId(),
                                 mTitleText,
                                 preparationText.getEditText().getText().toString(),
                                 IngredientsText.getEditText().getText().toString(),

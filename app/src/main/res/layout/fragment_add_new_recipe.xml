@@ -61,6 +61,7 @@
             android:layout_marginTop="32dp"
             android:background="@color/c"
             android:contentDescription="@+id/fragment_add_recipe_image"
+            android:cropToPadding="false"
             android:gravity="center"
             android:padding="30dp"
             android:src="@drawable/camerabigxhdpi"
