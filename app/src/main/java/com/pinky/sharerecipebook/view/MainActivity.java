@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceManager;
 
 import com.pinky.sharerecipebook.R;
@@ -35,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences banana = PreferenceManager.getDefaultSharedPreferences(this);
         Log.d("len", "onCreate: " + banana.getString("language", "iw"));
+
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
         CameraManagerUrl.init(this);
 

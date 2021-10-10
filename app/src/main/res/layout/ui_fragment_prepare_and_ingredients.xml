@@ -11,6 +11,7 @@
         android:id="@+id/ui_fragment_prepareAndIngredients_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/roundedbutton"
         android:hint="Ingredients"
         android:scrollbars = "vertical"
         android:padding="15dp"

@@ -40,5 +40,8 @@
     <string name="error_fill_name">נא למלא את השם</string>
     <string name="error_fill_email">נא למלא את כתובת האימייל</string>
     <string name="error_fill_password">חובה להגדיר סיסמה לפחות באורך 6 תווים</string>
-    <string name="login_wait">מתחבר... נא להמתין</string>
+    <string name="login_wait">מתחבר… נא להמתין</string>
+    <string name="add_instructions">הגיע הזמן להפגין את היכולות שלך, לשתף את תמונת המתכון שלך</string>
+    <string name="recipes_title">שם למתכון</string>
+
 </resources>

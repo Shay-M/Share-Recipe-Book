@@ -58,6 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="44dp"
         android:hint="@string/name"
+        app:hintTextColor ="@color/b"
         app:errorEnabled="true"
         app:layout_constraintTop_toBottomOf="@+id/image_background"
         app:startIconDrawable="@drawable/ic_twotone_person_outline_24"
@@ -66,6 +67,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/a"
+            android:background="@drawable/roundedbutton"
             android:inputType="textPersonName" />
     </com.google.android.material.textfield.TextInputLayout>
 

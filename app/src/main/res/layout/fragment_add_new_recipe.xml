@@ -22,14 +22,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/login_instructions2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@drawable/roundedbutton"
+        android:padding="15dp"
+        android:text="@string/add_instructions"
+        android:textAlignment="center"
+        android:textColor="@color/b"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_add_recipe_title"
+        tools:layout_editor_absoluteX="20dp" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/fragment_add_recipe_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="15dp"
         android:layout_marginTop="8dp"
         android:gravity="top|start"
-        android:hint="@string/reply_title"
+        app:hintTextColor ="@color/b"
+        android:hint="@string/recipes_title"
         app:errorEnabled="true"
         app:layout_constraintBottom_toBottomOf="@+id/imagebac"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,6 +55,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/roundedbutton"
             android:gravity="top|start" />
 
 
@@ -57,13 +73,13 @@
             android:id="@+id/fragment_add_recipe_image"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_centerInParent="true"
             android:layout_marginTop="32dp"
-            android:background="@color/c"
+            android:background="@drawable/roundedbutton"
             android:contentDescription="@+id/fragment_add_recipe_image"
             android:cropToPadding="false"
             android:gravity="center"
             android:padding="30dp"
+            android:layout_margin="15dp"
             android:src="@drawable/camerabigxhdpi"
             tools:layout_editor_absoluteX="130dp" />
 
@@ -84,8 +100,8 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="bottom|right"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
             android:contentDescription="@+id/add_a_pic"
             android:gravity="center"
             android:src="@drawable/gallery" />
@@ -103,7 +119,8 @@
         android:fitsSystemWindows="false"
         android:src="@drawable/ic_twotone_navigate_next_24"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

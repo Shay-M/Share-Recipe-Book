@@ -38,6 +38,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="150dp"
+            android:background="@drawable/roundedbutton"
             android:gravity="top|start"
             android:inputType="textMultiLine" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -59,6 +60,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="150dp"
+            android:background="@drawable/roundedbutton"
             android:gravity="top|start"
             android:inputType="textMultiLine" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -75,8 +77,6 @@
         android:src="@drawable/recipe_notif_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
