@@ -27,6 +27,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,8 +85,10 @@ public class uiCommentsFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_of_comments);
         recyclerView.setHasFixedSize(true);
 
-
-        commentAdapter = new CommentAdapter(mcommentHashMap, getActivity());
+        Collection<Comment> values = mcommentHashMap.values();
+        ArrayList<Comment> listOfValues = new ArrayList<>(values);
+        listOfValues.sort(Comparator.comparing(Comment::getPostDate).reversed());
+        commentAdapter = new CommentAdapter(listOfValues, getActivity());
 
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

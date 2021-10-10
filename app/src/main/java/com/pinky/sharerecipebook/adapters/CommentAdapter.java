@@ -43,12 +43,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         this.context = context;
     }
     public void UpdateAdapter(Comment commentArrayList) {
-        //this.commentHashMap = commentHashMap;
-        //Collection<Comment> values = commentHashMap.values();
-        //ArrayList<Comment> listOfValues = new ArrayList<>(values);
-        //commentItemList = listOfValues;
         commentItemList.add(0,commentArrayList);
-
     }
 
 
