@@ -17,6 +17,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.adapters.CommentAdapter;
 import com.pinky.sharerecipebook.models.Comment;
+import com.pinky.sharerecipebook.models.Recipe;
+import com.pinky.sharerecipebook.models.User;
 import com.pinky.sharerecipebook.repositories.FirebaseDatabaseRepository;
 import com.pinky.sharerecipebook.utils.HidesKeyboard;
 
@@ -41,13 +43,12 @@ public class uiCommentsFragment extends Fragment {
     private Map<String, Comment> mcommentHashMap;
     private String mrecipeId;
     private String mfirebaseUserIdCommentl;
-    private String msenderName;
-    private String mownerToken;
-    private String mrecipeName;
+    private User muserSender;
+    private Recipe mownerRecipe;
     final String API_TOKEN_KEY = "AAAAnhV6-hM:APA91bGf-3U4CbbpRZWDOXa_jRLp4fmGCrj8C2qdWMF7q82umHfj5-aVsJI_jj_8mGFDbyh3v_dpg_9EuMIf4ePq0aiJ7isGVbE8eiO_kxgjwC2t_HCqipD3poyvSRfOuOE0LA-M5LXq";
 
 
-    public uiCommentsFragment(String recipeId, Map<String, Comment> commentHashMap, String firebaseUserIdComment, String senderName, String ownerToken, String recipeName) {
+    public uiCommentsFragment(String recipeId, Map<String, Comment> commentHashMap, String firebaseUserIdComment, User userSender, Recipe ownerRecipe) {
 
         if (commentHashMap == null)
             mcommentHashMap = new HashMap<>();
@@ -56,9 +57,8 @@ public class uiCommentsFragment extends Fragment {
 
         mfirebaseUserIdCommentl = firebaseUserIdComment;
         mrecipeId = recipeId;
-        msenderName = senderName;
-        mownerToken = ownerToken;
-        mrecipeName = recipeName;
+        muserSender = userSender;
+        mownerRecipe = ownerRecipe;
     }
 
 
@@ -103,7 +103,9 @@ public class uiCommentsFragment extends Fragment {
                 commentEditText.getEditText().setText("");
             } //else commentEditText.setError("Write a comment");
 
-            sendCommentNotification(msenderName, mownerToken, mrecipeName);
+            if(!muserSender.getDeviceTokenId().equals(mownerRecipe.getFirebaseDeviceTokenMade())) {
+                sendCommentNotification(muserSender.getName(), mownerRecipe.getFirebaseDeviceTokenMade(), mownerRecipe.getTitle());
+            }
         });
 
     }

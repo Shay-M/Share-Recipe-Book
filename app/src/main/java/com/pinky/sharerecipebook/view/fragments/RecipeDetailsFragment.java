@@ -212,13 +212,12 @@ public class RecipeDetailsFragment extends Fragment {
         pagerAdapter.addFragment(new prepareAndIngredients(recipeGet.getIngredients()));
         pagerAdapter.addFragment(new prepareAndIngredients(recipeGet.getPreparation()));
 
-        //Aaron
+
         pagerAdapter.addFragment(new uiCommentsFragment(recipeGet.getRecipeId(),
                 recipeGet.getCommentArrayListHashMap(),
                 LoginUserGet.getUserImagePath(),
-                LoginUserGet.getName(),
-                recipeGet.getFirebaseDeviceTokenMade(),
-                recipeGet.getTitle()));
+                LoginUserGet,
+                recipeGet));
 
         viewPager2.setAdapter(pagerAdapter);
 
