@@ -242,7 +242,7 @@ public class AddNewRecipeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // todo this need fix
+
         User LoginUserGet = (User) requireArguments().getSerializable("expandLoginUser");
 
         TitleText.getEditText().setText(addRecipeViewModel.getmRecipeName());
