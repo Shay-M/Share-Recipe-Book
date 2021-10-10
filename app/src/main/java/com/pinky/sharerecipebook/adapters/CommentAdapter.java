@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.models.Comment;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -67,14 +68,15 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         //set Comment text
         holder.commentTv.setText(CommentItem.getTxt());
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy");
-        //  .parse(CommentItem.getPostDate()).toString();
-
-        String postDate = simpleDateFormat.format(new Date());
-
-
-        //set Comment date
-        holder.dateTv.setText(String.format(postDate));
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy");
+            Date postDate = simpleDateFormat.parse(CommentItem.getPostDate());
+            String postDateStr = simpleDateFormat.format(postDate);
+            //set Comment date
+            holder.dateTv.setText(String.format(postDateStr));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         //set img
         ImageView imageUserView = holder.commentUserIv;
