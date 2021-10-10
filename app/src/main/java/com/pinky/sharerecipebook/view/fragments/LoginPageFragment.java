@@ -25,6 +25,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseUser;
 import com.pinky.sharerecipebook.R;
+import com.pinky.sharerecipebook.models.User;
+import com.pinky.sharerecipebook.repositories.FirebaseDatabaseRepository;
 import com.pinky.sharerecipebook.utils.UserLoginHelper;
 import com.pinky.sharerecipebook.viewmodels.LoginViewModel;
 
@@ -62,8 +64,12 @@ public class LoginPageFragment extends Fragment {
             public void onChanged(FirebaseUser firebaseUser) {
                 if (firebaseUser != null) { //skype login fragment
                     //UserLoginHelper.getInstance().setUser(firebaseUser.getEmail());
+                    String userID = firebaseUser.getUid();
+                    User user = FirebaseDatabaseRepository.getInstance().getUserByIdFromFirebase(userID).getValue();
                     progressBarLogin.setVisibility(View.GONE);
-                    Navigation.findNavController(getView()).navigate(R.id.action_loginPageFragment_to_addNewRecipeFragment);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("expandLoginUser", user);
+                    Navigation.findNavController(getView()).navigate(R.id.action_loginPageFragment_to_addNewRecipeFragment, bundle);
                 }
             }
         });
