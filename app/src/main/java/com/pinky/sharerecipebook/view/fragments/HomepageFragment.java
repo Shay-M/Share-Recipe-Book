@@ -285,6 +285,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home_page, container, false);
         setHasOptionsMenu(true);
+        loginUser = homeViewModel.getUserLiveData().getValue();
         return rootView;
     }
 

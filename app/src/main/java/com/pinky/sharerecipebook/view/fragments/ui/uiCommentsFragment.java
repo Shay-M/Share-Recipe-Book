@@ -94,20 +94,25 @@ public class uiCommentsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(commentAdapter);
 
+        if(muserSender.getName().equals("Guest")) {
+            commentEditText = view.findViewById(R.id.ui_fragment_comments_textinput);
+            commentEditText.setEnabled(false);
+            commentEditText.setAlpha(0.5f);
+            commentEditText.setHint(getString(R.string.comments_login));
+        } else {
+            commentEditText.setEndIconOnClickListener(v -> {
+                String commentTxt = commentEditText.getEditText().getText().toString();
 
-        commentEditText.setEndIconOnClickListener(v -> {
-            String commentTxt = commentEditText.getEditText().getText().toString();
+                if (commentEditText.getEditText().getText().toString().length() > 2) {
+                    sendComment(commentTxt);
+                    commentEditText.getEditText().setText("");
+                } //else commentEditText.setError("Write a comment");
 
-            if (commentEditText.getEditText().getText().toString().length() > 2) {
-                sendComment(commentTxt);
-                commentEditText.getEditText().setText("");
-            } //else commentEditText.setError("Write a comment");
-
-            if(!muserSender.getDeviceTokenId().equals(mownerRecipe.getFirebaseDeviceTokenMade())) {
-                sendCommentNotification(muserSender.getName(), mownerRecipe.getFirebaseDeviceTokenMade(), mownerRecipe.getTitle());
-            }
-        });
-
+                if (!muserSender.getDeviceTokenId().equals(mownerRecipe.getFirebaseDeviceTokenMade())) {
+                    sendCommentNotification(muserSender.getName(), mownerRecipe.getFirebaseDeviceTokenMade(), mownerRecipe.getTitle());
+                }
+            });
+        }
     }
 
     private void sendComment(String commentTxt) {

@@ -51,5 +51,6 @@
     <string name="error_fill_password">Password Must Be Entered and it has to be at least 6 characters long</string>
     <string name="login_wait">Login… Please wait</string>
     <string name="add_instructions">It\'s time to show off your abilities, share your recipe photo</string>
+    <string name="comments_login">Please log in to leave a comment.</string>
 
 </resources>
