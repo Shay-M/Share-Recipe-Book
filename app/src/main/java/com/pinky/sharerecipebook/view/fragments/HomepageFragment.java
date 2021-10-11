@@ -146,8 +146,12 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
                         actionBar.setTitle("Your Favorite Recipes");
                         item.setChecked(true);
                     }
-                } else
-                    Navigation.findNavController(rootView).navigate(R.id.action_homepageFragment_to_loginPageFragment);
+                } else {
+                    bundle = new Bundle();
+                    bundle.putSerializable("expandLoginUser", loginUser);
+                    bundle.putSerializable("cameFromAddRecipeButton", false);
+                    Navigation.findNavController(rootView).navigate(R.id.action_homepageFragment_to_loginPageFragment, bundle);
+                }
 
 
                 return true;
@@ -164,7 +168,10 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
 
                 } else {
 //                    Snackbar.make(this.getView(), R.string.msg_needLogin, BaseTransientBottomBar.LENGTH_LONG).show();
-                    Navigation.findNavController(rootView).navigate(R.id.action_homepageFragment_to_loginPageFragment);
+                    bundle = new Bundle();
+                    bundle.putSerializable("expandLoginUser", loginUser);
+                    bundle.putSerializable("cameFromAddRecipeButton", false);
+                    Navigation.findNavController(rootView).navigate(R.id.action_homepageFragment_to_loginPageFragment, bundle);
                 }
 
                 return true;
@@ -284,12 +291,15 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
         new Boom(floatingAddButton);
 
         floatingAddButton.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
             if (AuthRepository.getInstance().getCurrentUser() != null) {
-                Bundle bundle = new Bundle();
                 bundle.putSerializable("expandLoginUser", loginUser);
                 Navigation.findNavController(v).navigate(R.id.action_homepageFragment_to_addNewRecipeFragment, bundle);
-            } else
-                Navigation.findNavController(v).navigate(R.id.action_homepageFragment_to_loginPageFragment);
+            } else {
+                bundle.putSerializable("expandLoginUser", loginUser);
+                bundle.putSerializable("cameFromAddRecipeButton", true);
+                Navigation.findNavController(v).navigate(R.id.action_homepageFragment_to_loginPageFragment, bundle);
+            }
         });
 
 

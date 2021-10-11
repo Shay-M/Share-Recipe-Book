@@ -48,6 +48,8 @@ public class LoginPageFragment extends Fragment {
 
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 
+        boolean cameFromAddRecipeBtn = (boolean) requireArguments().getSerializable("cameFromAddRecipeButton");
+
         if (actionBar != null) {
             actionBar.hide();
         }
@@ -58,7 +60,7 @@ public class LoginPageFragment extends Fragment {
 
 
 
-        // if  login go to addNewRecipeFragment
+        // if login go to addNewRecipeFragment or homepage, depending on where the user came from
         loginViewModel.getUserLiveData().observe(this, new Observer<FirebaseUser>() {
             @Override
             public void onChanged(FirebaseUser firebaseUser) {
@@ -69,7 +71,11 @@ public class LoginPageFragment extends Fragment {
                     progressBarLogin.setVisibility(View.GONE);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("expandLoginUser", user);
-                    Navigation.findNavController(getView()).navigate(R.id.action_loginPageFragment_to_addNewRecipeFragment, bundle);
+                    if(cameFromAddRecipeBtn) {
+                        Navigation.findNavController(getView()).navigate(R.id.action_loginPageFragment_to_addNewRecipeFragment, bundle);
+                    } else{
+                        Navigation.findNavController(getView()).navigate(R.id.action_loginPageFragment_to_homepageFragment, bundle);
+                    }
                 }
             }
         });
