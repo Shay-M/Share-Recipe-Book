@@ -31,7 +31,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService{
     }
 
     final String TAG = "NotificationAdapter";
-    final String CHANNEL_ID = "id_1";
+    final String CHANNEL_ID_1 = "id_1";
+    final String CHANNEL_ID_2 = "id_2";
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
@@ -49,7 +50,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService{
             // Pending intent to bring user to the app
             PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
 
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID);
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID_1);
+            NotificationChannel channel = new NotificationChannel("id_1", "name_1",NotificationManager.IMPORTANCE_HIGH);
 
             if(remoteMessage.getData().get("type").equals("comment"))
             {
@@ -60,11 +62,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService{
             {
                 title = getString(R.string.like_notif_title);
                 text = remoteMessage.getData().get("senderName") + " " + getString(R.string.like_notif_has_liked) + " " + remoteMessage.getData().get("recipeName");
+                builder.setChannelId(CHANNEL_ID_2);
+                channel = new NotificationChannel(CHANNEL_ID_2, "name_2",NotificationManager.IMPORTANCE_HIGH);
             }
 
 
 
-            NotificationChannel channel = new NotificationChannel("id_1", "name_1",NotificationManager.IMPORTANCE_HIGH);
             manager.createNotificationChannel(channel);
 
             builder.setContentIntent(pendingIntent)
