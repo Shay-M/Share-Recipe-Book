@@ -21,15 +21,15 @@ public class LoginViewModel extends AndroidViewModel {
 
     }
 
-    public void login(String email, String password) {
+    public void login(String email, String password, AuthRepository.OnTaskLoginAuth onTaskLoginAuth) {
 
-        authRepository.login(email, password);
+        authRepository.login(email, password,onTaskLoginAuth );
 
     }
 
     public void register(String email, String password, String name, String deviceTokenId) {
 
-        authRepository.register(email, password, name, deviceTokenId);// todo need live?
+        authRepository.register(email, password, name, deviceTokenId);
 
     }
 

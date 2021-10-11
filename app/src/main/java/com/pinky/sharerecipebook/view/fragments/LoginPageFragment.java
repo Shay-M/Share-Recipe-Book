@@ -1,12 +1,14 @@
 package com.pinky.sharerecipebook.view.fragments;
 // https://android-arsenal.com/details/1/7136
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -20,14 +22,16 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import com.astritveliu.boom.Boom;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseUser;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.models.User;
+import com.pinky.sharerecipebook.repositories.AuthRepository;
 import com.pinky.sharerecipebook.repositories.FirebaseDatabaseRepository;
-import com.pinky.sharerecipebook.utils.UserLoginHelper;
+import com.pinky.sharerecipebook.utils.HidesKeyboard;
 import com.pinky.sharerecipebook.viewmodels.LoginViewModel;
 
 public class LoginPageFragment extends Fragment {
@@ -40,6 +44,7 @@ public class LoginPageFragment extends Fragment {
     private String email = "";
     private TextView ResatPasswordTextView;
     private ProgressBar progressBarLogin;
+    private View rootView;
 
     private LoginViewModel loginViewModel;
 
@@ -49,6 +54,7 @@ public class LoginPageFragment extends Fragment {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 
         boolean cameFromAddRecipeBtn = (boolean) requireArguments().getSerializable("cameFromAddRecipeButton");
+        //boolean cameFromAddRecipeBtn = (boolean) requireArguments().getBoolean("cameFromAddRecipeButton");
 
         if (actionBar != null) {
             actionBar.hide();
@@ -57,7 +63,6 @@ public class LoginPageFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
-
 
 
         // if login go to addNewRecipeFragment or homepage, depending on where the user came from
@@ -71,9 +76,9 @@ public class LoginPageFragment extends Fragment {
                     progressBarLogin.setVisibility(View.GONE);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("expandLoginUser", user);
-                    if(cameFromAddRecipeBtn) {
+                    if (cameFromAddRecipeBtn) {
                         Navigation.findNavController(getView()).navigate(R.id.action_loginPageFragment_to_addNewRecipeFragment, bundle);
-                    } else{
+                    } else {
                         Navigation.findNavController(getView()).navigate(R.id.action_loginPageFragment_to_homepageFragment, bundle);
                     }
                 }
@@ -84,20 +89,23 @@ public class LoginPageFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_login_page, container, false);
+        rootView = inflater.inflate(R.layout.fragment_login_page, container, false);
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Login");
 
-        emailEditText = view.findViewById(R.id.fragment_login_email_textinput);
-        passwordEditText = view.findViewById(R.id.fragment_login_password_textinput);
-        loginButton = view.findViewById(R.id.fragment_login_login_button);
-        registerButton = view.findViewById(R.id.fragment_login_register_button);
-        ResatPasswordTextView = view.findViewById(R.id.fragment_login_resat_password);
-        progressBarLogin = view.findViewById(R.id.fragment_login_progressBar);
+        emailEditText = rootView.findViewById(R.id.fragment_login_email_textinput);
+        passwordEditText = rootView.findViewById(R.id.fragment_login_password_textinput);
+        loginButton = rootView.findViewById(R.id.fragment_login_login_button);
+        registerButton = rootView.findViewById(R.id.fragment_login_register_button);
+        ResatPasswordTextView = rootView.findViewById(R.id.fragment_login_resat_password);
+        progressBarLogin = rootView.findViewById(R.id.fragment_login_progressBar);
+
         progressBarLogin.setVisibility(View.GONE);
 
+        new Boom(ResatPasswordTextView);
 
-        return view;
+
+        return rootView;
     }
 
     @Override
@@ -107,7 +115,7 @@ public class LoginPageFragment extends Fragment {
         //user click button login
         loginButton.setOnClickListener(view1 -> {
 
-            //String email ??need like that?
+                        //String email ??need like that?
             email = emailEditText.getEditText().getText().toString();
             String password = passwordEditText.getEditText().getText().toString();
 
@@ -123,9 +131,26 @@ public class LoginPageFragment extends Fragment {
                 Log.d("onClick", "password.isEmpty() || password.length()");
 
             } else {
-//                Snackbar.make(this.getView(), "Login... Please wait", BaseTransientBottomBar.LENGTH_SHORT).show();
+                //HidesKeyboard.hideKeyboard(getActivity());// hmm
+
+                InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(rootView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
                 progressBarLogin.setVisibility(View.VISIBLE);
-                loginViewModel.login(email, password);
+
+                loginViewModel.login(email, password, new AuthRepository.OnTaskLoginAuth() {
+                    @Override
+                    public void onSuccessLogin() {
+                        progressBarLogin.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onFailureLogin(String s) {
+                        progressBarLogin.setVisibility(View.GONE);
+
+                        Snackbar.make(rootView, s, BaseTransientBottomBar.LENGTH_SHORT).show();
+                    }
+                });
 
             }
         });
@@ -133,12 +158,17 @@ public class LoginPageFragment extends Fragment {
         registerButton.setOnClickListener(view2 -> {
             Navigation.findNavController(getView()).navigate(R.id.action_loginPageFragment_to_registerFragment);
         });
+
         // resat
         ResatPasswordTextView.setOnClickListener(v -> {
+            email = emailEditText.getEditText().getText().toString();
             if (!email.isEmpty()) {
                 loginViewModel.resatPassword(email);
-                Snackbar.make(this.getView(), "We'll send you a password reset email", BaseTransientBottomBar.LENGTH_SHORT).show();
-            }
+                Log.d("TAG", "onViewCreated: ");
+                Snackbar.make(rootView, "We'll send you a password reset link to " + email, BaseTransientBottomBar.LENGTH_SHORT).show();
+            } else
+                Snackbar.make(rootView, "An email must be filled in to perform a password reset", BaseTransientBottomBar.LENGTH_SHORT).show();
+
         });
     }
 }

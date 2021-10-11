@@ -16,7 +16,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.pinky.sharerecipebook.models.User;
 
 public class AuthRepository {
@@ -50,7 +49,7 @@ public class AuthRepository {
         return FirebaseAuth.getInstance();
     }
 
-    public void login(String email, String password) {
+    public void login(String email, String password, OnTaskLoginAuth onTaskAuth) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(application.getMainExecutor(),
                         new OnCompleteListener<AuthResult>() {
@@ -59,12 +58,14 @@ public class AuthRepository {
                                 if (task.isSuccessful()) {
                                     userLiveData.postValue(firebaseAuth.getCurrentUser());
                                     loggedOutLiveData.postValue(false); // update live data - login user
-
+                                    onTaskAuth.onSuccessLogin();
                                     //UserLoginHelper.getInstance().setUser(email);
 
                                 } else {
-                                    Toast.makeText(application.getApplicationContext(), "Login Failure: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(application.getApplicationContext(), "Login Failure: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                     // Snackbar.make(getWindow().getDecorView(), "fdf", Snackbar.LENGTH_SHORT).show();
+                                    onTaskAuth.onFailureLogin("Login Failure: " + task.getException().getMessage());
+                                    loggedOutLiveData.postValue(true); // update live data - login user
                                 }
                             }
                         });
@@ -121,4 +122,21 @@ public class AuthRepository {
         firebaseAuth.sendPasswordResetEmail(email);
 
     }
+
+    public interface OnTaskLoginAuth {
+        void onSuccessLogin();
+
+        void onFailureLogin(String s);
+
+
+    }
+
+
+   /* void onSuccesslogOut();
+
+    void onFailurelogOut();
+
+    void onSuccessregister();
+
+    void onFailureregister();*/
 }

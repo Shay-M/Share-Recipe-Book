@@ -1,15 +1,5 @@
-package com.pinky.sharerecipebook.utils;/* Created by Shay Mualem 03/10/2021 */
+package com.pinky.sharerecipebook.old;/* Created by Shay Mualem 03/10/2021 */
 
-import android.util.Log;
-
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-
-import com.bumptech.glide.Glide;
-import com.google.firebase.auth.FirebaseAuth;
-import com.pinky.sharerecipebook.R;
-import com.pinky.sharerecipebook.models.User;
-import com.pinky.sharerecipebook.repositories.FirebaseDatabaseRepository;
 import com.pinky.sharerecipebook.viewmodels.RecipeDetailsViewModel;
 
 public class UserLoginHelper {
