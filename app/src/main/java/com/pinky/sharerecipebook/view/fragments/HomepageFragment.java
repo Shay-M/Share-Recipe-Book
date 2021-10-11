@@ -47,6 +47,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
     private FloatingActionButton floatingAddButton;
     private ActionBar actionBar;// = ((AppCompatActivity) getActivity()).getSupportActionBar();
     private View rootView;
+    private Menu menu;
 
     private HomeViewModel homeViewModel;
     private LogOutViewModel logOutViewModel;
@@ -70,6 +71,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
         //MainActivity mA = ((MainActivity)getActivity());
         //mA.setActionBarColor(Color.parseColor("#FFA2C13E"));
         //actionBar.setTitle("Hello, " + loginUser.getName());
+        this.menu = menu;
 
 
         inflater.inflate(R.menu.top_bar, menu);
@@ -94,6 +96,12 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
         });
 
         super.onCreateOptionsMenu(menu, inflater);
+
+        if(UserIsLogin){
+            menu.findItem(R.id.action_logout).setTitle(getString(R.string.Logout));
+        }else{
+            menu.findItem(R.id.action_logout).setTitle(getString(R.string.Login));
+        }
 
     }
 
@@ -230,6 +238,14 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(recipeAdapter);
 
+        if(menu != null && menu.findItem(R.id.action_logout) != null) {
+            if (UserIsLogin) {
+                menu.findItem(R.id.action_logout).setTitle(getString(R.string.Logout));
+            } else {
+                menu.findItem(R.id.action_logout).setTitle(getString(R.string.Login));
+            }
+        }
+
         // update
         homeViewModel.getRecipeLiveData().observe(getViewLifecycleOwner(),
                 new Observer<ArrayList<Recipe>>() {
@@ -254,7 +270,9 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
                             //Log.d("if-loginUser", "homeViewModel.getUserLiveData(): " + homeViewModel.getUserLiveData());
                             loginUser = homeViewModel.getUserLiveData().getValue();
                             UserIsLogin = true;
-                        } else UserIsLogin = false;
+                        } else {
+                            UserIsLogin = false;
+                        }
                     }
                 });
 
