@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ImageView;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.FragmentNavigator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -97,9 +99,9 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
 
         super.onCreateOptionsMenu(menu, inflater);
 
-        if(UserIsLogin){
+        if (UserIsLogin) {
             menu.findItem(R.id.action_logout).setTitle(getString(R.string.Logout));
-        }else{
+        } else {
             menu.findItem(R.id.action_logout).setTitle(getString(R.string.Login));
         }
 
@@ -245,7 +247,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(recipeAdapter);
 
-        if(menu != null && menu.findItem(R.id.action_logout) != null) {
+        if (menu != null && menu.findItem(R.id.action_logout) != null) {
             if (UserIsLogin) {
                 menu.findItem(R.id.action_logout).setTitle(getString(R.string.Logout));
             } else {
@@ -330,8 +332,16 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
         //if (UserIsLogin)  loginUser = new User();
         bundle.putSerializable("expandLoginUser", loginUser);
 
+        /*ImageView temp = (ImageView) view.findViewById(R.id.recipe_item_img);
+        temp.setTransitionName("recipe_tran");
 
+        FragmentNavigator.Extras extras = new FragmentNavigator
+                .Extras
+                .Builder()
+                .addSharedElement(temp, "recipe_tran")
+                .build();*/
 
+//        Navigation.findNavController(view).navigate(R.id.action_homepageFragment_to_recipeDetailsFragment, bundle,null,extras);
         Navigation.findNavController(view).navigate(R.id.action_homepageFragment_to_recipeDetailsFragment, bundle);
     }
 

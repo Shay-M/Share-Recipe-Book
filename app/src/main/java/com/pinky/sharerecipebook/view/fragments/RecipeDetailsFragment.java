@@ -1,11 +1,14 @@
 package com.pinky.sharerecipebook.view.fragments;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,7 +25,6 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.astritveliu.boom.Boom;
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.adapters.PagerAdapterDetails;
 import com.pinky.sharerecipebook.models.Recipe;
@@ -55,6 +57,9 @@ public class RecipeDetailsFragment extends Fragment {
     private ViewPager2 viewPager2;
     private String userMakeName;
 
+    private ValueAnimator animZoomInOutX;
+    private ValueAnimator animZoomInOutY;
+
     private RecipeDetailsViewModel recipeDetailsViewModel;
 
     final String API_TOKEN_KEY = "AAAAnhV6-hM:APA91bGf-3U4CbbpRZWDOXa_jRLp4fmGCrj8C2qdWMF7q82umHfj5-aVsJI_jj_8mGFDbyh3v_dpg_9EuMIf4ePq0aiJ7isGVbE8eiO_kxgjwC2t_HCqipD3poyvSRfOuOE0LA-M5LXq";
@@ -83,13 +88,12 @@ public class RecipeDetailsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 //        return inflater.inflate(R.layout.fragment_recipe_details_page, container, false);
 
-
         View view = inflater.inflate(R.layout.fragment_recipe_details_page, container, false);
+//        setSharedElementEnterTransition(new ChangeBounds());
 
         recipe_title = view.findViewById(R.id.frag_recipe_details_title_text);
         recipe_details_user_name_text = view.findViewById(R.id.frag_recipe_details_user_name_text);
         recipe_details_likes_text = view.findViewById(R.id.frag_recipe_details_likes_text);
-
 
         recipe_img_url_string = view.findViewById(R.id.fragment_show_recipe_image);
         recipe_details_image_like = view.findViewById(R.id.frag_recipe_details_image_like);
@@ -103,6 +107,18 @@ public class RecipeDetailsFragment extends Fragment {
 
         new Boom(recipe_details_image_like);
         new Boom(recipe_details_image_user);
+
+        animZoomInOutX = ObjectAnimator.ofFloat(recipe_img_url_string, "scaleX", 1.1f);
+        animZoomInOutX.setDuration(9000);
+        animZoomInOutX.setRepeatCount(ValueAnimator.INFINITE);
+        animZoomInOutX.setInterpolator(new LinearInterpolator());
+        animZoomInOutX.setRepeatMode(ValueAnimator.REVERSE);
+
+        animZoomInOutY = ObjectAnimator.ofFloat(recipe_img_url_string, "scaleY", 1.1f);
+        animZoomInOutY.setDuration(9000);
+        animZoomInOutY.setRepeatCount(ValueAnimator.INFINITE);
+        animZoomInOutY.setInterpolator(new LinearInterpolator());
+        animZoomInOutY.setRepeatMode(ValueAnimator.REVERSE);
 
         return view;
     }
@@ -154,6 +170,9 @@ public class RecipeDetailsFragment extends Fragment {
                 .centerCrop()
                 .error(android.R.drawable.ic_dialog_info)
                 .into(recipe_img_url_string);
+
+        animZoomInOutX.start();
+        animZoomInOutY.start();
 
         // like recipe
         recipe_details_image_like.setOnClickListener(v -> {
