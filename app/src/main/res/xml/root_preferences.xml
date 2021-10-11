@@ -2,15 +2,22 @@
 
     <PreferenceCategory app:title="@string/Ui">
 
+        <ListPreference
+            app:defaultValue="en"
+            app:entries="@array/reply_entries"
+            app:entryValues="@array/reply_values"
+            app:key="language"
+            app:title="@string/language"
+            app:useSimpleSummaryProvider="true" />
+
+
         <SwitchPreferenceCompat
             app:key="dark"
-            app:summary="@string/messages_header"
+            app:summary="@string/Settings_instructions"
             app:title="@string/messages_header" />
 
+
     </PreferenceCategory>
-
-
-
 
 
 </PreferenceScreen>

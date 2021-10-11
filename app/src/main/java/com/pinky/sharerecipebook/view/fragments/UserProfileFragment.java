@@ -82,11 +82,15 @@ public class UserProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         LoginUserGet = (User) requireArguments().getSerializable("expandLoginUser");
-        Log.d("TAG", "LoginUserGet.getFirebaseUserId(): "+LoginUserGet.getFirebaseUserId());
+        Log.d("TAG", "LoginUserGet.getFirebaseUserId(): " + LoginUserGet.getFirebaseUserId());
         if (LoginUserGet.getName().equals("Guest")) {
             saveButton.setVisibility(View.GONE);
             userNameTInput.setEnabled(false);
 
+        } else {
+            userImage.setOnClickListener(v -> {
+                picFromGalleria();
+            });
         }
         userNameTInput.getEditText().setText(LoginUserGet.getName());
         userEmailTV.setText(LoginUserGet.getEmailAddress());
@@ -99,9 +103,7 @@ public class UserProfileFragment extends Fragment {
                 .into(userImage);
 
         // take a pic
-        userImage.setOnClickListener(v -> {
-            picFromGalleria();
-        });
+
 
         // save user profile
         saveButton.setOnClickListener(v -> {

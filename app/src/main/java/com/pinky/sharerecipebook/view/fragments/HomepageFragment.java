@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ImageView;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -20,7 +19,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.FragmentNavigator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -118,7 +116,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
             case R.id.action_settings:
                 //bundle = new Bundle();
                 //bundle.putSerializable("expandLoginUser", loginUser);
-                actionBar.setTitle("settings");
+                actionBar.setTitle(R.string.settings);
                 Navigation.findNavController(rootView).navigate(R.id.action_homepageFragment_to_settingsFragment);
 
                 return true;

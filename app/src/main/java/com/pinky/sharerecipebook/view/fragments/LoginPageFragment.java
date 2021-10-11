@@ -31,7 +31,6 @@ import com.pinky.sharerecipebook.R;
 import com.pinky.sharerecipebook.models.User;
 import com.pinky.sharerecipebook.repositories.AuthRepository;
 import com.pinky.sharerecipebook.repositories.FirebaseDatabaseRepository;
-import com.pinky.sharerecipebook.utils.HidesKeyboard;
 import com.pinky.sharerecipebook.viewmodels.LoginViewModel;
 
 public class LoginPageFragment extends Fragment {
@@ -115,7 +114,7 @@ public class LoginPageFragment extends Fragment {
         //user click button login
         loginButton.setOnClickListener(view1 -> {
 
-                        //String email ??need like that?
+            //String email ??need like that?
             email = emailEditText.getEditText().getText().toString();
             String password = passwordEditText.getEditText().getText().toString();
 

@@ -38,6 +38,7 @@
 
     <!-- Sync Preferences -->
     <string name="sync_title">Receive notifications</string>
+    <string name="Settings_instructions">please restart the application for changes to take effect</string>
     <string name="language">Language</string>
     <string name="user_properties">User properties</string>
     <string name="resat_pasoword">Resat pasoword</string>
