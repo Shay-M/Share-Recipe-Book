@@ -56,7 +56,10 @@ public class HomeViewModel extends ViewModel {
             userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
             userDbLoginliveData = FirebaseDatabaseRepository.getInstance().getUserByIdFromFirebase(userId);
         }
-*/
+*/      if(userDbLoginliveData != null){
+            return userDbLoginliveData;
+        }
+
         return FirebaseDatabaseRepository.getInstance().getUserByIdFromFirebase(userId);
     }
 
