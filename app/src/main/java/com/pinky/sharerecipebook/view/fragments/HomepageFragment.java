@@ -150,6 +150,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
                     bundle = new Bundle();
                     bundle.putSerializable("expandLoginUser", loginUser);
                     bundle.putSerializable("cameFromAddRecipeButton", false);
+//                    bundle.putBoolean("cameFromAddRecipeButton", false);
                     Navigation.findNavController(rootView).navigate(R.id.action_homepageFragment_to_loginPageFragment, bundle);
                 }
 
