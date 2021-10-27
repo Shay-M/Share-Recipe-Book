@@ -1,6 +1,6 @@
 #Share Recipe Book
 
-[![Expense Management Project (ExpressJS, React and MongoDB)](https://img.youtube.com/vi/PbNLmsgO37A/0.jpg)](https://www.youtube.com/watch?v=PbNLmsgO37A)
+[![](https://img.youtube.com/vi/PbNLmsgO37A/0.jpg)](https://www.youtube.com/watch?v=PbNLmsgO37A)
 
 |
 <img src= "https://github.com/Shay-M/Share-Recipe-Book/blob/master/doc/home2.png" width="250"> 
