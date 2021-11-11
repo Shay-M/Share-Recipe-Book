@@ -21,6 +21,7 @@ import com.pinky.sharerecipebook.models.Recipe;
 import com.pinky.sharerecipebook.models.User;
 import com.pinky.sharerecipebook.repositories.AuthRepository;
 import com.pinky.sharerecipebook.repositories.FirebaseStorgeRepository;
+import com.pinky.sharerecipebook.utils.HidesKeyboard;
 import com.pinky.sharerecipebook.view.LoadingDialog;
 import com.pinky.sharerecipebook.viewmodels.AddRecipeViewModel;
 
@@ -86,7 +87,7 @@ public class AddNewRecipeFragment2 extends Fragment {
             } else {
                 loadingDialog.startLoadingDialog();
 
-
+                HidesKeyboard();
                 // upload img to Firebase Storge
                 FirebaseStorgeRepository.getInstance().UploadFile(photoURI, "recipe", new FirebaseStorgeRepository.OnTaskDownloadUri() {
                     @Override
@@ -103,8 +104,9 @@ public class AddNewRecipeFragment2 extends Fragment {
                         );
 
                         addRecipeViewModel.AttachNewRecipe(tempRecipe); // add to db
-
+                        HidesKeyboard();
                         loadingDialog.dismissLoadingDialog();
+
 
                         Navigation.findNavController(v).navigate(R.id.action_addNewRecipeFragment2_to_homepageFragment);
                     }
@@ -112,6 +114,7 @@ public class AddNewRecipeFragment2 extends Fragment {
                     @Override
                     public void onFailure() {
                         //photoURI = null;
+                        HidesKeyboard();
                         loadingDialog.dismissLoadingDialog();
                         Log.d("onFailure", "onFailure");
 
@@ -128,5 +131,9 @@ public class AddNewRecipeFragment2 extends Fragment {
 
     }
 
+    public void HidesKeyboard() {
+        HidesKeyboard.hideKeyboard(this.getActivity());
+
+    }
 
 }

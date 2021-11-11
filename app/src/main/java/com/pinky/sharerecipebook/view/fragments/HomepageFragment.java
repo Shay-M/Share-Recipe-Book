@@ -31,6 +31,7 @@ import com.pinky.sharerecipebook.adapters.RecipeAdapter;
 import com.pinky.sharerecipebook.models.Recipe;
 import com.pinky.sharerecipebook.models.User;
 import com.pinky.sharerecipebook.repositories.AuthRepository;
+import com.pinky.sharerecipebook.utils.HidesKeyboard;
 import com.pinky.sharerecipebook.viewmodels.HomeViewModel;
 import com.pinky.sharerecipebook.viewmodels.LogOutViewModel;
 
@@ -111,6 +112,8 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
 
         Log.d("action", "item: " + item);
         Bundle bundle;
+        HidesKeyboard.hideKeyboard(this.getActivity());
+
 
         switch (item.getItemId()) {
             case R.id.action_settings:
@@ -293,6 +296,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
 
         floatingAddButton.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
+            HidesKeyboard.hideKeyboard(this.getActivity());
             if (AuthRepository.getInstance().getCurrentUser() != null) {
                 bundle.putSerializable("expandLoginUser", loginUser);
                 Navigation.findNavController(v).navigate(R.id.action_homepageFragment_to_addNewRecipeFragment, bundle);
@@ -341,6 +345,7 @@ public class HomepageFragment extends Fragment implements RecipeAdapter.Recycler
                 .build();*/
 
 //        Navigation.findNavController(view).navigate(R.id.action_homepageFragment_to_recipeDetailsFragment, bundle,null,extras);
+        HidesKeyboard.hideKeyboard(this.getActivity());
         Navigation.findNavController(view).navigate(R.id.action_homepageFragment_to_recipeDetailsFragment, bundle);
     }
 
